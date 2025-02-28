@@ -1,7 +1,7 @@
 "GameInfo"
 {
-	game					"Frog Fortress 2"
-	type 					multiplayer_only
+	game					"Apocolypse"
+	type 					singleplayer_only
 	nomodels				1
 	nohimodel 				1
 	nocrosshair				0
