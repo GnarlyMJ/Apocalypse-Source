@@ -6082,6 +6082,10 @@ void CBasePlayer::ImpulseCommands( )
 		}
 		break;
 
+	case 101:
+		GiveNamedItem("weapon_physgun");
+		break;
+
 	case 200:
 		if ( sv_cheats->GetBool() )
 		{
