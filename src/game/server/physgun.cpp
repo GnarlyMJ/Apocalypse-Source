@@ -46,7 +46,7 @@ public:
 	~CGravityPellet();
 	void Precache()
 	{
-		SetModelName( MAKE_STRING( "models/weapons/glueblob.mdl" ) );
+		SetModelName( MAKE_STRING( "models/weapons/w_crowbar.mdl" ) );
 		PrecacheModel( STRING( GetModelName() ) );
 		BaseClass::Precache();
 	}
@@ -57,7 +57,7 @@ public:
 		SetSolid( SOLID_NONE );
 		SetMoveType( MOVETYPE_NONE );
 		AddEffects( EF_NOSHADOW );
-		SetRenderColor( 255, 0, 0 );
+		SetRenderColor( 255, 255, 255 );
 		m_isInert = false;
 	}
 
