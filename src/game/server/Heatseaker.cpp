@@ -1,21 +1,17 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 // This is a skeleton file for use when creating a new 
 // NPC. Copy and rename this file for the new
 // NPC and add the copy to the build.
 //
-// Leave this file in the build until we ship! Allowing 
-// this file to be rebuilt with the rest of the game ensures
-// that it stays up to date with the rest of the NPC code.
-//
-// Replace occurances of CNewNPC with the new NPC's
-// classname. Don't forget the lower-case occurance in 
+// Replace occurrences of CNPC_New with the new NPC's
+// classname. Don't forget the lower-case occurrence in 
 // LINK_ENTITY_TO_CLASS()
 //
 //
 // ASSUMPTIONS MADE:
 //
 // You're making a character based on CAI_BaseNPC. If this 
-// is not true, make sure you replace all occurances
+// is not true, make sure you replace all occurrences
 // of 'CAI_BaseNPC' in this file with the appropriate 
 // parent class.
 //
@@ -27,6 +23,7 @@
 #include "ai_task.h"
 #include "ai_schedule.h"
 #include "ai_hull.h"
+#include "ai_squad.h"
 #include "soundent.h"
 #include "game.h"
 #include "npcevent.h"
@@ -35,139 +32,124 @@
 #include "ai_basenpc.h"
 #include "engine/IEngineSound.h"
 
+#define NPC_NEW_MODEL "models/mymodel.mdl"
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
 //=========================================================
+// Private animevents
+//=========================================================
+int NEWNPC_AE_ANIMEVENT;
+int NEWNPC_AE_ANIMEVENT2;
+
+//=========================================================
 // Private activities
 //=========================================================
-int	ACT_MYCUSTOMACTIVITY = -1;
+Activity ACT_NEWNPC_ACTIVITY;
+Activity ACT_NEWNPC_ACTIVITY2;
 
 //=========================================================
-// Custom schedules
+// Shared interaction
 //=========================================================
-enum
+int g_interactionExample = 0; // REMEMBER TO ADD THIS TO AI_Interactions.h
+int g_interactionExample2 = 0; // REMEMBER TO ADD THIS TO AI_Interactions.h
+
+// -----------------------------------------------
+//	> Squad slots
+// -----------------------------------------------
+enum SquadSlot_T
 {
-	SCHED_MYCUSTOMSCHEDULE = LAST_SHARED_SCHEDULE,
+	SQUAD_SLOT_EXAMPLE = LAST_SHARED_SQUADSLOT,
+	SQUAD_SLOT_EXAMPLE2,
 };
 
 //=========================================================
-// Custom tasks
 //=========================================================
-enum 
+class CNPC_New : public CAI_BaseNPC
 {
-	TASK_MYCUSTOMTASK = LAST_SHARED_TASK,
-};
-
-
-//=========================================================
-// Custom Conditions
-//=========================================================
-enum 
-{
-	COND_MYNPC_HUNGRY = NEXT_CONDITION,
-	NEXT_CONDITION
-};
-
-
-//=========================================================
-//=========================================================
-class CNewNPC : public CAI_BaseNPC
-{
-	DECLARE_CLASS( CNewNPC, CAI_BaseNPC );
+	DECLARE_CLASS(CNPC_New, CAI_BaseNPC);
+	DECLARE_DATADESC();
+	DEFINE_CUSTOM_AI;
 
 public:
-	void	Precache( void );
-	void	Spawn( void );
-	Class_T Classify( void );
+	void	Precache(void);
+	void	Spawn(void);
+	Class_T Classify(void);
+private:
+	enum
+	{
+		SCHED_NEWNPC_SCHEDULE = BaseClass::NEXT_SCHEDULE,
+		SCHED_NEWNPC_SCHEDULE2,
+		NEXT_SCHEDULE
+	};
 
-	DECLARE_DATADESC();
+	enum
+	{
+		TASK_NEWNPC_TASK = BaseClass::NEXT_TASK,
+		TASK_NEWNPC_TASK2,
+		NEXT_TASK
+	};
 
-	// This is a dummy field. In order to provide save/restore
-	// code in this file, we must have at least one field
-	// for the code to operate on. Delete this field when
-	// you are ready to do your own save/restore for this
-	// character.
-	int		m_iDeleteThisField;
-
-	DEFINE_CUSTOM_AI;
+	enum
+	{
+		COND_NEWNPC_CONDITION = BaseClass::NEXT_CONDITION,
+		COND_NEWNPC_CONDITION2,
+		NEXT_CONDITION
+	};
 };
 
-AI_BEGIN_CUSTOM_NPC( npc_custom, CNPC_Custom )
-	DECLARE_CONDITION(COND_MYNPC_HUNGRY)
-AI_END_CUSTOM_NPC()
-
-LINK_ENTITY_TO_CLASS( npc_newnpc, CNewNPC );
-IMPLEMENT_CUSTOM_AI( npc_citizen,CNewNPC );
-
+LINK_ENTITY_TO_CLASS(npc_newnpc, CNPC_New);
 
 //---------------------------------------------------------
 // Save/Restore
 //---------------------------------------------------------
-BEGIN_DATADESC( CNewNPC )
-
-	DEFINE_FIELD( m_iDeleteThisField, FIELD_INTEGER ),
+BEGIN_DATADESC(CNPC_New)
 
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose: Initialize the custom schedules
-// Input  :
-// Output :
-//-----------------------------------------------------------------------------
-void CNewNPC::InitCustomSchedules(void) 
-{
-	INIT_CUSTOM_AI(CNewNPC);
+AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_New)
 
-	ADD_CUSTOM_TASK(CNewNPC,		TASK_MYCUSTOMTASK);
-
-	ADD_CUSTOM_SCHEDULE(CNewNPC,	SCHED_MYCUSTOMSCHEDULE);
-
-	ADD_CUSTOM_ACTIVITY(CNewNPC,	ACT_MYCUSTOMACTIVITY);
-
-	ADD_CUSTOM_CONDITION(CNewNPC,	COND_MYCUSTOMCONDITION);
-}
+AI_END_CUSTOM_NPC()
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //
 //
 //-----------------------------------------------------------------------------
-void CNewNPC::Precache( void )
+void CNPC_New::Precache(void)
 {
-	PrecacheModel( "models/alyx.mdl" );
+	PrecacheModel(NPC_NEW_MODEL);
 
 	BaseClass::Precache();
 }
 
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //
 //
 //-----------------------------------------------------------------------------
-void CNewNPC::Spawn( void )
+void CNPC_New::Spawn(void)
 {
 	Precache();
 
-	SetModel( "models/alyx.mdl" );
+	SetModel(NPC_NEW_MODEL);
 	SetHullType(HULL_HUMAN);
 	SetHullSizeNormal();
 
-	SetSolid( SOLID_BBOX );
-	AddSolidFlags( FSOLID_NOT_STANDABLE );
-	SetMoveType( MOVETYPE_STEP );
-	SetBloodColor( BLOOD_COLOR_RED );
-	m_iHealth			= 20;
-	m_flFieldOfView		= 0.5;
-	m_NPCState			= NPC_STATE_NONE;
+	SetSolid(SOLID_BBOX);
+	AddSolidFlags(FSOLID_NOT_STANDABLE);
+	SetMoveType(MOVETYPE_STEP);
+	SetBloodColor(BLOOD_COLOR_RED);
+	m_iHealth = 20;
+	m_flFieldOfView = 0.5; // indicates the width of this NPC's forward view cone ( as a dotproduct result )
+	m_NPCState = NPC_STATE_NONE;
 
 	CapabilitiesClear();
-	//CapabilitiesAdd( bits_CAP_NONE );
+	CapabilitiesAdd(bits_CAP_TURN_HEAD | bits_CAP_MOVE_GROUND);
 
 	NPCInit();
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -175,7 +157,7 @@ void CNewNPC::Spawn( void )
 //
 // Output : 
 //-----------------------------------------------------------------------------
-Class_T	CNewNPC::Classify( void )
+Class_T	CNPC_New::Classify(void)
 {
 	return	CLASS_NONE;
 }
