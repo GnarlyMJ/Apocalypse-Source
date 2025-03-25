@@ -77,19 +77,23 @@ public:
 	void	Precache(void);
 	void	Spawn(void);
 	void GatherConditions();
+	int SelectSchedule(void);
+	void StartTask(const Task_t* pTask);
 	Class_T Classify(void);
 private:
 	enum
 	{
 		SCHED_HEATSEAKER_HUNTING = BaseClass::NEXT_SCHEDULE,
 		SCHED_HEATSEAKER_RESTING = BaseClass::NEXT_SCHEDULE,
+		SCHED_HEATSEAKER_TRACKING = BaseClass::NEXT_SCHEDULE,
 		NEXT_SCHEDULE
 	};
 
 	enum
 	{
-		TASK_NEWNPC_TASK = BaseClass::NEXT_TASK,
-		TASK_NEWNPC_TASK2,
+		TASK_HEATSEAKER_FOLLOW = BaseClass::NEXT_TASK,
+		TASK_HEATSEAKER_REST = BaseClass::NEXT_TASK,
+		TASK_HEATSEAKER_WANDER = BaseClass::NEXT_TASK,
 		NEXT_TASK
 	};
 
@@ -113,15 +117,36 @@ END_DATADESC()
 AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
 	DECLARE_CONDITION(COND_HEATSEAKER_SEEN_PREY);
 	DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
+	DECLARE_TASK(TASK_HEATSEAKER_FOLLOW);
+	DECLARE_TASK(TASK_HEATSEAKER_REST);
+	DECLARE_TASK(TASK_HEATSEAKER_WANDER);
 	DEFINE_SCHEDULE
 	(
 		SCHED_HEATSEAKER_HUNTING,
 		"	Tasks"
+		"		TASK_HEATSEAKER_WANDER	0"
 		""
 		"	Interrups"
 		"		COND_HEATSEAKER_SEEN_PREY"
 	)
-
+	DEFINE_SCHEDULE
+	(
+		SCHED_HEATSEAKER_RESTING,
+		"	Tasks"
+		"		TASK_HEATSEAKER_REST	0"
+		""
+		"	Interrups"
+		"		COND_HEATSEAKER_SEEN_PREY"
+	)
+	DEFINE_SCHEDULE
+	(
+		SCHED_HEATSEAKER_TRACKING
+		"	Tasks"
+		"		TASK_HEATSEAKER_FOLLOW		0"
+		""
+		"	Interrups"
+		"		COND_HEATSEAKER_LOST_PREY"
+	)
 AI_END_CUSTOM_NPC()
 
 //-----------------------------------------------------------------------------
@@ -183,6 +208,31 @@ void CAI_AssaultBehavior::BuildScheduleTestBits()
 			GetOuter()->SetCustomInterruptCondition(COND_NEW_ENEMY);
 			GetOuter()->SetCustomInterruptCondition(COND_SEE_ENEMY);
 		}
+	}
+}
+
+int CNPC_Heatseaker::SelectSchedule(void)
+{
+	if (HasCondition(COND_HEATSEAKER_SEEN_PREY))
+	{
+		return SCHED_HEATSEAKER_TRACKING;
+	}
+	else if (HasCondition(COND_HEATSEAKER_LOST_PREY))
+	{
+		return SCHED_HEATSEAKER_HUNTING;
+	}
+	else
+	{
+		return BaseClass::SelectSchedule();
+	}
+}
+
+void CNPC_Heatseaker::StartTask(const Task_t* pTask)
+{
+	switch (pTask->iTask)
+	{
+		case TASK_HEATSEAKER_WANDER:
+			if (FindGestureLayer())
 	}
 }
 
