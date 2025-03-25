@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright Â© 1996-2005, Valve Corporation, All rights reserved. ============//
 // This is a skeleton file for use when creating a new 
 // NPC. Copy and rename this file for the new
 // NPC and add the copy to the build.
@@ -140,9 +140,9 @@ AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
 	)
 	DEFINE_SCHEDULE
 	(
-		SCHED_HEATSEAKER_TRACKING
+		SCHED_HEATSEAKER_TRACKING,
 		"	Tasks"
-		"		TASK_HEATSEAKER_FOLLOW		0"
+		"		TASK_HEATSEAKER_FOLLOW	0"
 		""
 		"	Interrups"
 		"		COND_HEATSEAKER_LOST_PREY"
@@ -231,8 +231,8 @@ void CNPC_Heatseaker::StartTask(const Task_t* pTask)
 {
 	switch (pTask->iTask)
 	{
-		case TASK_HEATSEAKER_WANDER:
-			if (FindGestureLayer())
+		default:
+			BaseClass::StartTask(pTask);
 	}
 }
 
