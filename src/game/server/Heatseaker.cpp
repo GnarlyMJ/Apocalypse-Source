@@ -31,8 +31,9 @@
 #include "activitylist.h"
 #include "ai_basenpc.h"
 #include "engine/IEngineSound.h"
+#include <ai_behavior_assault.h>
 
-#define NPC_NEW_MODEL "models/mymodel.mdl"
+#define NPC_NEW_MODEL "models/alyx.mdl"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -66,21 +67,22 @@ enum SquadSlot_T
 
 //=========================================================
 //=========================================================
-class CNPC_New : public CAI_BaseNPC
+class CNPC_Heatseaker : public CAI_BaseNPC
 {
-	DECLARE_CLASS(CNPC_New, CAI_BaseNPC);
+	DECLARE_CLASS(CNPC_Heatseaker, CAI_BaseNPC);
 	DECLARE_DATADESC();
 	DEFINE_CUSTOM_AI;
 
 public:
 	void	Precache(void);
 	void	Spawn(void);
+	void GatherConditions();
 	Class_T Classify(void);
 private:
 	enum
 	{
-		SCHED_NEWNPC_SCHEDULE = BaseClass::NEXT_SCHEDULE,
-		SCHED_NEWNPC_SCHEDULE2,
+		SCHED_HEATSEAKER_HUNTING = BaseClass::NEXT_SCHEDULE,
+		SCHED_HEATSEAKER_RESTING = BaseClass::NEXT_SCHEDULE,
 		NEXT_SCHEDULE
 	};
 
@@ -93,22 +95,32 @@ private:
 
 	enum
 	{
-		COND_NEWNPC_CONDITION = BaseClass::NEXT_CONDITION,
-		COND_NEWNPC_CONDITION2,
+		COND_HEATSEAKER_SEEN_PREY = BaseClass::NEXT_CONDITION,
+		COND_HEATSEAKER_LOST_PREY = BaseClass::NEXT_CONDITION,
 		NEXT_CONDITION
 	};
 };
 
-LINK_ENTITY_TO_CLASS(npc_newnpc, CNPC_New);
+LINK_ENTITY_TO_CLASS(npc_newnpc, CNPC_Heatseaker);
 
 //---------------------------------------------------------
 // Save/Restore
 //---------------------------------------------------------
-BEGIN_DATADESC(CNPC_New)
+BEGIN_DATADESC(CNPC_Heatseaker)
 
 END_DATADESC()
 
-AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_New)
+AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
+	DECLARE_CONDITION(COND_HEATSEAKER_SEEN_PREY);
+	DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
+	DEFINE_SCHEDULE
+	(
+		SCHED_HEATSEAKER_HUNTING,
+		"	Tasks"
+		""
+		"	Interrups"
+		"		COND_HEATSEAKER_SEEN_PREY"
+	)
 
 AI_END_CUSTOM_NPC()
 
@@ -117,7 +129,7 @@ AI_END_CUSTOM_NPC()
 //
 //
 //-----------------------------------------------------------------------------
-void CNPC_New::Precache(void)
+void CNPC_Heatseaker::Precache(void)
 {
 	PrecacheModel(NPC_NEW_MODEL);
 
@@ -129,7 +141,7 @@ void CNPC_New::Precache(void)
 //
 //
 //-----------------------------------------------------------------------------
-void CNPC_New::Spawn(void)
+void CNPC_Heatseaker::Spawn(void)
 {
 	Precache();
 
@@ -151,13 +163,36 @@ void CNPC_New::Spawn(void)
 	NPCInit();
 }
 
+
+//Gather conditions method, Also handles logic
+void CNPC_Heatseaker::GatherConditions()
+{ 
+	BaseClass::GatherConditions();
+	SetCondition(COND_HEATSEAKER_SEEN_PREY);
+}
+
+void CAI_AssaultBehavior::BuildScheduleTestBits()
+{
+	BaseClass::BuildScheduleTestBits();
+
+	//If we are allowed to divert, add the appropriate interups to our movement schedules
+	if (m_hAssaultPoint && m_hAssaultPoint->m_bAllowDiversion)
+	{
+		if (IsCurSchedule(SCHED_MOVE_TO_ASSAULT_POINT) || IsCurSchedule(SCHED_MOVE_TO_RALLY_POINT) || IsCurSchedule(SCHED_HOLD_RALLY_POINT))
+		{
+			GetOuter()->SetCustomInterruptCondition(COND_NEW_ENEMY);
+			GetOuter()->SetCustomInterruptCondition(COND_SEE_ENEMY);
+		}
+	}
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //
 //
 // Output : 
 //-----------------------------------------------------------------------------
-Class_T	CNPC_New::Classify(void)
+Class_T	CNPC_Heatseaker::Classify(void)
 {
 	return	CLASS_NONE;
 }
