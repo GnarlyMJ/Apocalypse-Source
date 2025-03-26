@@ -195,7 +195,7 @@ void CNPC_Heatseaker::GatherConditions()
 	BaseClass::GatherConditions();
 	SetCondition(COND_HEATSEAKER_SEEN_PREY);
 }
-
+/* BROKEN
 void CAI_AssaultBehavior::BuildScheduleTestBits()
 {
 	BaseClass::BuildScheduleTestBits();
@@ -210,7 +210,7 @@ void CAI_AssaultBehavior::BuildScheduleTestBits()
 		}
 	}
 }
-
+*/
 int CNPC_Heatseaker::SelectSchedule(void)
 {
 	if (HasCondition(COND_HEATSEAKER_SEEN_PREY))
