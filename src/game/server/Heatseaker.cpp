@@ -79,17 +79,17 @@ public:
 	void GatherConditions();
 	int SelectSchedule(void);
 	void StartTask(const Task_t* pTask);
-	bool ChooseEnemy();
-	void SetEnemy(CBaseEntity* pEnemy, bool bSetCondNewEnemy);
-	CBaseEntity* GetEnemy();
-	CBaseCombatCharacter* GetEnemyCombatCharacterPointer();
-	float GetTimeEnemyAcquired();
-	void OnEnemyChanged(CBaseEntity* pOldEnemy, CBaseEntity* pNewEnemy);
-	bool UpdateEnemyMemory(CBaseEntity* pEnemy, const Vector& position, CBaseEntity* pInformer);
-	Vector GetEnemyLKP();
-	float GetEnemyLastTimeSeen();
-	void MarkEnemyAsEluded();
-	bool EnemyHasEludedMe();
+	//bool ChooseEnemy();
+	//void SetEnemy(CBaseEntity* pEnemy, bool bSetCondNewEnemy);
+	//CBaseEntity* GetEnemy();
+	//CBaseCombatCharacter* GetEnemyCombatCharacterPointer();
+	//float GetTimeEnemyAcquired();
+	//void OnEnemyChanged(CBaseEntity* pOldEnemy, CBaseEntity* pNewEnemy);
+	//bool UpdateEnemyMemory(CBaseEntity* pEnemy, const Vector& position, CBaseEntity* pInformer);
+	//Vector GetEnemyLKP();
+	//float GetEnemyLastTimeSeen();
+	//void MarkEnemyAsEluded();
+	//bool EnemyHasEludedMe();
 	Class_T Classify(void);
 private:
 	enum
