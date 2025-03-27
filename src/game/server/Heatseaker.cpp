@@ -104,7 +104,6 @@ private:
 	{
 		TASK_HEATSEAKER_FOLLOW = BaseClass::NEXT_TASK,
 		TASK_HEATSEAKER_REST = BaseClass::NEXT_TASK,
-		TASK_HEATSEAKER_WANDER = BaseClass::NEXT_TASK,
 		NEXT_TASK
 	};
 
@@ -130,12 +129,11 @@ AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
 	DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
 	DECLARE_TASK(TASK_HEATSEAKER_FOLLOW);
 	DECLARE_TASK(TASK_HEATSEAKER_REST);
-	DECLARE_TASK(TASK_HEATSEAKER_WANDER);
 	DEFINE_SCHEDULE
 	(
 		SCHED_HEATSEAKER_HUNTING,
 		"	Tasks"
-		"		TASK_HEATSEAKER_WANDER	0"
+		"		TASK_WANDER	25 100000"
 		""
 		"	Interrups"
 		"		COND_HEATSEAKER_SEEN_PREY"
@@ -242,10 +240,6 @@ void CNPC_Heatseaker::StartTask(const Task_t* pTask)
 {
 	switch (pTask->iTask)
 	{
-		case TASK_HEATSEAKER_WANDER:
-			BaseClass::StartTask(TASK_WANDER);
-			break;
-
 		default:
 			BaseClass::StartTask(pTask);
 	}
