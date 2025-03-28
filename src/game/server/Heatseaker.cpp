@@ -135,10 +135,10 @@ AI_BEGIN_CUSTOM_NPC(cnpc_heatseaker, CNPC_Heatseaker)
 	(
 		SCHED_HEATSEAKER_HUNTING,
 		"	Tasks"
-		"		TASK_WANDER	25 100000"
+		"		TASK_WANDER		720432"
 		""
 		"	Interrups"
-		"		COND_HEATSEAKER_SEEN_PREY"
+		"		COND_SEE_PLAYER"
 	)
 	DEFINE_SCHEDULE
 	(
@@ -147,7 +147,7 @@ AI_BEGIN_CUSTOM_NPC(cnpc_heatseaker, CNPC_Heatseaker)
 		"		TASK_HEATSEAKER_REST	0"
 		""
 		"	Interrups"
-		"		COND_HEATSEAKER_SEEN_PREY"
+		"		COND_SEE_PLAYER"
 	)
 	DEFINE_SCHEDULE
 	(
