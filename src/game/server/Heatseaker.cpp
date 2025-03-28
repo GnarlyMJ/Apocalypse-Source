@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright Â© 1996-2005, Valve Corporation, All rights reserved. ============//
 // This is a skeleton file for use when creating a new 
 // NPC. Copy and rename this file for the new
 // NPC and add the copy to the build.
@@ -79,6 +79,17 @@ public:
 	void GatherConditions();
 	int SelectSchedule(void);
 	void StartTask(const Task_t* pTask);
+	//bool ChooseEnemy();
+	//void SetEnemy(CBaseEntity* pEnemy, bool bSetCondNewEnemy);
+	//CBaseEntity* GetEnemy();
+	//CBaseCombatCharacter* GetEnemyCombatCharacterPointer();
+	//float GetTimeEnemyAcquired();
+	//void OnEnemyChanged(CBaseEntity* pOldEnemy, CBaseEntity* pNewEnemy);
+	//bool UpdateEnemyMemory(CBaseEntity* pEnemy, const Vector& position, CBaseEntity* pInformer);
+	//Vector GetEnemyLKP();
+	//float GetEnemyLastTimeSeen();
+	//void MarkEnemyAsEluded();
+	//bool EnemyHasEludedMe();
 	Class_T Classify(void);
 private:
 	enum
@@ -93,7 +104,6 @@ private:
 	{
 		TASK_HEATSEAKER_FOLLOW = BaseClass::NEXT_TASK,
 		TASK_HEATSEAKER_REST = BaseClass::NEXT_TASK,
-		TASK_HEATSEAKER_WANDER = BaseClass::NEXT_TASK,
 		NEXT_TASK
 	};
 
@@ -119,12 +129,11 @@ AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
 	DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
 	DECLARE_TASK(TASK_HEATSEAKER_FOLLOW);
 	DECLARE_TASK(TASK_HEATSEAKER_REST);
-	DECLARE_TASK(TASK_HEATSEAKER_WANDER);
 	DEFINE_SCHEDULE
 	(
 		SCHED_HEATSEAKER_HUNTING,
 		"	Tasks"
-		"		TASK_HEATSEAKER_WANDER	0"
+		"		TASK_WANDER	25 100000"
 		""
 		"	Interrups"
 		"		COND_HEATSEAKER_SEEN_PREY"
@@ -140,9 +149,9 @@ AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
 	)
 	DEFINE_SCHEDULE
 	(
-		SCHED_HEATSEAKER_TRACKING
+		SCHED_HEATSEAKER_TRACKING,
 		"	Tasks"
-		"		TASK_HEATSEAKER_FOLLOW		0"
+		"		TASK_HEATSEAKER_FOLLOW	0"
 		""
 		"	Interrups"
 		"		COND_HEATSEAKER_LOST_PREY"
@@ -195,7 +204,7 @@ void CNPC_Heatseaker::GatherConditions()
 	BaseClass::GatherConditions();
 	SetCondition(COND_HEATSEAKER_SEEN_PREY);
 }
-
+/* BROKEN
 void CAI_AssaultBehavior::BuildScheduleTestBits()
 {
 	BaseClass::BuildScheduleTestBits();
@@ -210,7 +219,7 @@ void CAI_AssaultBehavior::BuildScheduleTestBits()
 		}
 	}
 }
-
+*/
 int CNPC_Heatseaker::SelectSchedule(void)
 {
 	if (HasCondition(COND_HEATSEAKER_SEEN_PREY))
@@ -231,8 +240,8 @@ void CNPC_Heatseaker::StartTask(const Task_t* pTask)
 {
 	switch (pTask->iTask)
 	{
-		case TASK_HEATSEAKER_WANDER:
-			if (FindGestureLayer())
+		default:
+			BaseClass::StartTask(pTask);
 	}
 }
 
