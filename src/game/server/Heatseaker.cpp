@@ -32,6 +32,8 @@
 #include "ai_basenpc.h"
 #include "engine/IEngineSound.h"
 #include <ai_behavior_assault.h>
+#include "util.h"
+#include "networkvar.h"
 
 #define NPC_NEW_MODEL "models/alyx.mdl"
 
@@ -115,7 +117,7 @@ private:
 	};
 };
 
-LINK_ENTITY_TO_CLASS(npc_newnpc, CNPC_Heatseaker);
+LINK_ENTITY_TO_CLASS(cnpc_heatseaker, CNPC_Heatseaker);
 
 //---------------------------------------------------------
 // Save/Restore
@@ -124,7 +126,7 @@ BEGIN_DATADESC(CNPC_Heatseaker)
 
 END_DATADESC()
 
-AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
+AI_BEGIN_CUSTOM_NPC(cnpc_heatseaker, CNPC_Heatseaker)
 	DECLARE_CONDITION(COND_HEATSEAKER_SEEN_PREY);
 	DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
 	DECLARE_TASK(TASK_HEATSEAKER_FOLLOW);
