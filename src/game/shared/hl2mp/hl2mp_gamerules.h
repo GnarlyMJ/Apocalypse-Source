@@ -120,7 +120,9 @@ public:
 	void CleanUpMap();
 	void CheckRestartGame();
 	void RestartGame();
-
+	#ifndef CLIENT_DLL 
+		void InitDefaultAIRelationships(void);
+	#endif
 	void OnNavMeshLoad( void );
 	
 #ifndef CLIENT_DLL
