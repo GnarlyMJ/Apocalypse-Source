@@ -99,6 +99,7 @@ private:
 		SCHED_HEATSEAKER_HUNTING = BaseClass::NEXT_SCHEDULE,
 		SCHED_HEATSEAKER_RESTING = BaseClass::NEXT_SCHEDULE,
 		SCHED_HEATSEAKER_TRACKING = BaseClass::NEXT_SCHEDULE,
+		SCHED_HEATSEAKER_TRACKING_PLAYER = BaseClass::NEXT_SCHEDULE,
 		NEXT_SCHEDULE
 	};
 
@@ -136,10 +137,23 @@ AI_BEGIN_CUSTOM_NPC(cnpc_heatseaker, CNPC_Heatseaker)
 		SCHED_HEATSEAKER_HUNTING,
 		"	Tasks"
 		"		TASK_WANDER			720432"
+		"		TASK_WALK_PATH		0"
 		""
 		"	Interrupts"
 		"		COND_SEE_PLAYER"
 	)
+	/*
+	DEFINE_SCHEDULE
+	(
+		SCHED_HEATSEAKER_TRACKING_PLAYER,
+		"	Tasks"
+		"		TASK_GET_PATH_TO_PLAYER	0"
+		"		TASK_WALK_PATH			0"
+		""
+		"	Interrups"
+		"		COND_LOST_PLAYER"
+	)
+	*/
 AI_END_CUSTOM_NPC()
 
 //-----------------------------------------------------------------------------
@@ -186,7 +200,6 @@ void CNPC_Heatseaker::Spawn(void)
 void CNPC_Heatseaker::GatherConditions()
 { 
 	BaseClass::GatherConditions();
-	SetCondition(COND_HEATSEAKER_SEEN_PREY);
 }
 /* BROKEN
 void CAI_AssaultBehavior::BuildScheduleTestBits()
@@ -208,7 +221,7 @@ int CNPC_Heatseaker::SelectSchedule(void)
 {
 	if (HasCondition(COND_SEE_PLAYER))
 	{
-		return SCHED_HEATSEAKER_TRACKING;
+		return SCHED_HEATSEAKER_HUNTING;
 	}
 	else
 	{
