@@ -1,23 +1,7 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
-// This is a skeleton file for use when creating a new 
-// NPC. Copy and rename this file for the new
-// NPC and add the copy to the build.
-//
-// Replace occurrences of CNPC_New with the new NPC's
-// classname. Don't forget the lower-case occurrence in 
-// LINK_ENTITY_TO_CLASS()
-//
-//
-// ASSUMPTIONS MADE:
-//
-// You're making a character based on CAI_BaseNPC. If this 
-// is not true, make sure you replace all occurrences
-// of 'CAI_BaseNPC' in this file with the appropriate 
-// parent class.
-//
-// You're making a human-sized NPC that walks.
-//
-//=============================================================================//
+/*
+	This is the .ccp file for the Heatseeker NPC. This is the main enemy of Apocolypse. It is a beast like enemy that tracks down and hunts the player, by stalking them in the shadows.
+*/
+
 #include "cbase.h"
 #include "ai_default.h"
 #include "ai_task.h"
