@@ -33,6 +33,7 @@
 	#include "voice_gamemgr.h"
 	#include "hl2mp_gameinterface.h"
 	#include "hl2mp_cvars.h"
+	#include "hl2_shareddefs.h"
 
 extern void respawn(CBaseEntity *pEdict, bool fCopyCorpse);
 
