@@ -227,6 +227,8 @@ CBasePlayer *UTIL_PlayerBySteamID( const CSteamID &steamID );
 // not useable in multiplayer - see UTIL_GetListenServerHost()
 CBasePlayer* UTIL_GetLocalPlayer( void );
 
+
+CBasePlayer* UTIL_GetNearestPlayer(CBaseEntity* pLooker, bool needsLOS = false);
 // get the local player on a listen server
 CBasePlayer *UTIL_GetListenServerHost( void );
 
