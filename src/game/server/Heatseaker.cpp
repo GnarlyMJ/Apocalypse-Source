@@ -1,23 +1,7 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
-// This is a skeleton file for use when creating a new 
-// NPC. Copy and rename this file for the new
-// NPC and add the copy to the build.
-//
-// Replace occurrences of CNPC_New with the new NPC's
-// classname. Don't forget the lower-case occurrence in 
-// LINK_ENTITY_TO_CLASS()
-//
-//
-// ASSUMPTIONS MADE:
-//
-// You're making a character based on CAI_BaseNPC. If this 
-// is not true, make sure you replace all occurrences
-// of 'CAI_BaseNPC' in this file with the appropriate 
-// parent class.
-//
-// You're making a human-sized NPC that walks.
-//
-//=============================================================================//
+/*
+	This is the .ccp file for the Heatseeker NPC. This is the main enemy of Apocolypse. It is a beast like enemy that tracks down and hunts the player, by stalking them in the shadows.
+*/
+
 #include "cbase.h"
 #include "ai_default.h"
 #include "ai_task.h"
@@ -32,6 +16,8 @@
 #include "ai_basenpc.h"
 #include "engine/IEngineSound.h"
 #include <ai_behavior_assault.h>
+#include "util.h"
+#include "networkvar.h"
 
 #define NPC_NEW_MODEL "models/alyx.mdl"
 
@@ -97,6 +83,7 @@ private:
 		SCHED_HEATSEAKER_HUNTING = BaseClass::NEXT_SCHEDULE,
 		SCHED_HEATSEAKER_RESTING = BaseClass::NEXT_SCHEDULE,
 		SCHED_HEATSEAKER_TRACKING = BaseClass::NEXT_SCHEDULE,
+		SCHED_HEATSEAKER_TRACKING_PLAYER = BaseClass::NEXT_SCHEDULE,
 		NEXT_SCHEDULE
 	};
 
@@ -115,7 +102,7 @@ private:
 	};
 };
 
-LINK_ENTITY_TO_CLASS(npc_newnpc, CNPC_Heatseaker);
+LINK_ENTITY_TO_CLASS(cnpc_heatseaker, CNPC_Heatseaker);
 
 //---------------------------------------------------------
 // Save/Restore
@@ -124,38 +111,33 @@ BEGIN_DATADESC(CNPC_Heatseaker)
 
 END_DATADESC()
 
-AI_BEGIN_CUSTOM_NPC(npc_newnpc, CNPC_Heatseaker)
-	DECLARE_CONDITION(COND_HEATSEAKER_SEEN_PREY);
-	DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
-	DECLARE_TASK(TASK_HEATSEAKER_FOLLOW);
-	DECLARE_TASK(TASK_HEATSEAKER_REST);
+AI_BEGIN_CUSTOM_NPC(cnpc_heatseaker, CNPC_Heatseaker)
+//DECLARE_CONDITION(COND_HEATSEAKER_SEEN_PREY);
+//DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
+	DECLARE_CONDITION(COND_SEE_PLAYER);
+	DECLARE_CONDITION(COND_LOST_PLAYER);
 	DEFINE_SCHEDULE
 	(
 		SCHED_HEATSEAKER_HUNTING,
 		"	Tasks"
-		"		TASK_WANDER	25 100000"
+		"		TASK_WANDER			720432"
+		"		TASK_WALK_PATH		0"
 		""
-		"	Interrups"
-		"		COND_HEATSEAKER_SEEN_PREY"
+		"	Interrupts"
+		"		COND_SEE_PLAYER"
 	)
+	/*
 	DEFINE_SCHEDULE
 	(
-		SCHED_HEATSEAKER_RESTING,
+		SCHED_HEATSEAKER_TRACKING_PLAYER,
 		"	Tasks"
-		"		TASK_HEATSEAKER_REST	0"
+		"		TASK_GET_PATH_TO_PLAYER	0"
+		"		TASK_WALK_PATH			0"
 		""
 		"	Interrups"
-		"		COND_HEATSEAKER_SEEN_PREY"
+		"		COND_LOST_PLAYER"
 	)
-	DEFINE_SCHEDULE
-	(
-		SCHED_HEATSEAKER_TRACKING,
-		"	Tasks"
-		"		TASK_HEATSEAKER_FOLLOW	0"
-		""
-		"	Interrups"
-		"		COND_HEATSEAKER_LOST_PREY"
-	)
+	*/
 AI_END_CUSTOM_NPC()
 
 //-----------------------------------------------------------------------------
@@ -202,7 +184,6 @@ void CNPC_Heatseaker::Spawn(void)
 void CNPC_Heatseaker::GatherConditions()
 { 
 	BaseClass::GatherConditions();
-	SetCondition(COND_HEATSEAKER_SEEN_PREY);
 }
 /* BROKEN
 void CAI_AssaultBehavior::BuildScheduleTestBits()
@@ -222,17 +203,13 @@ void CAI_AssaultBehavior::BuildScheduleTestBits()
 */
 int CNPC_Heatseaker::SelectSchedule(void)
 {
-	if (HasCondition(COND_HEATSEAKER_SEEN_PREY))
-	{
-		return SCHED_HEATSEAKER_TRACKING;
-	}
-	else if (HasCondition(COND_HEATSEAKER_LOST_PREY))
+	if (HasCondition(COND_SEE_PLAYER))
 	{
 		return SCHED_HEATSEAKER_HUNTING;
 	}
 	else
 	{
-		return BaseClass::SelectSchedule();
+		return SCHED_HEATSEAKER_HUNTING;
 	}
 }
 
