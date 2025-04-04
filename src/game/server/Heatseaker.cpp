@@ -1,234 +1,198 @@
 /*
-	This is the .ccp file for the Heatseeker NPC. This is the main enemy of Apocolypse. It is a beast like enemy that tracks down and hunts the player, by stalking them in the shadows.
+* Heatseaker.cpp
+* This is the main file for the Heatseaker Nextbot
 */
 
 #include "cbase.h"
-#include "ai_default.h"
-#include "ai_task.h"
-#include "ai_schedule.h"
-#include "ai_hull.h"
-#include "ai_squad.h"
-#include "soundent.h"
-#include "game.h"
-#include "npcevent.h"
-#include "entitylist.h"
-#include "activitylist.h"
-#include "ai_basenpc.h"
-#include "engine/IEngineSound.h"
-#include <ai_behavior_assault.h>
-#include "util.h"
-#include "networkvar.h"
+#include "Heatseaker.h"
 
-#define NPC_NEW_MODEL "models/alyx.mdl"
+#include "NextBot.h"
+#include "NextBotVisionInterface.h"
+#include "NextBotBodyInterface.h"
+#include "NextBotUtil.h"
 
-// memdbgon must be the last include file in a .cpp file!!!
-#include "tier0/memdbgon.h"
-
-//=========================================================
-// Private animevents
-//=========================================================
-int NEWNPC_AE_ANIMEVENT;
-int NEWNPC_AE_ANIMEVENT2;
-
-//=========================================================
-// Private activities
-//=========================================================
-Activity ACT_NEWNPC_ACTIVITY;
-Activity ACT_NEWNPC_ACTIVITY2;
-
-//=========================================================
-// Shared interaction
-//=========================================================
-int g_interactionExample = 0; // REMEMBER TO ADD THIS TO AI_Interactions.h
-int g_interactionExample2 = 0; // REMEMBER TO ADD THIS TO AI_Interactions.h
-
-// -----------------------------------------------
-//	> Squad slots
-// -----------------------------------------------
-enum SquadSlot_T
-{
-	SQUAD_SLOT_EXAMPLE = LAST_SHARED_SQUADSLOT,
-	SQUAD_SLOT_EXAMPLE2,
-};
-
-//=========================================================
-//=========================================================
-class CNPC_Heatseaker : public CAI_BaseNPC
-{
-	DECLARE_CLASS(CNPC_Heatseaker, CAI_BaseNPC);
-	DECLARE_DATADESC();
-	DEFINE_CUSTOM_AI;
-
-public:
-	void	Precache(void);
-	void	Spawn(void);
-	void GatherConditions();
-	int SelectSchedule(void);
-	void StartTask(const Task_t* pTask);
-	//bool ChooseEnemy();
-	//void SetEnemy(CBaseEntity* pEnemy, bool bSetCondNewEnemy);
-	//CBaseEntity* GetEnemy();
-	//CBaseCombatCharacter* GetEnemyCombatCharacterPointer();
-	//float GetTimeEnemyAcquired();
-	//void OnEnemyChanged(CBaseEntity* pOldEnemy, CBaseEntity* pNewEnemy);
-	//bool UpdateEnemyMemory(CBaseEntity* pEnemy, const Vector& position, CBaseEntity* pInformer);
-	//Vector GetEnemyLKP();
-	//float GetEnemyLastTimeSeen();
-	//void MarkEnemyAsEluded();
-	//bool EnemyHasEludedMe();
-	Class_T Classify(void);
-private:
-	enum
-	{
-		SCHED_HEATSEAKER_HUNTING = BaseClass::NEXT_SCHEDULE,
-		SCHED_HEATSEAKER_RESTING = BaseClass::NEXT_SCHEDULE,
-		SCHED_HEATSEAKER_TRACKING = BaseClass::NEXT_SCHEDULE,
-		SCHED_HEATSEAKER_TRACKING_PLAYER = BaseClass::NEXT_SCHEDULE,
-		NEXT_SCHEDULE
-	};
-
-	enum
-	{
-		TASK_HEATSEAKER_FOLLOW = BaseClass::NEXT_TASK,
-		TASK_HEATSEAKER_REST = BaseClass::NEXT_TASK,
-		NEXT_TASK
-	};
-
-	enum
-	{
-		COND_HEATSEAKER_SEEN_PREY = BaseClass::NEXT_CONDITION,
-		COND_HEATSEAKER_LOST_PREY = BaseClass::NEXT_CONDITION,
-		NEXT_CONDITION
-	};
-};
-
-LINK_ENTITY_TO_CLASS(cnpc_heatseaker, CNPC_Heatseaker);
-
-//---------------------------------------------------------
-// Save/Restore
-//---------------------------------------------------------
-BEGIN_DATADESC(CNPC_Heatseaker)
-
-END_DATADESC()
-
-AI_BEGIN_CUSTOM_NPC(cnpc_heatseaker, CNPC_Heatseaker)
-//DECLARE_CONDITION(COND_HEATSEAKER_SEEN_PREY);
-//DECLARE_CONDITION(COND_HEATSEAKER_LOST_PREY);
-	DECLARE_CONDITION(COND_SEE_PLAYER);
-	DECLARE_CONDITION(COND_LOST_PLAYER);
-	DEFINE_SCHEDULE
-	(
-		SCHED_HEATSEAKER_HUNTING,
-		"	Tasks"
-		"		TASK_WANDER			720432"
-		"		TASK_WALK_PATH		0"
-		""
-		"	Interrupts"
-		"		COND_SEE_PLAYER"
-	)
-	/*
-	DEFINE_SCHEDULE
-	(
-		SCHED_HEATSEAKER_TRACKING_PLAYER,
-		"	Tasks"
-		"		TASK_GET_PATH_TO_PLAYER	0"
-		"		TASK_WALK_PATH			0"
-		""
-		"	Interrups"
-		"		COND_LOST_PLAYER"
-	)
-	*/
-AI_END_CUSTOM_NPC()
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//
-//
-//-----------------------------------------------------------------------------
-void CNPC_Heatseaker::Precache(void)
-{
-	PrecacheModel(NPC_NEW_MODEL);
-
-	BaseClass::Precache();
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//
-//
-//-----------------------------------------------------------------------------
-void CNPC_Heatseaker::Spawn(void)
-{
-	Precache();
-
-	SetModel(NPC_NEW_MODEL);
-	SetHullType(HULL_HUMAN);
-	SetHullSizeNormal();
-
-	SetSolid(SOLID_BBOX);
-	AddSolidFlags(FSOLID_NOT_STANDABLE);
-	SetMoveType(MOVETYPE_STEP);
-	SetBloodColor(BLOOD_COLOR_RED);
-	m_iHealth = 20;
-	m_flFieldOfView = 0.5; // indicates the width of this NPC's forward view cone ( as a dotproduct result )
-	m_NPCState = NPC_STATE_NONE;
-
-	CapabilitiesClear();
-	CapabilitiesAdd(bits_CAP_TURN_HEAD | bits_CAP_MOVE_GROUND);
-
-	NPCInit();
-}
-
-
-//Gather conditions method, Also handles logic
-void CNPC_Heatseaker::GatherConditions()
-{ 
-	BaseClass::GatherConditions();
-}
-/* BROKEN
-void CAI_AssaultBehavior::BuildScheduleTestBits()
-{
-	BaseClass::BuildScheduleTestBits();
-
-	//If we are allowed to divert, add the appropriate interups to our movement schedules
-	if (m_hAssaultPoint && m_hAssaultPoint->m_bAllowDiversion)
-	{
-		if (IsCurSchedule(SCHED_MOVE_TO_ASSAULT_POINT) || IsCurSchedule(SCHED_MOVE_TO_RALLY_POINT) || IsCurSchedule(SCHED_HOLD_RALLY_POINT))
-		{
-			GetOuter()->SetCustomInterruptCondition(COND_NEW_ENEMY);
-			GetOuter()->SetCustomInterruptCondition(COND_SEE_ENEMY);
-		}
-	}
-}
+/*
+* Command to spawn heatseaker
 */
-int CNPC_Heatseaker::SelectSchedule(void)
+
+CON_COMMAND_F(Heatseaker_add, "Spawn A Heatseaker At Crosshair", FCVAR_CHEAT)
 {
-	if (HasCondition(COND_SEE_PLAYER))
+	CBasePlayer* player = UTIL_GetCommandClient();
+	if (!player)
 	{
-		return SCHED_HEATSEAKER_HUNTING;
+		return;
 	}
-	else
+
+	Vector forward;
+	player->EyeVectors(&forward);
+
+	trace_t result;
+	UTIL_TraceLine(player->EyePosition(), player->EyePosition() + 999999.9f * forward, MASK_BLOCKLOS_AND_NPCS | CONTENTS_IGNORE_NODRAW_OPAQUE, player, COLLISION_GROUP_NONE, &result);
+	if (!result.DidHit())
 	{
-		return SCHED_HEATSEAKER_HUNTING;
+		return;
+	}
+
+	HeatseakerBot* bot = static_cast<HeatseakerBot*>(CreateEntityByName("Heatseaker"));
+	if (bot)
+	{
+		Vector forward = player->GetAbsOrigin() - result.endpos;
+		forward.z = 0.0f;
+		forward.NormalizeInPlace();
+
+		QAngle angles;
+		VectorAngles(forward, angles);
+
+		bot->SetAbsAngles(angles);
+		bot->SetAbsOrigin(result.endpos + Vector(0, 0, 10.0f));
+
+		DispatchSpawn(bot);
 	}
 }
 
-void CNPC_Heatseaker::StartTask(const Task_t* pTask)
+//-----------------------------------------------------------------------------------------------------
+// The Simple Bot
+//-----------------------------------------------------------------------------------------------------
+LINK_ENTITY_TO_CLASS(Heatseaker, HeatseakerBot);
+
+
+//-----------------------------------------------------------------------------------------------------
+HeatseakerBot::HeatseakerBot()
 {
-	switch (pTask->iTask)
-	{
-		default:
-			BaseClass::StartTask(pTask);
-	}
+	ALLOCATE_INTENTION_INTERFACE(HeatseakerBot);
+
+	m_locomotor = new NextBotGroundLocomotion(this);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-//
-//
-// Output : 
-//-----------------------------------------------------------------------------
-Class_T	CNPC_Heatseaker::Classify(void)
+
+//-----------------------------------------------------------------------------------------------------
+HeatseakerBot::~HeatseakerBot()
 {
-	return	CLASS_NONE;
+	DEALLOCATE_INTENTION_INTERFACE;
+
+	if (m_locomotor)
+		delete m_locomotor;
 }
+
+//-----------------------------------------------------------------------------------------------------
+void HeatseakerBot::Precache()
+{
+	BaseClass::Precache();
+
+#ifndef DOTA_DLL
+	PrecacheModel("models/vortigaunt.mdl");
+#endif
+}
+
+
+//-----------------------------------------------------------------------------------------------------
+void HeatseakerBot::Spawn(void)
+{
+	BaseClass::Spawn();
+
+#ifndef DOTA_DLL
+	SetModel("models/vortigaunt.mdl");
+#endif
+}
+
+
+//---------------------------------------------------------------------------------------------
+// The Simple Bot behaviors
+//---------------------------------------------------------------------------------------------
+/**
+ * For use with TheNavMesh->ForAllAreas()
+ * Find the Nth area in the sequence
+ */
+class SelectNthAreaFunctor
+{
+public:
+	SelectNthAreaFunctor(int count)
+	{
+		m_count = count;
+		m_area = NULL;
+	}
+
+	bool operator() (CNavArea* area)
+	{
+		m_area = area;
+		return (m_count-- > 0);
+	}
+
+	int m_count;
+	CNavArea* m_area;
+};
+
+
+//---------------------------------------------------------------------------------------------
+/**
+ * This action causes the bot to pick a random nav area in the mesh and move to it, then
+ * pick another, etc.
+ * Actions usually each have their own .cpp/.h file and are organized into folders since there
+ * are often many of them. For this example, we're keeping everything to a single .cpp/.h file.
+ */
+class CSimpleBotRoam : public Action< HeatseakerBot >
+{
+public:
+	//----------------------------------------------------------------------------------
+	// OnStart is called once when the Action first becomes active
+	virtual ActionResult< HeatseakerBot >	OnStart(HeatseakerBot* me, Action< HeatseakerBot >* priorAction)
+	{
+		// smooth out the bot's path following by moving toward a point farther down the path
+		m_path.SetMinLookAheadDistance(300.0f);
+
+		return Continue();
+	}
+
+
+	//----------------------------------------------------------------------------------
+	// Update is called repeatedly (usually once per server frame) while the Action is active
+	virtual ActionResult< HeatseakerBot >	Update(HeatseakerBot* me, float interval)
+	{
+		if (m_path.IsValid() && !m_timer.IsElapsed())
+		{
+			// PathFollower::Update() moves the bot along the path using the bot's ILocomotion and IBody interfaces
+			m_path.Update(me);
+		}
+		else
+		{
+			SelectNthAreaFunctor pick(RandomInt(0, TheNavMesh->GetNavAreaCount() - 1));
+			TheNavMesh->ForAllAreas(pick);
+
+			if (pick.m_area)
+			{
+				CSimpleBotPathCost cost(me);
+				m_path.Compute(me, pick.m_area->GetCenter(), cost);
+			}
+
+			// follow this path for a random duration (or until we reach the end)
+			m_timer.Start(RandomFloat(5.0f, 10.0f));
+		}
+
+		return Continue();
+	}
+
+
+	//----------------------------------------------------------------------------------
+	// this is an event handler - many more are available (see declaration of Action< Actor > in NextBotBehavior.h)
+	virtual EventDesiredResult< HeatseakerBot > OnStuck(HeatseakerBot* me)
+	{
+		// we are stuck trying to follow the current path - invalidate it so a new one is chosen
+		m_path.Invalidate();
+
+		return TryContinue();
+	}
+
+
+	virtual const char* GetName(void) const { return "Roam"; }		// return name of this action
+
+private:
+	PathFollower m_path;
+	CountdownTimer m_timer;
+};
+
+
+//---------------------------------------------------------------------------------------------
+/**
+ * Instantiate the bot's Intention interface and start the initial Action (CSimpleBotRoam in this case)
+ */
+IMPLEMENT_INTENTION_INTERFACE(HeatseakerBot, CSimpleBotRoam)

@@ -26,7 +26,7 @@
 
 ConVar phys_gunmass("phys_gunmass", "200");
 ConVar phys_gunvel("phys_gunvel", "400");
-ConVar phys_gunforce("phys_gunforce", "5e5" );
+ConVar phys_gunforce("phys_gunforce", "10" );
 ConVar phys_guntorque("phys_guntorque", "100" );
 ConVar phys_gunglueradius("phys_gunglueradius", "128" );
 

@@ -31,7 +31,7 @@ ConVar tf_raid_special_vocalize_max_interval( "tf_raid_special_vocalize_max_inte
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotGuardArea::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotGuardArea::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_chasePath.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -119,7 +119,7 @@ public:
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotGuardArea::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotGuardArea::Update( HeatseakerBot *me, float interval )
 {
 	// emit vocalizations to warn players we're in the area
 	if ( m_vocalizeTimer.IsElapsed() )
@@ -221,7 +221,7 @@ ActionResult< CTFBot >	CTFBotGuardArea::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGuardArea::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotGuardArea::OnStuck( HeatseakerBot *me )
 {
 	m_chasePath.Invalidate();
 	m_pathToPoint.Invalidate();
@@ -232,14 +232,14 @@ EventDesiredResult< CTFBot > CTFBotGuardArea::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGuardArea::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotGuardArea::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGuardArea::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotGuardArea::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	return TryContinue();
 }
@@ -253,7 +253,7 @@ QueryResultType	CTFBotGuardArea::ShouldRetreat( const INextBot *me ) const
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGuardArea::OnCommandApproach( CTFBot *me, const Vector &pos, float range )
+EventDesiredResult< HeatseakerBot > CTFBotGuardArea::OnCommandApproach( HeatseakerBot *me, const Vector &pos, float range )
 {
 	return TryContinue();
 }

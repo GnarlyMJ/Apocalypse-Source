@@ -21,7 +21,7 @@ ConVar tf_bot_cart_push_radius( "tf_bot_cart_push_radius", "60", FCVAR_CHEAT );
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotPayloadPush::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotPayloadPush::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 	m_path.Invalidate();
@@ -33,7 +33,7 @@ ActionResult< CTFBot >	CTFBotPayloadPush::OnStart( CTFBot *me, Action< CTFBot > 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotPayloadPush::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotPayloadPush::Update( HeatseakerBot *me, float interval )
 {
 	const CKnownEntity *threat = me->GetVisionInterface()->GetPrimaryKnownThreat();
 	if ( threat && threat->IsVisibleRecently() )
@@ -100,7 +100,7 @@ ActionResult< CTFBot >	CTFBotPayloadPush::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotPayloadPush::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotPayloadPush::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	VPROF_BUDGET( "CTFBotPayloadPush::OnResume", "NextBot" );
 
@@ -111,7 +111,7 @@ ActionResult< CTFBot > CTFBotPayloadPush::OnResume( CTFBot *me, Action< CTFBot >
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadPush::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadPush::OnStuck( HeatseakerBot *me )
 {
 	VPROF_BUDGET( "CTFBotPayloadPush::OnStuck", "NextBot" );
 
@@ -123,14 +123,14 @@ EventDesiredResult< CTFBot > CTFBotPayloadPush::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadPush::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadPush::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadPush::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadPush::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	VPROF_BUDGET( "CTFBotPayloadPush::OnMoveToFailure", "NextBot" );
 

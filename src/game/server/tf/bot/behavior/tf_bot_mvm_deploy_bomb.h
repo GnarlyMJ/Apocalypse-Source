@@ -6,14 +6,14 @@
 #define TF_BOT_MVM_DEPLOY_BOMB_H
 
 //-----------------------------------------------------------------------------
-class CTFBotMvMDeployBomb : public Action< CTFBot >
+class CTFBotMvMDeployBomb : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	virtual void					OnEnd( CTFBot *me, Action< CTFBot > *nextAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	virtual void					OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction );
 
-	EventDesiredResult< CTFBot >	OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result );
+	EventDesiredResult< HeatseakerBot >	OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result );
 	QueryResultType					ShouldAttack( const INextBot *me, const CKnownEntity *them ) const;
 
 	virtual const char *GetName( void ) const	{ return "MvMDeployBomb"; };

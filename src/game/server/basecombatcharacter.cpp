@@ -43,9 +43,7 @@
 #include "nav_mesh/tf_nav_area.h"
 #endif
 
-#ifdef NEXT_BOT
 #include "NextBot/NextBotManager.h"
-#endif
 
 #ifdef HL2_DLL
 #include "weapon_physcannon.h"
@@ -1676,10 +1674,8 @@ void CBaseCombatCharacter::Event_Killed( const CTakeDamageInfo &info )
 	}
 #endif
 	
-#ifdef NEXT_BOT
-	// inform bots
-	TheNextBots().OnKilled( this, info );
-#endif
+// inform bots
+TheNextBots().OnKilled( this, info );
 
 #ifdef GLOWS_ENABLE
 	RemoveGlowEffect();
@@ -3456,7 +3452,6 @@ float CBaseCombatCharacter::GetFogObscuredRatio( float range ) const
 //-----------------------------------------------------------------------------
 void CBaseCombatCharacter::UpdateLastKnownArea( void )
 {
-#ifdef NEXT_BOT
 	if ( TheNavMesh->IsGenerating() )
 	{
 		ClearLastKnownArea();
@@ -3501,7 +3496,6 @@ void CBaseCombatCharacter::UpdateLastKnownArea( void )
 
 		m_lastNavArea = area;
 	}
-#endif
 }
 
 

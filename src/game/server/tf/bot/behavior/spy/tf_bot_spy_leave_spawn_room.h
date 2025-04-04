@@ -8,11 +8,11 @@
 
 #include "Path/NextBotPathFollow.h"
 
-class CTFBotSpyLeaveSpawnRoom : public Action< CTFBot >
+class CTFBotSpyLeaveSpawnRoom : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
 	virtual QueryResultType ShouldAttack( const INextBot *me, const CKnownEntity *them ) const;	// should we attack "them"?
 

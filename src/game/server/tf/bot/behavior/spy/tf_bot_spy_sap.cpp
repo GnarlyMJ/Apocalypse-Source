@@ -23,7 +23,7 @@ CTFBotSpySap::CTFBotSpySap( CBaseObject *sapTarget )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpySap::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpySap::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	me->StopLookingAroundForEnemies();
 
@@ -38,7 +38,7 @@ ActionResult< CTFBot >	CTFBotSpySap::OnStart( CTFBot *me, Action< CTFBot > *prio
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpySap::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpySap::Update( HeatseakerBot *me, float interval )
 {
 	CBaseObject *newSapTarget = me->GetNearestKnownSappableTarget();
 
@@ -148,14 +148,14 @@ ActionResult< CTFBot >	CTFBotSpySap::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotSpySap::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotSpySap::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	me->StartLookingAroundForEnemies();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSpySap::OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotSpySap::OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	me->StartLookingAroundForEnemies();
 
@@ -164,7 +164,7 @@ ActionResult< CTFBot > CTFBotSpySap::OnSuspend( CTFBot *me, Action< CTFBot > *in
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSpySap::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotSpySap::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	me->StopLookingAroundForEnemies();
 
@@ -173,7 +173,7 @@ ActionResult< CTFBot > CTFBotSpySap::OnResume( CTFBot *me, Action< CTFBot > *int
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpySap::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotSpySap::OnStuck( HeatseakerBot *me )
 {
 	return TryDone( RESULT_CRITICAL, "I'm stuck, probably on a sapped building that hasn't exploded yet" );
 }
@@ -182,7 +182,7 @@ EventDesiredResult< CTFBot > CTFBotSpySap::OnStuck( CTFBot *me )
 //---------------------------------------------------------------------------------------------
 QueryResultType CTFBotSpySap::ShouldAttack( const INextBot *meBot, const CKnownEntity *them ) const
 {
-	CTFBot *me = ToTFBot( meBot->GetEntity() );
+	HeatseakerBot *me = ToTFBot( meBot->GetEntity() );
 
 	if ( m_sapTarget && !m_sapTarget->HasSapper() )
 	{
@@ -226,7 +226,7 @@ QueryResultType	CTFBotSpySap::ShouldRetreat( const INextBot *me ) const
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotSpySap::AreAllDangerousSentriesSapped( CTFBot *me ) const
+bool CTFBotSpySap::AreAllDangerousSentriesSapped( HeatseakerBot *me ) const
 {
 	CUtlVector< CKnownEntity > knownVector;
 	me->GetVisionInterface()->CollectKnownEntities( &knownVector );

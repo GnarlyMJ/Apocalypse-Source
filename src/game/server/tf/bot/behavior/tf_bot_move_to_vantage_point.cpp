@@ -21,7 +21,7 @@ CTFBotMoveToVantagePoint::CTFBotMoveToVantagePoint( float maxTravelDistance )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMoveToVantagePoint::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMoveToVantagePoint::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -39,7 +39,7 @@ ActionResult< CTFBot >	CTFBotMoveToVantagePoint::OnStart( CTFBot *me, Action< CT
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMoveToVantagePoint::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMoveToVantagePoint::Update( HeatseakerBot *me, float interval )
 {
 	const CKnownEntity *threat = me->GetVisionInterface()->GetPrimaryKnownThreat();
 	if ( threat && threat->IsVisibleInFOVNow() )
@@ -66,7 +66,7 @@ ActionResult< CTFBot >	CTFBotMoveToVantagePoint::Update( CTFBot *me, float inter
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMoveToVantagePoint::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotMoveToVantagePoint::OnStuck( HeatseakerBot *me )
 {
 	m_path.Invalidate();
 	return TryContinue();
@@ -74,14 +74,14 @@ EventDesiredResult< CTFBot > CTFBotMoveToVantagePoint::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMoveToVantagePoint::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotMoveToVantagePoint::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryDone( RESULT_CRITICAL, "Vantage point reached" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMoveToVantagePoint::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotMoveToVantagePoint::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	m_path.Invalidate();
 	return TryContinue();

@@ -870,8 +870,8 @@ void CTFNavArea::AddPotentiallyVisibleActor( CBaseCombatCharacter *who )
 	if ( team < 0 || team >= TF_TEAM_COUNT )
 		return;
 
-	CTFBot *bot = ToTFBot( who );
-	if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+	HeatseakerBot *bot = ToTFBot( who );
+	if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 		return;
 
 	if ( m_potentiallyVisibleActor[ team ].Find( who ) == m_potentiallyVisibleActor[ team ].InvalidIndex() )

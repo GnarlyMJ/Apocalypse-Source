@@ -12,37 +12,37 @@
 //
 // Roam around the map attacking enemies
 //
-class CTFBotSeekAndDestroy : public Action< CTFBot >
+class CTFBotSeekAndDestroy : public Action< HeatseakerBot >
 {
 public:
 	CTFBotSeekAndDestroy( float duration = -1.0f );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
-	virtual ActionResult< CTFBot >	OnResume( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
-	virtual EventDesiredResult< CTFBot > OnStuck( CTFBot *me );
-	virtual EventDesiredResult< CTFBot > OnMoveToSuccess( CTFBot *me, const Path *path );
-	virtual EventDesiredResult< CTFBot > OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason );
+	virtual EventDesiredResult< HeatseakerBot > OnStuck( HeatseakerBot *me );
+	virtual EventDesiredResult< HeatseakerBot > OnMoveToSuccess( HeatseakerBot *me, const Path *path );
+	virtual EventDesiredResult< HeatseakerBot > OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason );
 
 	virtual QueryResultType	ShouldRetreat( const INextBot *me ) const;					// is it time to retreat?
 	virtual QueryResultType ShouldHurry( const INextBot *me ) const;					// are we in a hurry?
 
-	virtual EventDesiredResult< CTFBot > OnTerritoryCaptured( CTFBot *me, int territoryID );
-	virtual EventDesiredResult< CTFBot > OnTerritoryLost( CTFBot *me, int territoryID );
-	virtual EventDesiredResult< CTFBot > OnTerritoryContested( CTFBot *me, int territoryID );
+	virtual EventDesiredResult< HeatseakerBot > OnTerritoryCaptured( HeatseakerBot *me, int territoryID );
+	virtual EventDesiredResult< HeatseakerBot > OnTerritoryLost( HeatseakerBot *me, int territoryID );
+	virtual EventDesiredResult< HeatseakerBot > OnTerritoryContested( HeatseakerBot *me, int territoryID );
 
 	virtual const char *GetName( void ) const	{ return "SeekAndDestroy"; };
 
 private:
 	CTFNavArea *m_goalArea;
-	CTFNavArea *ChooseGoalArea( CTFBot *me );
+	CTFNavArea *ChooseGoalArea( HeatseakerBot *me );
 	bool m_isPointLocked;
 
 	PathFollower m_path;
 	CountdownTimer m_repathTimer;
-	void RecomputeSeekPath( CTFBot *me );
+	void RecomputeSeekPath( HeatseakerBot *me );
 
 	CountdownTimer m_giveUpTimer;
 };

@@ -16881,9 +16881,9 @@ bool CTFGameRules::PlayerMayCapturePoint( CBasePlayer *pPlayer, int iPointIndex,
 #ifdef TF_CREEP_MODE
 	if ( IsCreepWaveMode() )
 	{
-		CTFBot *bot = ToTFBot( pTFPlayer );
+		HeatseakerBot *bot = ToTFBot( pTFPlayer );
 
-		if ( !bot || !bot->HasAttribute( CTFBot::IS_NPC ) )
+		if ( !bot || !bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 		{
 			// only creeps can capture points
 			return false;
@@ -16909,9 +16909,9 @@ bool CTFGameRules::PlayerMayBlockPoint( CBasePlayer *pPlayer, int iPointIndex, c
 #ifdef TF_CREEP_MODE
 	if ( IsCreepWaveMode() )
 	{
-		CTFBot *bot = ToTFBot( pTFPlayer );
+		HeatseakerBot *bot = ToTFBot( pTFPlayer );
 
-		if ( !bot || !bot->HasAttribute( CTFBot::IS_NPC ) )
+		if ( !bot || !bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 		{
 			// only creeps can block points
 			return false;
@@ -18073,9 +18073,9 @@ int	CTFGameRules::GetCaptureValueForPlayer( CBasePlayer *pPlayer )
 #ifdef TF_CREEP_MODE
 	if ( IsCreepWaveMode() )
 	{
-		CTFBot *bot = ToTFBot( pPlayer );
+		HeatseakerBot *bot = ToTFBot( pPlayer );
 
-		if ( !bot || !bot->HasAttribute( CTFBot::IS_NPC ) )
+		if ( !bot || !bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 		{
 			// only creeps can influence points
 			return 0;

@@ -72,12 +72,12 @@ void CPointPopulatorInterface::InputChangeBotAttributes( inputdata_t &inputdata 
 
 	if ( TFGameRules()->IsMannVsMachineMode() )
 	{
-		CUtlVector< CTFBot* > botVector;
+		CUtlVector< HeatseakerBot* > botVector;
 		CollectPlayers( &botVector, TF_TEAM_PVE_INVADERS, COLLECT_ONLY_LIVING_PLAYERS );
 
 		for ( int i=0; i<botVector.Count(); ++i )
 		{
-			const CTFBot::EventChangeAttributes_t* pEvent = botVector[i]->GetEventChangeAttributes( pszEventName );
+			const HeatseakerBot::EventChangeAttributes_t* pEvent = botVector[i]->GetEventChangeAttributes( pszEventName );
 			if ( pEvent )
 			{
 				botVector[i]->OnEventChangeAttributes( pEvent );

@@ -1926,7 +1926,7 @@ void CPopulationManager::EndlessRollEscalation( void )
 }
 
 //-------------------------------------------------------------------------
-void CPopulationManager::EndlessSetAttributesForBot( CTFBot *pBot )
+void CPopulationManager::EndlessSetAttributesForBot( HeatseakerBot *pBot )
 {
 	FOR_EACH_VEC( m_EndlessActiveBotUpgrades, i )
 	{
@@ -1939,7 +1939,7 @@ void CPopulationManager::EndlessSetAttributesForBot( CTFBot *pBot )
 		else if ( m_EndlessActiveBotUpgrades[i].bIsSkillAttr == true )
 		{
 			//switch ( (int)m_EndlessActiveBotUpgrades[i].flValue )
-			pBot->SetDifficulty( (CTFBot::DifficultyType)(int)m_EndlessActiveBotUpgrades[i].flValue );
+			pBot->SetDifficulty( (HeatseakerBot::DifficultyType)(int)m_EndlessActiveBotUpgrades[i].flValue );
 		}
 		else
 		{
@@ -2220,7 +2220,7 @@ bool CPopulationManager::Parse( void )
 						{
 							iFlags |= MVM_CLASS_FLAG_MINIBOSS;
 						}
-						if ( pMission->m_spawner->HasAttribute( CTFBot::ALWAYS_CRIT ) )
+						if ( pMission->m_spawner->HasAttribute( HeatseakerBot::ALWAYS_CRIT ) )
 						{
 							iFlags |= MVM_CLASS_FLAG_ALWAYSCRIT;
 						}
@@ -2628,7 +2628,7 @@ void CPopulationManager::AllocateBots()
 
 	for ( int i = nNumEnemyBots; i < tf_mvm_max_invaders.GetInt(); ++i )
 	{
-		CTFBot* newBot = NextBotCreatePlayerBot< CTFBot >( "TFBot", false );
+		HeatseakerBot* newBot = NextBotCreatePlayerBot< HeatseakerBot >( "TFBot", false );
 		if ( newBot )
 		{
 			newBot->ChangeTeam( TEAM_SPECTATOR, false, true );

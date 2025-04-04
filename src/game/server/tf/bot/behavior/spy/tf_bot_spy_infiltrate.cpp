@@ -19,7 +19,7 @@ extern ConVar tf_bot_path_lookahead_range;
 ConVar tf_bot_debug_spy( "tf_bot_debug_spy", "0", FCVAR_CHEAT );
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyInfiltrate::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpyInfiltrate::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_hideArea = NULL;
 
@@ -30,7 +30,7 @@ ActionResult< CTFBot >	CTFBotSpyInfiltrate::OnStart( CTFBot *me, Action< CTFBot 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyInfiltrate::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpyInfiltrate::Update( HeatseakerBot *me, float interval )
 {
 	// switch to our pistol
 	CBaseCombatWeapon *myGun = me->Weapon_GetSlot( TF_WPN_TYPE_PRIMARY );
@@ -165,20 +165,20 @@ ActionResult< CTFBot >	CTFBotSpyInfiltrate::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotSpyInfiltrate::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotSpyInfiltrate::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyInfiltrate::OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotSpyInfiltrate::OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	return Continue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyInfiltrate::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotSpyInfiltrate::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	m_repathTimer.Invalidate();
 	m_hideArea = NULL;
@@ -188,7 +188,7 @@ ActionResult< CTFBot >	CTFBotSpyInfiltrate::OnResume( CTFBot *me, Action< CTFBot
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotSpyInfiltrate::FindHidingSpot( CTFBot *me )
+bool CTFBotSpyInfiltrate::FindHidingSpot( HeatseakerBot *me )
 {
 	m_hideArea = NULL;
 
@@ -297,7 +297,7 @@ bool CTFBotSpyInfiltrate::FindHidingSpot( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyInfiltrate::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotSpyInfiltrate::OnStuck( HeatseakerBot *me )
 {
 	m_hideArea = NULL;
 	m_findHidingSpotTimer.Invalidate();
@@ -307,7 +307,7 @@ EventDesiredResult< CTFBot > CTFBotSpyInfiltrate::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyInfiltrate::OnTerritoryCaptured( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotSpyInfiltrate::OnTerritoryCaptured( HeatseakerBot *me, int territoryID )
 {
 	// enemy spawn likely changed - find new hiding spot after internal data has updated
 	m_hideArea = NULL;
@@ -318,7 +318,7 @@ EventDesiredResult< CTFBot > CTFBotSpyInfiltrate::OnTerritoryCaptured( CTFBot *m
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyInfiltrate::OnTerritoryLost( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotSpyInfiltrate::OnTerritoryLost( HeatseakerBot *me, int territoryID )
 {
 	// enemy spawn likely changed - find new hiding spot after internal data has updated
 	m_hideArea = NULL;

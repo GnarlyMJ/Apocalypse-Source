@@ -15,7 +15,7 @@ extern ConVar tf_deploying_bomb_time;
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMDeployBomb::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMvMDeployBomb::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	me->SetDeployingBombState( TF_BOMB_DEPLOYING_DELAY );
 	m_timer.Start( tf_deploying_bomb_delay_time.GetFloat() );
@@ -45,7 +45,7 @@ ActionResult< CTFBot >	CTFBotMvMDeployBomb::OnStart( CTFBot *me, Action< CTFBot 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotMvMDeployBomb::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFBotMvMDeployBomb::Update( HeatseakerBot *me, float interval )
 {
 	CCaptureZone *pAreaTrigger = NULL;
 
@@ -149,7 +149,7 @@ extern void TE_PlayerAnimEvent( CBasePlayer *pPlayer, PlayerAnimEvent_t event, i
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotMvMDeployBomb::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotMvMDeployBomb::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	if ( me->GetDeployingBombState() == TF_BOMB_DEPLOYING_ANIMATING )
 	{
@@ -178,7 +178,7 @@ void CTFBotMvMDeployBomb::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMvMDeployBomb::OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result )
+EventDesiredResult< HeatseakerBot > CTFBotMvMDeployBomb::OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result )
 {
 	// so event doesn't fall thru to buried action which will then redo transition to this state as we stay in contact with the zone
 	return TryToSustain( RESULT_CRITICAL );

@@ -23,7 +23,7 @@ ConVar tf_raid_squad_vocalize_max_interval( "tf_raid_squad_vocalize_max_interval
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSquadAttack::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSquadAttack::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_vocalizeTimer.Start( RandomFloat( tf_raid_squad_vocalize_min_interval.GetFloat(), tf_raid_squad_vocalize_max_interval.GetFloat() ) );
 	m_victim = NULL;
@@ -34,16 +34,16 @@ ActionResult< CTFBot >	CTFBotSquadAttack::OnStart( CTFBot *me, Action< CTFBot > 
 
 //---------------------------------------------------------------------------------------------
 // the leader is the slowest member of the squad
-CTFBot *CTFBotSquadAttack::GetSquadLeader( CTFBot *me ) const
+HeatseakerBot *CTFBotSquadAttack::GetSquadLeader( HeatseakerBot *me ) const
 {
-	CTFBot *leader = NULL;
+	HeatseakerBot *leader = NULL;
 	float leaderSpeed = FLT_MAX;
 
 	CTFBotSquad *squad = me->GetSquad();
 	CTFBotSquad::Iterator it;
 	for( it = squad->GetFirstMember(); it != squad->InvalidIterator(); it = squad->GetNextMember( it ) )
 	{
-		CTFBot *bot = it();
+		HeatseakerBot *bot = it();
 
 		float speed = bot->GetPlayerClass()->GetMaxSpeed();
 
@@ -59,7 +59,7 @@ CTFBot *CTFBotSquadAttack::GetSquadLeader( CTFBot *me ) const
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSquadAttack::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFBotSquadAttack::Update( HeatseakerBot *me, float interval )
 {
 	if ( !me->IsInASquad() )
 		return Done( "Not in a squad" );
@@ -69,7 +69,7 @@ ActionResult< CTFBot > CTFBotSquadAttack::Update( CTFBot *me, float interval )
 		return SuspendFor( new CTFBotMedicHeal );
 	}
 
-	CTFBot *leader = GetSquadLeader( me );
+	HeatseakerBot *leader = GetSquadLeader( me );
 	CTFBotPathCost cost( me, FASTEST_ROUTE );
 
 	if ( m_victim == NULL || m_victimConsiderTimer.IsElapsed() )
@@ -107,7 +107,7 @@ ActionResult< CTFBot > CTFBotSquadAttack::Update( CTFBot *me, float interval )
 			CTFBotSquad::Iterator it;
 			for( it = squad->GetFirstMember(); it != squad->InvalidIterator(); it = squad->GetNextMember( it ) )
 			{
-				CTFBot *bot = it();
+				HeatseakerBot *bot = it();
 
 				if ( me->IsSelf( bot ) )
 					continue;
@@ -134,14 +134,14 @@ ActionResult< CTFBot > CTFBotSquadAttack::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSquadAttack::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotSquadAttack::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	m_path.Invalidate();
 	return Continue();
 }
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSquadAttack::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotSquadAttack::OnStuck( HeatseakerBot *me )
 {
 	m_path.Invalidate();
 	return TryContinue();

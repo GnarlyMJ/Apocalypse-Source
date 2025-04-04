@@ -10,7 +10,7 @@
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotTaunt::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotTaunt::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	// wait a short random time so entire mob doesn't taunt in unison
 	m_tauntTimer.Start( RandomFloat( 0, 1.0f ) );
@@ -21,7 +21,7 @@ ActionResult< CTFBot >	CTFBotTaunt::OnStart( CTFBot *me, Action< CTFBot > *prior
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotTaunt::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFBotTaunt::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_tauntTimer.IsElapsed() )
 	{

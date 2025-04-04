@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Tue Apr  1 09:33:20 PM
+// File generated:  Fri Apr  4 08:02:59 AM
 //
 //
 // Cvar	-	Setting
@@ -45,7 +45,7 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"#Valve_Hostname"
 		{ STRING }
-		{ "GnarlyMJ's Server" }
+		{ "Gen0515's Server" }
 	}
 
 	"sv_password"

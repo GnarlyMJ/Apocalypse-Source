@@ -26,7 +26,7 @@ CTFBotSpyAttack::CTFBotSpyAttack( CTFPlayer *victim ) : m_path( ChasePath::LEAD_
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyAttack::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpyAttack::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 	m_isCoverBlown = false;
@@ -41,7 +41,7 @@ ActionResult< CTFBot >	CTFBotSpyAttack::OnStart( CTFBot *me, Action< CTFBot > *p
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyAttack::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpyAttack::Update( HeatseakerBot *me, float interval )
 {
 	const CKnownEntity *threat = me->GetVisionInterface()->GetKnown( m_victim );
 
@@ -132,10 +132,10 @@ ActionResult< CTFBot >	CTFBotSpyAttack::Update( CTFBot *me, float interval )
 
 	switch( me->GetDifficulty() )
 	{
-	case CTFBot::EASY:		behindTolerance = 0.9f;		break;
-	case CTFBot::NORMAL:	behindTolerance = 0.7071f;	break;
-	case CTFBot::HARD:		behindTolerance = 0.2f;		break;
-	case CTFBot::EXPERT:	behindTolerance = 0.0f;		break;
+	case HeatseakerBot::EASY:		behindTolerance = 0.9f;		break;
+	case HeatseakerBot::NORMAL:	behindTolerance = 0.7071f;	break;
+	case HeatseakerBot::HARD:		behindTolerance = 0.2f;		break;
+	case HeatseakerBot::EXPERT:	behindTolerance = 0.0f;		break;
 	}
 
 	if ( TFGameRules()->IsMannVsMachineMode() )
@@ -146,7 +146,7 @@ ActionResult< CTFBot >	CTFBotSpyAttack::Update( CTFBot *me, float interval )
 	bool isBehindVictim = DotProduct( playerThreatForward, toPlayerThreat ) > behindTolerance;
 
 	// easy Spies always think they're in position to backstab
-	if ( me->GetDifficulty() == CTFBot::EASY )
+	if ( me->GetDifficulty() == HeatseakerBot::EASY )
 	{
 		isBehindVictim = true;
 	}
@@ -280,7 +280,7 @@ ActionResult< CTFBot >	CTFBotSpyAttack::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSpyAttack::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotSpyAttack::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	m_victim = NULL;
 	m_path.Invalidate();
@@ -291,14 +291,14 @@ ActionResult< CTFBot > CTFBotSpyAttack::OnResume( CTFBot *me, Action< CTFBot > *
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyAttack::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotSpyAttack::OnStuck( HeatseakerBot *me )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyAttack::OnInjured( CTFBot *me, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotSpyAttack::OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info )
 {
 	if ( me->IsEnemy( info.GetAttacker() ) )
 	{
@@ -319,7 +319,7 @@ EventDesiredResult< CTFBot > CTFBotSpyAttack::OnInjured( CTFBot *me, const CTake
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyAttack::OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result )
+EventDesiredResult< HeatseakerBot > CTFBotSpyAttack::OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result )
 {
 	if ( me->IsEnemy( other ) && other->MyCombatCharacterPointer() )
 	{
@@ -350,7 +350,7 @@ QueryResultType CTFBotSpyAttack::ShouldHurry( const INextBot *me ) const
 //---------------------------------------------------------------------------------------------
 QueryResultType CTFBotSpyAttack::ShouldAttack( const INextBot *meBot, const CKnownEntity *them ) const
 {
-	CTFBot *me = ToTFBot( meBot->GetEntity() );
+	HeatseakerBot *me = ToTFBot( meBot->GetEntity() );
 
 	if ( m_isCoverBlown ||
 		 me->m_Shared.InCond( TF_COND_BURNING ) ||
@@ -390,7 +390,7 @@ const CKnownEntity * CTFBotSpyAttack::SelectMoreDangerousThreat( const INextBot 
 																 const CKnownEntity *threat1, 
 																 const CKnownEntity *threat2 ) const
 {
-	CTFBot *me = ToTFBot( meBot->GetEntity() );
+	HeatseakerBot *me = ToTFBot( meBot->GetEntity() );
 
 	if ( me->IsSelf( subject ) )
 	{

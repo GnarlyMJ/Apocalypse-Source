@@ -20,7 +20,7 @@ CTFBotNavEntMoveTo::CTFBotNavEntMoveTo( const CFuncNavPrerequisite *prereq )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotNavEntMoveTo::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotNavEntMoveTo::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	if ( m_prereq == NULL )
 	{
@@ -55,7 +55,7 @@ ActionResult< CTFBot >	CTFBotNavEntMoveTo::OnStart( CTFBot *me, Action< CTFBot >
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotNavEntMoveTo::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotNavEntMoveTo::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_prereq == NULL )
 	{

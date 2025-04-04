@@ -26,7 +26,7 @@ CTFBotMissionDestroySentries::CTFBotMissionDestroySentries( CObjectSentrygun *go
 
 
 //---------------------------------------------------------------------------------------------
-CObjectSentrygun *CTFBotMissionDestroySentries::SelectSentryTarget( CTFBot *me )
+CObjectSentrygun *CTFBotMissionDestroySentries::SelectSentryTarget( HeatseakerBot *me )
 {
 	
 	return NULL;
@@ -34,7 +34,7 @@ CObjectSentrygun *CTFBotMissionDestroySentries::SelectSentryTarget( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMissionDestroySentries::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMissionDestroySentries::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	if ( me->IsPlayerClass( TF_CLASS_MEDIC ) )
 	{
@@ -42,14 +42,14 @@ ActionResult< CTFBot >	CTFBotMissionDestroySentries::OnStart( CTFBot *me, Action
 	}
 
 	// focus only on the mission
-	me->SetAttribute( CTFBot::IGNORE_ENEMIES );
+	me->SetAttribute( HeatseakerBot::IGNORE_ENEMIES );
 
 	return Continue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotMissionDestroySentries::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFBotMissionDestroySentries::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_goalSentry == NULL )
 	{
@@ -79,7 +79,7 @@ ActionResult< CTFBot > CTFBotMissionDestroySentries::Update( CTFBot *me, float i
 	if ( m_goalSentry == NULL )
 	{
 		// no sentries left to destroy - our mission is complete
-		me->SetMission( CTFBot::NO_MISSION, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
+		me->SetMission( HeatseakerBot::NO_MISSION, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
 		return ChangeTo( GetParentAction()->InitialContainedAction( me ), "Mission complete - reverting to normal behavior" );
 	}
 
@@ -98,7 +98,7 @@ ActionResult< CTFBot > CTFBotMissionDestroySentries::Update( CTFBot *me, float i
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotMissionDestroySentries::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotMissionDestroySentries::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
-	me->ClearAttribute( CTFBot::IGNORE_ENEMIES );
+	me->ClearAttribute( HeatseakerBot::IGNORE_ENEMIES );
 }

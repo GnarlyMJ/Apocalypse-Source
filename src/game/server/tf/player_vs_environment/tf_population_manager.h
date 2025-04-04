@@ -110,7 +110,7 @@ public:
 	float GetDamageMultiplier ( void );
 	void EndlessParseBotUpgrades( void );
 	void EndlessRollEscalation ( void );
-	void EndlessSetAttributesForBot( CTFBot *pBot );
+	void EndlessSetAttributesForBot( HeatseakerBot *pBot );
 	bool EndlessShouldResetFlag ();
 	void EndlessFlagHasReset ();
 

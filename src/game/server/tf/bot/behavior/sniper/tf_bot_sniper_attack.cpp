@@ -22,21 +22,21 @@ ConVar tf_bot_sniper_linger_time( "tf_bot_sniper_linger_time", "5", FCVAR_CHEAT,
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotSniperAttack::IsPossible( CTFBot *me )
+bool CTFBotSniperAttack::IsPossible( HeatseakerBot *me )
 {
 	return me->IsPlayerClass( TF_CLASS_SNIPER ) && me->GetVisionInterface()->GetPrimaryKnownThreat() && me->GetVisionInterface()->GetPrimaryKnownThreat()->IsVisibleRecently();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperAttack::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSniperAttack::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	return Continue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperAttack::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSniperAttack::Update( HeatseakerBot *me, float interval )
 {
 	// switch to our sniper rifle
 	CBaseCombatWeapon *myGun = me->Weapon_GetSlot( TF_WPN_TYPE_PRIMARY );
@@ -94,7 +94,7 @@ ActionResult< CTFBot >	CTFBotSniperAttack::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotSniperAttack::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotSniperAttack::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	if ( me->m_Shared.InCond( TF_COND_ZOOMED ) )
 	{
@@ -105,7 +105,7 @@ void CTFBotSniperAttack::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperAttack::OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotSniperAttack::OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	if ( me->m_Shared.InCond( TF_COND_ZOOMED ) )
 	{
@@ -118,7 +118,7 @@ ActionResult< CTFBot >	CTFBotSniperAttack::OnSuspend( CTFBot *me, Action< CTFBot
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperAttack::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotSniperAttack::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	return Continue();
 }

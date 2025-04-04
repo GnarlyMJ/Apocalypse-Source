@@ -13,7 +13,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ActionResult< CTFBot > CTFDespawn::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFDespawn::Update( HeatseakerBot *me, float interval )
 {
 	// players need to be kicked, not deleted
 	if ( me->GetEntity()->IsPlayer() )
@@ -30,7 +30,7 @@ ActionResult< CTFBot > CTFDespawn::Update( CTFBot *me, float interval )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ActionResult< CTFBot > CTFTrainingAttackSentryActionPoint::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFTrainingAttackSentryActionPoint::Update( HeatseakerBot *me, float interval )
 {
 	CTFBotActionPoint* pActionPoint = me->GetActionPoint();
 	if ( pActionPoint == NULL )
@@ -75,7 +75,7 @@ ActionResult< CTFBot > CTFTrainingAttackSentryActionPoint::Update( CTFBot *me, f
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ActionResult< CTFBot > CTFGotoActionPoint::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot > CTFGotoActionPoint::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_stayTimer.Invalidate();
 	m_wasTeleported = false;
@@ -83,7 +83,7 @@ ActionResult< CTFBot > CTFGotoActionPoint::OnStart( CTFBot *me, Action< CTFBot >
 	return Continue();
 }
 
-ActionResult< CTFBot > CTFGotoActionPoint::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFGotoActionPoint::Update( HeatseakerBot *me, float interval )
 {
 	CTFBotActionPoint* pActionPoint = me->GetActionPoint();
 	if ( pActionPoint == NULL )

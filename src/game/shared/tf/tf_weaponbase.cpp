@@ -4490,16 +4490,16 @@ bool CTFWeaponBase::CanFireCriticalShot( bool bIsHeadshot, CBaseEntity *pTarget 
 	if ( TFGameRules()->IsPVEModeControlled( player ) )
 	{
 		// scenario bots cant crit (unless they always do)
-		CTFBot *bot = ToTFBot( player );
-		return ( bot && bot->HasAttribute( CTFBot::ALWAYS_CRIT ) );
+		HeatseakerBot *bot = ToTFBot( player );
+		return ( bot && bot->HasAttribute( HeatseakerBot::ALWAYS_CRIT ) );
 	}
 
 #ifdef TF_CREEP_MODE
 	if ( TFGameRules()->IsCreepWaveMode() && player )
 	{
-		CTFBot *bot = ToTFBot( player );
+		HeatseakerBot *bot = ToTFBot( player );
 
-		if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+		if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 		{
 			// creeps can't crit
 			return false;

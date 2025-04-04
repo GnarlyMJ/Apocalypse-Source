@@ -11,14 +11,14 @@
 extern ConVar tf_bot_path_lookahead_range;
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyBackstab::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpyBackstab::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	return Continue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyBackstab::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpyBackstab::Update( HeatseakerBot *me, float interval )
 {
 	return Continue();
 }

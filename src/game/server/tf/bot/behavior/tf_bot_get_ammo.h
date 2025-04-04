@@ -8,21 +8,21 @@
 
 #include "tf_powerup.h"
 
-class CTFBotGetAmmo : public Action< CTFBot >
+class CTFBotGetAmmo : public Action< HeatseakerBot >
 {
 public:
 	CTFBotGetAmmo( void );
 
-	static bool IsPossible( CTFBot *me );			// return true if this Action has what it needs to perform right now
+	static bool IsPossible( HeatseakerBot *me );			// return true if this Action has what it needs to perform right now
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
-	virtual EventDesiredResult< CTFBot > OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result = NULL );
+	virtual EventDesiredResult< HeatseakerBot > OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result = NULL );
 
-	virtual EventDesiredResult< CTFBot > OnStuck( CTFBot *me );
-	virtual EventDesiredResult< CTFBot > OnMoveToSuccess( CTFBot *me, const Path *path );
-	virtual EventDesiredResult< CTFBot > OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason );
+	virtual EventDesiredResult< HeatseakerBot > OnStuck( HeatseakerBot *me );
+	virtual EventDesiredResult< HeatseakerBot > OnMoveToSuccess( HeatseakerBot *me, const Path *path );
+	virtual EventDesiredResult< HeatseakerBot > OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason );
 
 	virtual QueryResultType ShouldHurry( const INextBot *me ) const;					// are we in a hurry?
 

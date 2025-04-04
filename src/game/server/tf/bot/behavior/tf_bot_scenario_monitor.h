@@ -6,13 +6,13 @@
 #ifndef TF_BOT_SCENARIO_MONITOR_H
 #define TF_BOT_SCENARIO_MONITOR_H
 
-class CTFBotScenarioMonitor : public Action< CTFBot >
+class CTFBotScenarioMonitor : public Action< HeatseakerBot >
 {
 public:
-	virtual Action< CTFBot > *InitialContainedAction( CTFBot *me );
+	virtual Action< HeatseakerBot > *InitialContainedAction( HeatseakerBot *me );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
 	virtual const char *GetName( void ) const	{ return "ScenarioMonitor"; }
 
@@ -20,7 +20,7 @@ private:
 	CountdownTimer m_ignoreLostFlagTimer;
 	CountdownTimer m_lostFlagTimer;
 
-	virtual Action< CTFBot > *DesiredScenarioAndClassAction( CTFBot *me );
+	virtual Action< HeatseakerBot > *DesiredScenarioAndClassAction( HeatseakerBot *me );
 };
 
 

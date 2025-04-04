@@ -31,7 +31,7 @@ CTFBotSeekAndDestroy::CTFBotSeekAndDestroy( float duration )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSeekAndDestroy::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSeekAndDestroy::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -51,7 +51,7 @@ ActionResult< CTFBot >	CTFBotSeekAndDestroy::OnStart( CTFBot *me, Action< CTFBot
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSeekAndDestroy::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSeekAndDestroy::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_giveUpTimer.HasStarted() && m_giveUpTimer.IsElapsed() )
 	{
@@ -120,7 +120,7 @@ ActionResult< CTFBot >	CTFBotSeekAndDestroy::Update( CTFBot *me, float interval 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSeekAndDestroy::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotSeekAndDestroy::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	RecomputeSeekPath( me );
 
@@ -129,7 +129,7 @@ ActionResult< CTFBot > CTFBotSeekAndDestroy::OnResume( CTFBot *me, Action< CTFBo
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotSeekAndDestroy::OnStuck( HeatseakerBot *me )
 {
 	RecomputeSeekPath( me );
 
@@ -138,7 +138,7 @@ EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotSeekAndDestroy::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	RecomputeSeekPath( me );
 
@@ -147,7 +147,7 @@ EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnMoveToSuccess( CTFBot *me, 
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotSeekAndDestroy::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	RecomputeSeekPath( me );
 
@@ -158,7 +158,7 @@ EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnMoveToFailure( CTFBot *me, 
 //---------------------------------------------------------------------------------------------
 QueryResultType	CTFBotSeekAndDestroy::ShouldRetreat( const INextBot *meBot ) const
 {
-	CTFBot *me = (CTFBot *)meBot->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)meBot->GetEntity();
 
 	if ( me->IsPlayerClass( TF_CLASS_PYRO ) )
 	{
@@ -177,7 +177,7 @@ QueryResultType CTFBotSeekAndDestroy::ShouldHurry( const INextBot *me ) const
 
 
 //---------------------------------------------------------------------------------------------
-CTFNavArea *CTFBotSeekAndDestroy::ChooseGoalArea( CTFBot *me )
+CTFNavArea *CTFBotSeekAndDestroy::ChooseGoalArea( HeatseakerBot *me )
 {
 	CUtlVector< CTFNavArea * > goalVector;
 
@@ -213,7 +213,7 @@ CTFNavArea *CTFBotSeekAndDestroy::ChooseGoalArea( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotSeekAndDestroy::RecomputeSeekPath( CTFBot *me )
+void CTFBotSeekAndDestroy::RecomputeSeekPath( HeatseakerBot *me )
 {
 	m_goalArea = ChooseGoalArea( me );
 	if ( m_goalArea )
@@ -229,21 +229,21 @@ void CTFBotSeekAndDestroy::RecomputeSeekPath( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnTerritoryContested( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotSeekAndDestroy::OnTerritoryContested( HeatseakerBot *me, int territoryID )
 {
 	return TryDone( RESULT_IMPORTANT, "Defending the point" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnTerritoryCaptured( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotSeekAndDestroy::OnTerritoryCaptured( HeatseakerBot *me, int territoryID )
 {
 	return TryDone( RESULT_IMPORTANT, "Giving up due to point capture" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSeekAndDestroy::OnTerritoryLost( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotSeekAndDestroy::OnTerritoryLost( HeatseakerBot *me, int territoryID )
 {
 	return TryDone( RESULT_IMPORTANT, "Giving up due to point lost" );
 }

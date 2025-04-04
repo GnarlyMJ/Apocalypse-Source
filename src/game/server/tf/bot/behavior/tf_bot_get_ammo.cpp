@@ -28,7 +28,7 @@ CTFBotGetAmmo::CTFBotGetAmmo( void )
 class CAmmoFilter : public INextBotFilter
 {
 public:
-	CAmmoFilter( CTFBot *me )
+	CAmmoFilter( HeatseakerBot *me )
 	{
 		m_me = me;
 		m_ammoArea = NULL;
@@ -100,13 +100,13 @@ public:
 		return false;
 	}
 
-	CTFBot *m_me;
+	HeatseakerBot *m_me;
 	mutable CTFNavArea *m_ammoArea;
 };
 
 
 //---------------------------------------------------------------------------------------------
-static CTFBot *s_possibleBot = NULL;
+static HeatseakerBot *s_possibleBot = NULL;
 static CHandle< CBaseEntity > s_possibleAmmo = NULL;
 static int s_possibleFrame = 0;
 
@@ -115,7 +115,7 @@ static int s_possibleFrame = 0;
 /**
  * Return true if this Action has what it needs to perform right now
  */
-bool CTFBotGetAmmo::IsPossible( CTFBot *me )
+bool CTFBotGetAmmo::IsPossible( HeatseakerBot *me )
 {
 	VPROF_BUDGET( "CTFBotGetAmmo::IsPossible", "NextBot" );
 
@@ -196,7 +196,7 @@ bool CTFBotGetAmmo::IsPossible( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotGetAmmo::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotGetAmmo::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	VPROF_BUDGET( "CTFBotGetAmmo::OnStart", "NextBot" );
 
@@ -234,7 +234,7 @@ ActionResult< CTFBot >	CTFBotGetAmmo::OnStart( CTFBot *me, Action< CTFBot > *pri
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotGetAmmo::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotGetAmmo::Update( HeatseakerBot *me, float interval )
 {
 	if ( me->IsAmmoFull() )
 	{
@@ -304,28 +304,28 @@ ActionResult< CTFBot >	CTFBotGetAmmo::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetAmmo::OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result )
+EventDesiredResult< HeatseakerBot > CTFBotGetAmmo::OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetAmmo::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotGetAmmo::OnStuck( HeatseakerBot *me )
 {
 	return TryDone( RESULT_CRITICAL, "Stuck trying to reach ammo" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetAmmo::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotGetAmmo::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetAmmo::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotGetAmmo::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	return TryDone( RESULT_CRITICAL, "Failed to reach ammo" );
 }

@@ -7,7 +7,7 @@
 #define TF_BOT_PROXY_H
 
 
-class CTFBot;
+class HeatseakerBot;
 class CTFBotActionPoint;
 
 
@@ -50,7 +50,7 @@ protected:
 	string_t m_actionPointName;
 	float m_respawnInterval;
 
-	CHandle< CTFBot > m_bot;
+	CHandle< HeatseakerBot > m_bot;
 	CHandle< CTFBotActionPoint > m_moveGoal;
 };
 

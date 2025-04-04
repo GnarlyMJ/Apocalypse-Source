@@ -25,9 +25,9 @@ CTFBotMvMEngineerTeleportSpawn::CTFBotMvMEngineerTeleportSpawn( CBaseTFBotHintEn
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerTeleportSpawn::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerTeleportSpawn::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
-	if ( !me->HasAttribute( CTFBot::TELEPORT_TO_HINT ) )
+	if ( !me->HasAttribute( HeatseakerBot::TELEPORT_TO_HINT ) )
 	{
 		return Done( "Cannot teleport to hint with out Attributes TeleportToHint" );
 	}
@@ -37,7 +37,7 @@ ActionResult< CTFBot >	CTFBotMvMEngineerTeleportSpawn::OnStart( CTFBot *me, Acti
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerTeleportSpawn::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerTeleportSpawn::Update( HeatseakerBot *me, float interval )
 {
 	if ( !m_teleportDelay.HasStarted() )
 	{

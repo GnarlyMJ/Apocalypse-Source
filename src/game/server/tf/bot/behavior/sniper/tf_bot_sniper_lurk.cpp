@@ -34,7 +34,7 @@ ConVar tf_mvm_bot_sniper_target_by_dps( "tf_mvm_bot_sniper_target_by_dps", "1", 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperLurk::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSniperLurk::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_boredTimer.Start( RandomFloat( 0.9f, 1.1f ) * tf_bot_sniper_patience_duration.GetFloat() );
 
@@ -68,7 +68,7 @@ ActionResult< CTFBot >	CTFBotSniperLurk::OnStart( CTFBot *me, Action< CTFBot > *
 		//m_isOpportunistic = false;
 
 		// mann vs machine snipers should ignore the scenario and just snipe
-		me->SetMission( CTFBot::MISSION_SNIPER, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
+		me->SetMission( HeatseakerBot::MISSION_SNIPER, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
 	}
 
 
@@ -77,7 +77,7 @@ ActionResult< CTFBot >	CTFBotSniperLurk::OnStart( CTFBot *me, Action< CTFBot > *
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperLurk::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSniperLurk::Update( HeatseakerBot *me, float interval )
 {
 #ifdef TF_RAID_MODE
 	if ( TFGameRules()->IsRaidMode() )
@@ -229,7 +229,7 @@ ActionResult< CTFBot >	CTFBotSniperLurk::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotSniperLurk::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotSniperLurk::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	if ( me->m_Shared.InCond( TF_COND_ZOOMED ) )
 	{
@@ -251,7 +251,7 @@ void CTFBotSniperLurk::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperLurk::OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotSniperLurk::OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	if ( me->m_Shared.InCond( TF_COND_ZOOMED ) )
 	{
@@ -275,7 +275,7 @@ ActionResult< CTFBot >	CTFBotSniperLurk::OnSuspend( CTFBot *me, Action< CTFBot >
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSniperLurk::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotSniperLurk::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	m_repathTimer.Invalidate();
 	m_priorHint = NULL;
@@ -288,7 +288,7 @@ ActionResult< CTFBot >	CTFBotSniperLurk::OnResume( CTFBot *me, Action< CTFBot > 
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotSniperLurk::FindHint( CTFBot *me )
+bool CTFBotSniperLurk::FindHint( HeatseakerBot *me )
 {
 	// if any sniper spot hints exist, pick one of them
 	CUtlVector< CTFBotHint * > activeHintVector;
@@ -427,7 +427,7 @@ bool CTFBotSniperLurk::FindHint( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotSniperLurk::FindNewHome( CTFBot *me )
+bool CTFBotSniperLurk::FindNewHome( HeatseakerBot *me )
 {
 	if ( !m_findHomeTimer.IsElapsed() )
 	{
@@ -453,7 +453,7 @@ bool CTFBotSniperLurk::FindNewHome( CTFBot *me )
 		}
 
 		// pick a sniper spot from our ongoing search
-		const CUtlVector< CTFBot::SniperSpotInfo > *sniperSpotVector = me->GetSniperSpots();
+		const CUtlVector< HeatseakerBot::SniperSpotInfo > *sniperSpotVector = me->GetSniperSpots();
 		if ( sniperSpotVector->Count() > 0 )
 		{
 			m_homePosition = sniperSpotVector->Element( RandomInt( 0, sniperSpotVector->Count()-1 ) ).m_vantageSpot;
@@ -501,7 +501,7 @@ bool CTFBotSniperLurk::FindNewHome( CTFBot *me )
 //---------------------------------------------------------------------------------------------
 QueryResultType CTFBotSniperLurk::ShouldAttack( const INextBot *bot, const CKnownEntity *them ) const
 {
-	CTFBot *me = (CTFBot *)bot->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)bot->GetEntity();
 
 	CTFNavArea *area = me->GetLastKnownArea();
 
@@ -536,7 +536,7 @@ const CKnownEntity *CTFBotSniperLurk::SelectMoreDangerousThreat( const INextBot 
 {
 	if ( TFGameRules()->IsMannVsMachineMode() && tf_mvm_bot_sniper_target_by_dps.GetBool() )
 	{
-		CTFBot *me = ToTFBot( meBot->GetEntity() );
+		HeatseakerBot *me = ToTFBot( meBot->GetEntity() );
 
 		// If one threat is visible and the other not, always pick the visible one
 		if ( !threat1->IsVisibleRecently() )
@@ -561,7 +561,7 @@ const CKnownEntity *CTFBotSniperLurk::SelectMoreDangerousThreat( const INextBot 
 			float rangeSq1 = me->GetRangeSquaredTo( playerThreat1 );
 			float rangeSq2 = me->GetRangeSquaredTo( playerThreat2 );
 
-			if ( me->HasWeaponRestriction( CTFBot::MELEE_ONLY ) )
+			if ( me->HasWeaponRestriction( HeatseakerBot::MELEE_ONLY ) )
 			{
 				// Melee-only bots just use closest threat
 				if ( rangeSq1 < rangeSq2 )

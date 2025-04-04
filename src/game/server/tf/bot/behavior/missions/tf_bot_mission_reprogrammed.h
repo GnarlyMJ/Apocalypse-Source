@@ -8,7 +8,7 @@
 
 #include "Path/NextBotPathFollow.h"
 
-class CTFBotMissionReprogrammed : public Action< CTFBot >
+class CTFBotMissionReprogrammed : public Action< HeatseakerBot >
 {
 };
 

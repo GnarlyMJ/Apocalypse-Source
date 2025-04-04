@@ -102,7 +102,7 @@ bool GetBombInfo( BombInfo_t* pBombInfo = NULL )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerIdle::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerIdle::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -119,7 +119,7 @@ ActionResult< CTFBot >	CTFBotMvMEngineerIdle::OnStart( CTFBot *me, Action< CTFBo
 }
 
 
-void CTFBotMvMEngineerIdle::TakeOverStaleNest( CBaseTFBotHintEntity* pHint, CTFBot *me )
+void CTFBotMvMEngineerIdle::TakeOverStaleNest( CBaseTFBotHintEntity* pHint, HeatseakerBot *me )
 {
 	if ( pHint != NULL && pHint->OwnerObjectHasNoOwner() )
 	{
@@ -131,7 +131,7 @@ void CTFBotMvMEngineerIdle::TakeOverStaleNest( CBaseTFBotHintEntity* pHint, CTFB
 }
 
 
-bool CTFBotMvMEngineerIdle::ShouldAdvanceNestSpot( CTFBot *me )
+bool CTFBotMvMEngineerIdle::ShouldAdvanceNestSpot( HeatseakerBot *me )
 {
 	if ( !m_nestHint )
 	{
@@ -217,7 +217,7 @@ void CTFBotMvMEngineerIdle::TryToDetonateStaleNest()
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerIdle::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerIdle::Update( HeatseakerBot *me, float interval )
 {
 	if ( !me->IsAlive() )
 	{
@@ -243,7 +243,7 @@ ActionResult< CTFBot >	CTFBotMvMEngineerIdle::Update( CTFBot *me, float interval
 		m_findHintTimer.Start( RandomFloat( 1.0f, 2.0f ) );
 
 		// figure out where to teleport into the map
-		bool bShouldTeleportToHint = me->HasAttribute( CTFBot::TELEPORT_TO_HINT );
+		bool bShouldTeleportToHint = me->HasAttribute( HeatseakerBot::TELEPORT_TO_HINT );
 		bool bShouldCheckForBlockingObject = !m_bTeleportedToHint && bShouldTeleportToHint;
 		CHandle< CTFBotHintEngineerNest > newNest = NULL;
 		if ( !CTFBotMvMEngineerHintFinder::FindHint( bShouldCheckForBlockingObject, !bShouldTeleportToHint, &newNest ) )
@@ -270,7 +270,7 @@ ActionResult< CTFBot >	CTFBotMvMEngineerIdle::Update( CTFBot *me, float interval
 		}
 	}
 
-	if ( !m_bTeleportedToHint && me->HasAttribute( CTFBot::TELEPORT_TO_HINT ) )
+	if ( !m_bTeleportedToHint && me->HasAttribute( HeatseakerBot::TELEPORT_TO_HINT ) )
 	{
 		m_nTeleportedCount++;
 		bool bFirstTeleportSpawn = m_nTeleportedCount == 1;

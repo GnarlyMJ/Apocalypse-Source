@@ -5692,8 +5692,8 @@ bool IsValidRaidRespawnTarget( CBaseEntity *entity )
 		return false;
 
 	CTFPlayer *player = ToTFPlayer( entity );
-	CTFBot *bot = ToTFBot( player );
-	return !bot || !bot->HasAttribute( CTFBot::IS_NPC );
+	HeatseakerBot *bot = ToTFBot( player );
+	return !bot || !bot->HasAttribute( HeatseakerBot::IS_NPC );
 }
 #endif // TF_RAID_MODE
 
@@ -6108,8 +6108,8 @@ int CTFPlayer::GetAutoTeam( int nPreferedTeam /*= TF_TEAM_AUTOASSIGN*/ )
 			}
 		}
 
-		CTFBot *pPlayerBot = dynamic_cast<CTFBot*>( this );
-		if ( FStrEq( tf_bot_quota_mode.GetString(), "fill" ) && ( tf_bot_quota.GetInt() > 0 ) && !( pPlayerBot && pPlayerBot->HasAttribute( CTFBot::QUOTA_MANANGED ) ) )
+		HeatseakerBot *pPlayerBot = dynamic_cast<HeatseakerBot*>( this );
+		if ( FStrEq( tf_bot_quota_mode.GetString(), "fill" ) && ( tf_bot_quota.GetInt() > 0 ) && !( pPlayerBot && pPlayerBot->HasAttribute( HeatseakerBot::QUOTA_MANANGED ) ) )
 		{
 			// We're using 'tf_bot_quota_mode fill' to keep the teams even so balance based on the human players on each team
 			int nPlayerCountRed = 0;
@@ -6131,8 +6131,8 @@ int CTFPlayer::GetAutoTeam( int nPreferedTeam /*= TF_TEAM_AUTOASSIGN*/ )
 				if ( !pPlayer->IsPlayer() )
 					continue;
 
-				CTFBot* pBot = dynamic_cast<CTFBot*>( pPlayer );
-				if ( pBot && pBot->HasAttribute( CTFBot::QUOTA_MANANGED ) )
+				HeatseakerBot* pBot = dynamic_cast<HeatseakerBot*>( pPlayer );
+				if ( pBot && pBot->HasAttribute( HeatseakerBot::QUOTA_MANANGED ) )
 					continue;
 
 				if ( pPlayer->GetTeamNumber() == TF_TEAM_RED )
@@ -8897,10 +8897,10 @@ int CTFPlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 		// Don't let Sentry Busters die until they've done their spin-up
 		if ( TFGameRules() && TFGameRules()->IsMannVsMachineMode() )
 		{
-			CTFBot *bot = ToTFBot( this );
+			HeatseakerBot *bot = ToTFBot( this );
 			if ( bot )
 			{
-				if ( bot->HasMission( CTFBot::MISSION_DESTROY_SENTRIES ) )
+				if ( bot->HasMission( HeatseakerBot::MISSION_DESTROY_SENTRIES ) )
 				{
 					if ( ( m_iHealth - info.GetDamage() ) <= 0 )
 					{
@@ -8913,10 +8913,10 @@ int CTFPlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 				// Force damage value when the victim is a giant.
 				if ( pTFAttacker && pTFAttacker->IsBot() )
 				{
-					CTFBot *pTFAttackerBot = ToTFBot( pTFAttacker );
+					HeatseakerBot *pTFAttackerBot = ToTFBot( pTFAttacker );
 					if ( pTFAttackerBot && 
 						 ( pTFAttackerBot != this ) && 
-						 pTFAttackerBot->GetPrevMission() == CTFBot::MISSION_DESTROY_SENTRIES &&
+						 pTFAttackerBot->GetPrevMission() == HeatseakerBot::MISSION_DESTROY_SENTRIES &&
 						 info.IsForceFriendlyFire() && 
 						 InSameTeam( pTFAttackerBot ) &&
 						 IsMiniBoss() )
@@ -10124,7 +10124,7 @@ bool CTFPlayer::CheckBlockBackstab( CTFPlayer *pTFAttacker )
 			}
 
 			// tell the bot his Razorback just got broken
-			CTFBot *me = ToTFBot( this );
+			HeatseakerBot *me = ToTFBot( this );
 			if ( me )
 			{
 				me->DelayedThreatNotice( pTFAttacker, 0.5f );
@@ -12144,7 +12144,7 @@ void CTFPlayer::Event_Killed( const CTakeDamageInfo &info )
 		{
 			if ( FStrEq( "mvm_mannhattan", STRING( gpGlobals->mapname ) ) )
 			{
-				CTFBot *pBot = dynamic_cast< CTFBot* >( this );
+				HeatseakerBot *pBot = dynamic_cast< HeatseakerBot* >( this );
 				if ( pBot )
 				{
 					// kill gate bots
@@ -13442,7 +13442,7 @@ void CTFPlayer::RemoveAllOwnedEntitiesFromWorld( bool bExplodeBuildings /* = fal
 	}
 #endif // TF_RAID_MODE
 
-	if ( IsBotOfType( TF_BOT_TYPE ) && ToTFBot( this )->HasAttribute( CTFBot::RETAIN_BUILDINGS ) )
+	if ( IsBotOfType( TF_BOT_TYPE ) && ToTFBot( this )->HasAttribute( HeatseakerBot::RETAIN_BUILDINGS ) )
 	{
 		// keep this bot's buildings
 		return;

@@ -9,19 +9,19 @@
 #ifdef TF_RAID_MODE
 
 //-----------------------------------------------------------------------------
-class CTFBotWander : public Action< CTFBot >
+class CTFBotWander : public Action< HeatseakerBot >
 {
 public:
 	CTFBotWander( void );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
-	virtual EventDesiredResult< CTFBot > OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result = NULL );
-	virtual EventDesiredResult< CTFBot > OnInjured( CTFBot *me, const CTakeDamageInfo &info );
-	virtual EventDesiredResult< CTFBot > OnOtherKilled( CTFBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info );
+	virtual EventDesiredResult< HeatseakerBot > OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result = NULL );
+	virtual EventDesiredResult< HeatseakerBot > OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info );
+	virtual EventDesiredResult< HeatseakerBot > OnOtherKilled( HeatseakerBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info );
 
-	virtual EventDesiredResult< CTFBot > OnCommandAttack( CTFBot *me, CBaseEntity *victim );
+	virtual EventDesiredResult< HeatseakerBot > OnCommandAttack( HeatseakerBot *me, CBaseEntity *victim );
 
 	virtual QueryResultType ShouldHurry( const INextBot *me ) const;					// are we in a hurry?
 	virtual QueryResultType	ShouldRetreat( const INextBot *me ) const;							// is it time to retreat?

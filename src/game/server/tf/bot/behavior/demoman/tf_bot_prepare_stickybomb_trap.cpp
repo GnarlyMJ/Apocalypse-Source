@@ -20,7 +20,7 @@ class PlaceStickyBombReply : public INextBotReply
 public:
 	virtual void OnSuccess( INextBot *bot )		// invoked when process completed successfully
 	{
-		CTFBot *me = ToTFBot( bot->GetEntity() );
+		HeatseakerBot *me = ToTFBot( bot->GetEntity() );
 
 		CTFWeaponBase *myCurrentWeapon = me->m_Shared.GetActiveTFWeapon();
 		if ( myCurrentWeapon && myCurrentWeapon->GetWeaponID() == TF_WEAPON_PIPEBOMBLAUNCHER )
@@ -80,7 +80,7 @@ CTFBotPrepareStickybombTrap::~CTFBotPrepareStickybombTrap( )
 
 //---------------------------------------------------------------------------------------------
 // Return true if this Action has what it needs to perform right now
-bool CTFBotPrepareStickybombTrap::IsPossible( CTFBot *me )
+bool CTFBotPrepareStickybombTrap::IsPossible( HeatseakerBot *me )
 {
 	// don't lay a trap if we're in the midst of fighting
 	if ( /*me->IsInCombat() || */ me->GetTimeSinceLastInjury() < 1.0f )
@@ -107,7 +107,7 @@ bool CTFBotPrepareStickybombTrap::IsPossible( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotPrepareStickybombTrap::InitBombTargetAreas( CTFBot *me )
+void CTFBotPrepareStickybombTrap::InitBombTargetAreas( HeatseakerBot *me )
 {
 	const CUtlVector< CTFNavArea * > &invasionAreaVector = m_myArea->GetEnemyInvasionAreaVector( me->GetTeamNumber() );
 
@@ -146,7 +146,7 @@ void CTFBotPrepareStickybombTrap::InitBombTargetAreas( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotPrepareStickybombTrap::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotPrepareStickybombTrap::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	// detonate old set of stickies
 	// me->PressAltFireButton();
@@ -178,7 +178,7 @@ ActionResult< CTFBot >	CTFBotPrepareStickybombTrap::OnStart( CTFBot *me, Action<
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotPrepareStickybombTrap::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotPrepareStickybombTrap::Update( HeatseakerBot *me, float interval )
 {
 	if ( !TFGameRules()->InSetup() )
 	{
@@ -279,7 +279,7 @@ ActionResult< CTFBot >	CTFBotPrepareStickybombTrap::Update( CTFBot *me, float in
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotPrepareStickybombTrap::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotPrepareStickybombTrap::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	// clean up any in-flight AimHeadTowards() replies
 	me->GetBodyInterface()->ClearPendingAimReply();
@@ -289,7 +289,7 @@ void CTFBotPrepareStickybombTrap::OnEnd( CTFBot *me, Action< CTFBot > *nextActio
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotPrepareStickybombTrap::OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotPrepareStickybombTrap::OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	// this behavior is transitory - if we need to do something else, just give up
 	return Done();
@@ -297,7 +297,7 @@ ActionResult< CTFBot > CTFBotPrepareStickybombTrap::OnSuspend( CTFBot *me, Actio
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPrepareStickybombTrap::OnInjured( CTFBot *me, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotPrepareStickybombTrap::OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info )
 {
 	return TryDone( RESULT_IMPORTANT, "Ouch!" );
 }

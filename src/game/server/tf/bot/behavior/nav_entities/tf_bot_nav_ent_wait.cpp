@@ -19,7 +19,7 @@ CTFBotNavEntWait::CTFBotNavEntWait( const CFuncNavPrerequisite *prereq )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotNavEntWait::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot > CTFBotNavEntWait::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	if ( m_prereq == NULL )
 	{
@@ -33,7 +33,7 @@ ActionResult< CTFBot > CTFBotNavEntWait::OnStart( CTFBot *me, Action< CTFBot > *
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotNavEntWait::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFBotNavEntWait::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_prereq == NULL )
 	{

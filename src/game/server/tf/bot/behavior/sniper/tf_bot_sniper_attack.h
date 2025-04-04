@@ -8,16 +8,16 @@
 
 #include "Path/NextBotChasePath.h"
 
-class CTFBotSniperAttack : public Action< CTFBot >
+class CTFBotSniperAttack : public Action< HeatseakerBot >
 {
 public:
-	static bool IsPossible( CTFBot *me );			// return true if this Action has what it needs to perform right now
+	static bool IsPossible( HeatseakerBot *me );			// return true if this Action has what it needs to perform right now
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	void OnEnd( CTFBot *me, Action< CTFBot > *nextAction );
-	virtual ActionResult< CTFBot >	OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction );
-	virtual ActionResult< CTFBot >	OnResume( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	void OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction );
+	virtual ActionResult< HeatseakerBot >	OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
 	virtual Vector SelectTargetPoint( const INextBot *me, const CBaseCombatCharacter *subject ) const;		// given a subject, return the world space position we should aim at
 

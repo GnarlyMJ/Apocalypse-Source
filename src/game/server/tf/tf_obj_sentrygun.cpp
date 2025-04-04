@@ -1170,7 +1170,7 @@ void CObjectSentrygun::FoundTarget( CBaseEntity *pTarget, const Vector &vecSound
 				filter.RemoveRecipient( pPlayer );
 
 				// if the target is a bot, alert it
-				CTFBot *bot = ToTFBot( pPlayer );
+				HeatseakerBot *bot = ToTFBot( pPlayer );
 				if ( bot )
 				{
 					bot->GetVisionInterface()->AddKnownEntity( this );

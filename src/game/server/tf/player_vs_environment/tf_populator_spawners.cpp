@@ -393,7 +393,7 @@ bool CRandomChoiceSpawner::IsMiniBoss( int nSpawnNum /*= -1*/ )
 }
 
 
-bool CRandomChoiceSpawner::HasAttribute( CTFBot::AttributeType type, int nSpawnNum /*= -1*/ )
+bool CRandomChoiceSpawner::HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum /*= -1*/ )
 {
 	if ( nSpawnNum < 0 )
 	{
@@ -452,7 +452,7 @@ CTFBotSpawner::CTFBotSpawner( IPopulator *populator ) : IPopulationSpawner( popu
 	m_defaultAttributes.Reset();
 }
 
-static void ParseCharacterAttributes( CTFBot::EventChangeAttributes_t& event, KeyValues *data )
+static void ParseCharacterAttributes( HeatseakerBot::EventChangeAttributes_t& event, KeyValues *data )
 {
 	CUtlVector<static_attrib_t> vecStaticAttribs;
 
@@ -502,7 +502,7 @@ static void ParseCharacterAttributes( CTFBot::EventChangeAttributes_t& event, Ke
 	}
 }
 
-static void ParseItemAttributes( CTFBot::EventChangeAttributes_t& event, KeyValues *data )
+static void ParseItemAttributes( HeatseakerBot::EventChangeAttributes_t& event, KeyValues *data )
 {
 	const char *pszItemName = NULL;
 	CUtlVector<static_attrib_t> vecStaticAttribs;
@@ -545,7 +545,7 @@ static void ParseItemAttributes( CTFBot::EventChangeAttributes_t& event, KeyValu
 	// check if the item name is already on the list
 	FOR_EACH_VEC( event.m_itemsAttributes, i )
 	{
-		CTFBot::EventChangeAttributes_t::item_attributes_t& botItemAttrs = event.m_itemsAttributes[i];
+		HeatseakerBot::EventChangeAttributes_t::item_attributes_t& botItemAttrs = event.m_itemsAttributes[i];
 
 		if ( !Q_stricmp( botItemAttrs.m_itemName, pszItemName ) )
 		{
@@ -579,14 +579,14 @@ static void ParseItemAttributes( CTFBot::EventChangeAttributes_t& event, KeyValu
 	}
 
 	// new item
-	CTFBot::EventChangeAttributes_t::item_attributes_t botItemAttributes;
+	HeatseakerBot::EventChangeAttributes_t::item_attributes_t botItemAttributes;
 	botItemAttributes.m_itemName = pszItemName;
 	botItemAttributes.m_attributes.AddVectorToTail( vecStaticAttribs );
 
 	event.m_itemsAttributes.AddToTail( botItemAttributes );
 }
 
-static bool ParseDynamicAttributes( CTFBot::EventChangeAttributes_t& event, KeyValues* data )
+static bool ParseDynamicAttributes( HeatseakerBot::EventChangeAttributes_t& event, KeyValues* data )
 {
 	const char *name = data->GetName();
 	const char *value = data->GetString();
@@ -595,19 +595,19 @@ static bool ParseDynamicAttributes( CTFBot::EventChangeAttributes_t& event, KeyV
 	{
 		if ( !Q_stricmp( value, "Easy" ) )
 		{
-			event.m_skill = CTFBot::EASY;
+			event.m_skill = HeatseakerBot::EASY;
 		}
 		else if ( !Q_stricmp( value, "Normal" ) )
 		{
-			event.m_skill = CTFBot::NORMAL;
+			event.m_skill = HeatseakerBot::NORMAL;
 		}
 		else if ( !Q_stricmp( value, "Hard" ) )
 		{
-			event.m_skill = CTFBot::HARD;
+			event.m_skill = HeatseakerBot::HARD;
 		}
 		else if ( !Q_stricmp( value, "Expert" ) )
 		{
-			event.m_skill = CTFBot::EXPERT;
+			event.m_skill = HeatseakerBot::EXPERT;
 		}
 		else
 		{
@@ -619,15 +619,15 @@ static bool ParseDynamicAttributes( CTFBot::EventChangeAttributes_t& event, KeyV
 	{
 		if ( !Q_stricmp( value, "MeleeOnly" ) )
 		{
-			event.m_weaponRestriction = CTFBot::MELEE_ONLY;
+			event.m_weaponRestriction = HeatseakerBot::MELEE_ONLY;
 		}
 		else if ( !Q_stricmp( value, "PrimaryOnly" ) )
 		{
-			event.m_weaponRestriction = CTFBot::PRIMARY_ONLY;
+			event.m_weaponRestriction = HeatseakerBot::PRIMARY_ONLY;
 		}
 		else if ( !Q_stricmp( value, "SecondaryOnly" ) )
 		{
-			event.m_weaponRestriction = CTFBot::SECONDARY_ONLY;
+			event.m_weaponRestriction = HeatseakerBot::SECONDARY_ONLY;
 		}
 		else
 		{
@@ -640,7 +640,7 @@ static bool ParseDynamicAttributes( CTFBot::EventChangeAttributes_t& event, KeyV
 		// modifying bot attribute flags here due to legacy code
 		if ( !Q_stricmp( value, "Mobber" ) || !Q_stricmp( value, "Push" ) )
 		{
-			event.m_attributeFlags |= CTFBot::AGGRESSIVE;
+			event.m_attributeFlags |= HeatseakerBot::AGGRESSIVE;
 		}
 		else
 		{
@@ -652,103 +652,103 @@ static bool ParseDynamicAttributes( CTFBot::EventChangeAttributes_t& event, KeyV
 	{
 		if ( !Q_stricmp( value, "RemoveOnDeath" ) )
 		{
-			event.m_attributeFlags |= CTFBot::REMOVE_ON_DEATH;
+			event.m_attributeFlags |= HeatseakerBot::REMOVE_ON_DEATH;
 		}
 		else if ( !Q_stricmp( value, "Aggressive" ) )
 		{
-			event.m_attributeFlags |= CTFBot::AGGRESSIVE;
+			event.m_attributeFlags |= HeatseakerBot::AGGRESSIVE;
 		}
 		else if ( !Q_stricmp( value, "SuppressFire" ) )
 		{
-			event.m_attributeFlags |= CTFBot::SUPPRESS_FIRE;
+			event.m_attributeFlags |= HeatseakerBot::SUPPRESS_FIRE;
 		}
 		else if ( !Q_stricmp( value, "DisableDodge" ) )
 		{
-			event.m_attributeFlags |= CTFBot::DISABLE_DODGE;
+			event.m_attributeFlags |= HeatseakerBot::DISABLE_DODGE;
 		}
 		else if ( !Q_stricmp( value, "BecomeSpectatorOnDeath" ) )
 		{
-			event.m_attributeFlags |= CTFBot::BECOME_SPECTATOR_ON_DEATH;
+			event.m_attributeFlags |= HeatseakerBot::BECOME_SPECTATOR_ON_DEATH;
 		}
 		else if ( !Q_stricmp( value, "RetainBuildings" ) )
 		{
-			event.m_attributeFlags |= CTFBot::RETAIN_BUILDINGS;
+			event.m_attributeFlags |= HeatseakerBot::RETAIN_BUILDINGS;
 		}
 		else if ( !Q_stricmp( value, "SpawnWithFullCharge" ) )
 		{
-			event.m_attributeFlags |= CTFBot::SPAWN_WITH_FULL_CHARGE;
+			event.m_attributeFlags |= HeatseakerBot::SPAWN_WITH_FULL_CHARGE;
 		}
 		else if ( !Q_stricmp( value, "AlwaysCrit" ) )
 		{
-			event.m_attributeFlags |= CTFBot::ALWAYS_CRIT;
+			event.m_attributeFlags |= HeatseakerBot::ALWAYS_CRIT;
 		}
 		else if ( !Q_stricmp( value, "IgnoreEnemies" ) )
 		{
-			event.m_attributeFlags |= CTFBot::IGNORE_ENEMIES;
+			event.m_attributeFlags |= HeatseakerBot::IGNORE_ENEMIES;
 		}
 		else if ( !Q_stricmp( value, "HoldFireUntilFullReload" ) )
 		{
-			event.m_attributeFlags |= CTFBot::HOLD_FIRE_UNTIL_FULL_RELOAD;
+			event.m_attributeFlags |= HeatseakerBot::HOLD_FIRE_UNTIL_FULL_RELOAD;
 		}
 		else if ( !Q_stricmp( value, "AlwaysFireWeapon" ) )
 		{
-			event.m_attributeFlags |= CTFBot::ALWAYS_FIRE_WEAPON;
+			event.m_attributeFlags |= HeatseakerBot::ALWAYS_FIRE_WEAPON;
 		}
 		else if ( !Q_stricmp( value, "TeleportToHint" ) )
 		{
-			event.m_attributeFlags |= CTFBot::TELEPORT_TO_HINT;
+			event.m_attributeFlags |= HeatseakerBot::TELEPORT_TO_HINT;
 		}
 		else if ( !Q_stricmp( value, "MiniBoss" ) )
 		{
-			event.m_attributeFlags |= CTFBot::MINIBOSS;
+			event.m_attributeFlags |= HeatseakerBot::MINIBOSS;
 		}
 		else if ( !Q_stricmp( value, "UseBossHealthBar" ) )
 		{
-			event.m_attributeFlags |= CTFBot::USE_BOSS_HEALTH_BAR;
+			event.m_attributeFlags |= HeatseakerBot::USE_BOSS_HEALTH_BAR;
 		}
 		else if ( !Q_stricmp( value, "IgnoreFlag" ) )
 		{
-			event.m_attributeFlags |= CTFBot::IGNORE_FLAG;
+			event.m_attributeFlags |= HeatseakerBot::IGNORE_FLAG;
 		}
 		else if ( !Q_stricmp( value, "AutoJump" ) )
 		{
-			event.m_attributeFlags |= CTFBot::AUTO_JUMP;
+			event.m_attributeFlags |= HeatseakerBot::AUTO_JUMP;
 		}
 		else if ( !Q_stricmp( value, "AirChargeOnly" ) )
 		{
-			event.m_attributeFlags |= CTFBot::AIR_CHARGE_ONLY;
+			event.m_attributeFlags |= HeatseakerBot::AIR_CHARGE_ONLY;
 		}
 		else if( !Q_stricmp( value, "VaccinatorBullets" ) )
 		{
-			event.m_attributeFlags |= CTFBot::PREFER_VACCINATOR_BULLETS;
+			event.m_attributeFlags |= HeatseakerBot::PREFER_VACCINATOR_BULLETS;
 		}
 		else if( !Q_stricmp( value, "VaccinatorBlast" ) )
 		{
-			event.m_attributeFlags |= CTFBot::PREFER_VACCINATOR_BLAST;
+			event.m_attributeFlags |= HeatseakerBot::PREFER_VACCINATOR_BLAST;
 		}
 		else if( !Q_stricmp( value, "VaccinatorFire" ) )
 		{
-			event.m_attributeFlags |= CTFBot::PREFER_VACCINATOR_FIRE;
+			event.m_attributeFlags |= HeatseakerBot::PREFER_VACCINATOR_FIRE;
 		}
 		else if( !Q_stricmp( value, "BulletImmune" ) )
 		{
-			event.m_attributeFlags |= CTFBot::BULLET_IMMUNE;
+			event.m_attributeFlags |= HeatseakerBot::BULLET_IMMUNE;
 		}
 		else if( !Q_stricmp( value, "BlastImmune" ) )
 		{
-			event.m_attributeFlags |= CTFBot::BLAST_IMMUNE;
+			event.m_attributeFlags |= HeatseakerBot::BLAST_IMMUNE;
 		}
 		else if( !Q_stricmp( value, "FireImmune" ) )
 		{
-			event.m_attributeFlags |= CTFBot::FIRE_IMMUNE;
+			event.m_attributeFlags |= HeatseakerBot::FIRE_IMMUNE;
 		}
 		else if ( !Q_stricmp( value, "Parachute" ) )
 		{
-			event.m_attributeFlags |= CTFBot::PARACHUTE;
+			event.m_attributeFlags |= HeatseakerBot::PARACHUTE;
 		}
 		else if ( !Q_stricmp( value, "ProjectileShield" ) )
 		{
-			event.m_attributeFlags |= CTFBot::PROJECTILE_SHIELD;
+			event.m_attributeFlags |= HeatseakerBot::PROJECTILE_SHIELD;
 		}
 		else
 		{
@@ -904,7 +904,7 @@ bool CTFBotSpawner::ParseEventChangeAttributes( KeyValues *data )
 
 		// Add new event
 		int index = m_eventChangeAttributes.AddToTail();
-		CTFBot::EventChangeAttributes_t& event = m_eventChangeAttributes[index];
+		HeatseakerBot::EventChangeAttributes_t& event = m_eventChangeAttributes[index];
 		event.m_eventName = pszEventName;
 
 		for ( KeyValues *pAttr=pKVEvent->GetFirstSubKey(); pAttr != NULL; pAttr = pAttr->GetNextKey() )
@@ -933,7 +933,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 	CETWScope timer( "CTFBotSpawner::Spawn" );
 	VPROF_BUDGET( "CTFBotSpawner::Spawn", "NextBot" );
 
-	CTFBot *newBot = NULL;
+	HeatseakerBot *newBot = NULL;
 
 	Vector here = rawHere;
 
@@ -977,7 +977,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 
 	if ( TFGameRules() && TFGameRules()->IsMannVsMachineMode() )
 	{
-		if ( m_class == TF_CLASS_ENGINEER && m_defaultAttributes.m_attributeFlags & CTFBot::TELEPORT_TO_HINT && CTFBotMvMEngineerHintFinder::FindHint( true, false ) == false )
+		if ( m_class == TF_CLASS_ENGINEER && m_defaultAttributes.m_attributeFlags & HeatseakerBot::TELEPORT_TO_HINT && CTFBotMvMEngineerHintFinder::FindHint( true, false ) == false )
 		{
 			if ( tf_populator_debug.GetBool() ) 
 			{
@@ -997,7 +997,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 			continue;
 
 		// reuse this guy
-		newBot = (CTFBot *)deadTeam->GetPlayer(i);
+		newBot = (HeatseakerBot *)deadTeam->GetPlayer(i);
 		newBot->ClearAllAttributes();
 		break;
 	}
@@ -1081,7 +1081,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 			}
 		}
 
-		newBot = NextBotCreatePlayerBot< CTFBot >( "TFBot", false );
+		newBot = NextBotCreatePlayerBot< HeatseakerBot >( "TFBot", false );
 	}
 
 	if ( newBot ) 
@@ -1132,32 +1132,32 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 
 		newBot->SetTeleportWhere( m_teleportWhereName );
 
-		if ( m_defaultAttributes.m_attributeFlags & CTFBot::MINIBOSS )
+		if ( m_defaultAttributes.m_attributeFlags & HeatseakerBot::MINIBOSS )
 		{
 			newBot->SetIsMiniBoss( true );
 		}
 
-		if ( m_defaultAttributes.m_attributeFlags & CTFBot::USE_BOSS_HEALTH_BAR )
+		if ( m_defaultAttributes.m_attributeFlags & HeatseakerBot::USE_BOSS_HEALTH_BAR )
 		{
 			newBot->SetUseBossHealthBar( true );
 		}
 
-		if ( m_defaultAttributes.m_attributeFlags & CTFBot::AUTO_JUMP )
+		if ( m_defaultAttributes.m_attributeFlags & HeatseakerBot::AUTO_JUMP )
 		{
 			newBot->SetAutoJump( m_flAutoJumpMin, m_flAutoJumpMax );
 		}
 
-		if( m_defaultAttributes.m_attributeFlags & CTFBot::BULLET_IMMUNE )
+		if( m_defaultAttributes.m_attributeFlags & HeatseakerBot::BULLET_IMMUNE )
 		{
 			newBot->m_Shared.AddCond( TF_COND_BULLET_IMMUNE );
 		}
 
-		if( m_defaultAttributes.m_attributeFlags & CTFBot::BLAST_IMMUNE )
+		if( m_defaultAttributes.m_attributeFlags & HeatseakerBot::BLAST_IMMUNE )
 		{
 			newBot->m_Shared.AddCond( TF_COND_BLAST_IMMUNE );
 		}
 
-		if( m_defaultAttributes.m_attributeFlags & CTFBot::FIRE_IMMUNE )
+		if( m_defaultAttributes.m_attributeFlags & HeatseakerBot::FIRE_IMMUNE )
 		{
 			newBot->m_Shared.AddCond( TF_COND_FIRE_IMMUNE );
 		}
@@ -1212,7 +1212,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 			// Apply the Rome 2 promo items to each bot. They'll be 
 			// filtered out for clients that do not have Romevision.
 			CMissionPopulator *pMission = dynamic_cast< CMissionPopulator* >( GetPopulator() );
-			if ( pMission && ( pMission->GetMissionType() == CTFBot::MISSION_DESTROY_SENTRIES ) )
+			if ( pMission && ( pMission->GetMissionType() == HeatseakerBot::MISSION_DESTROY_SENTRIES ) )
 			{
 				newBot->AddItem( "tw_sentrybuster" );
 			}
@@ -1224,7 +1224,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 		}
 
 		// apply default attributes
-		const CTFBot::EventChangeAttributes_t* pEventChangeAttributes = newBot->GetEventChangeAttributes( g_pPopulationManager->GetDefaultEventChangeAttributesName() );
+		const HeatseakerBot::EventChangeAttributes_t* pEventChangeAttributes = newBot->GetEventChangeAttributes( g_pPopulationManager->GetDefaultEventChangeAttributesName() );
 		if ( !pEventChangeAttributes )
 		{
 			pEventChangeAttributes = &m_defaultAttributes;
@@ -1237,7 +1237,7 @@ bool CTFBotSpawner::Spawn( const Vector &rawHere, EntityHandleVector_t *result )
 			newBot->SetFlagTarget( pFlag );
 		}
 
-		if ( newBot->HasAttribute( CTFBot::SPAWN_WITH_FULL_CHARGE ) )
+		if ( newBot->HasAttribute( HeatseakerBot::SPAWN_WITH_FULL_CHARGE ) )
 		{
 			// charge up our weapons
 
@@ -1340,11 +1340,11 @@ int CTFBotSpawner::GetHealth( int nSpawnNum /*= -1*/ )
 //-----------------------------------------------------------------------
 bool CTFBotSpawner::IsMiniBoss( int nSpawnNum /*= -1*/ )
 {
-	return ( m_defaultAttributes.m_attributeFlags & CTFBot::MINIBOSS ) != 0;
+	return ( m_defaultAttributes.m_attributeFlags & HeatseakerBot::MINIBOSS ) != 0;
 }
 
 //-----------------------------------------------------------------------
-bool CTFBotSpawner::HasAttribute( CTFBot::AttributeType type, int nSpawnNum /*= -1*/ ) 
+bool CTFBotSpawner::HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum /*= -1*/ ) 
 { 
 	return ( m_defaultAttributes.m_attributeFlags & type ) != 0;
 }
@@ -1663,7 +1663,7 @@ bool CSquadSpawner::Spawn( const Vector &here, EntityHandleVector_t *result )
 
 		for( int i=0; i<squadVector.Count(); ++i )
 		{
-			CTFBot *bot = ToTFBot( squadVector[i] );
+			HeatseakerBot *bot = ToTFBot( squadVector[i] );
 			if ( bot )
 			{
 				bot->JoinSquad( squad );
@@ -1767,7 +1767,7 @@ bool CSquadSpawner::IsMiniBoss( int nSpawnNum /*= -1*/ )
 	}
 }
 
-bool CSquadSpawner::HasAttribute( CTFBot::AttributeType type, int nSpawnNum /*= -1*/ )
+bool CSquadSpawner::HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum /*= -1*/ )
 {
 	if ( nSpawnNum < 0 || m_memberSpawnerVector.Count() == 0 )
 	{

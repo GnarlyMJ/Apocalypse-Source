@@ -41,21 +41,21 @@ extern ConVar tf_bot_health_critical_ratio;
 ConVar tf_bot_force_jump( "tf_bot_force_jump", "0", FCVAR_CHEAT, "Force bots to continuously jump" );
 
 
-Action< CTFBot > *CTFBotTacticalMonitor::InitialContainedAction( CTFBot *me )
+Action< HeatseakerBot > *CTFBotTacticalMonitor::InitialContainedAction( HeatseakerBot *me )
 {
 	return new CTFBotScenarioMonitor;
 }
 
 
 //-----------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotTacticalMonitor::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotTacticalMonitor::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	return Continue();
 }
 
 
 //-----------------------------------------------------------------------------------------
-void CTFBotTacticalMonitor::MonitorArmedStickyBombs( CTFBot *me )
+void CTFBotTacticalMonitor::MonitorArmedStickyBombs( HeatseakerBot *me )
 {
 	if ( m_stickyBombCheckTimer.IsElapsed() )
 	{
@@ -115,9 +115,9 @@ void CTFBotTacticalMonitor::MonitorArmedStickyBombs( CTFBot *me )
 
 
 //-----------------------------------------------------------------------------------------
-void CTFBotTacticalMonitor::AvoidBumpingEnemies( CTFBot *me )
+void CTFBotTacticalMonitor::AvoidBumpingEnemies( HeatseakerBot *me )
 {
-	if ( me->GetDifficulty() < CTFBot::HARD )
+	if ( me->GetDifficulty() < HeatseakerBot::HARD )
 		return;
 
 	const float avoidRange = 200.0f;
@@ -162,7 +162,7 @@ void CTFBotTacticalMonitor::AvoidBumpingEnemies( CTFBot *me )
 
 
 //-----------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotTacticalMonitor::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotTacticalMonitor::Update( HeatseakerBot *me, float interval )
 {
 	if ( TFGameRules()->RoundHasBeenWon() )
 	{
@@ -205,7 +205,7 @@ ActionResult< CTFBot >	CTFBotTacticalMonitor::Update( CTFBot *me, float interval
 		me->GetLocomotionInterface()->ClearStuckStatus( "In preround" );
 	}
 
-	Action< CTFBot > *result = me->OpportunisticallyUseWeaponAbilities();
+	Action< HeatseakerBot > *result = me->OpportunisticallyUseWeaponAbilities();
 	if ( result )
 	{
 		return SuspendFor( result, "Opportunistically using buff item" );
@@ -268,7 +268,7 @@ ActionResult< CTFBot >	CTFBotTacticalMonitor::Update( CTFBot *me, float interval
 		// retreat if we need to do a full reload (ie: soldiers shot all their rockets)
 		if ( !me->m_Shared.InCond( TF_COND_INVULNERABLE ) )
 		{
-			if ( me->IsDifficulty( CTFBot::HARD ) || me->IsDifficulty( CTFBot::EXPERT ) )
+			if ( me->IsDifficulty( HeatseakerBot::HARD ) || me->IsDifficulty( HeatseakerBot::EXPERT ) )
 			{
 				CTFWeaponBase *myPrimary = (CTFWeaponBase *)me->Weapon_GetSlot( TF_WPN_TYPE_PRIMARY );
 				if ( myPrimary && me->GetAmmoCount( TF_AMMO_PRIMARY ) > 0 && me->IsBarrageAndReloadWeapon( myPrimary ) )
@@ -370,17 +370,17 @@ ActionResult< CTFBot >	CTFBotTacticalMonitor::Update( CTFBot *me, float interval
 
 
 //-----------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotTacticalMonitor::OnOtherKilled( CTFBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotTacticalMonitor::OnOtherKilled( HeatseakerBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
 {
 	return TryContinue();
 }
 
 
 //-----------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotTacticalMonitor::OnNavAreaChanged( CTFBot *me, CNavArea *newArea, CNavArea *oldArea )
+EventDesiredResult< HeatseakerBot > CTFBotTacticalMonitor::OnNavAreaChanged( HeatseakerBot *me, CNavArea *newArea, CNavArea *oldArea )
 {
 	// does the area we are entering have a prerequisite?
-	if ( newArea && newArea->HasPrerequisite( me ) && !me->HasAttribute( CTFBot::AGGRESSIVE ) )
+	if ( newArea && newArea->HasPrerequisite( me ) && !me->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 	{
 		const CUtlVector< CHandle< CFuncNavPrerequisite > > &prereqVector = newArea->GetPrerequisiteVector();
 
@@ -407,7 +407,7 @@ EventDesiredResult< CTFBot > CTFBotTacticalMonitor::OnNavAreaChanged( CTFBot *me
 }
 
 //-----------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotTacticalMonitor::OnCommandString( CTFBot *me, const char *command )
+EventDesiredResult< HeatseakerBot > CTFBotTacticalMonitor::OnCommandString( HeatseakerBot *me, const char *command )
 {
 	if ( FStrEq( command, "goto action point" ) )
 	{
@@ -489,7 +489,7 @@ EventDesiredResult< CTFBot > CTFBotTacticalMonitor::OnCommandString( CTFBot *me,
 
 
 //-----------------------------------------------------------------------------------------
-bool CTFBotTacticalMonitor::ShouldOpportunisticallyTeleport( CTFBot *me ) const
+bool CTFBotTacticalMonitor::ShouldOpportunisticallyTeleport( HeatseakerBot *me ) const
 {
 	// if I'm an engineer who hasn't placed his teleport entrance yet, don't use friend's teleporter
 	if ( me->IsPlayerClass( TF_CLASS_ENGINEER ) )
@@ -510,7 +510,7 @@ bool CTFBotTacticalMonitor::ShouldOpportunisticallyTeleport( CTFBot *me ) const
 
 
 //-----------------------------------------------------------------------------------------
-CObjectTeleporter *CTFBotTacticalMonitor::FindNearbyTeleporter( CTFBot *me )
+CObjectTeleporter *CTFBotTacticalMonitor::FindNearbyTeleporter( HeatseakerBot *me )
 {
 	if ( !m_findTeleporterTimer.IsElapsed() )
 	{

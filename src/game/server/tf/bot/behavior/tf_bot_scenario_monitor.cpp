@@ -62,7 +62,7 @@ extern ConVar tf_bot_health_critical_ratio;
 
 //-----------------------------------------------------------------------------------------
 // Returns the initial Action we will run concurrently as a child to us
-Action< CTFBot > *CTFBotScenarioMonitor::InitialContainedAction( CTFBot *me )
+Action< HeatseakerBot > *CTFBotScenarioMonitor::InitialContainedAction( HeatseakerBot *me )
 {
 	if ( me->IsInASquad() )
 	{
@@ -89,23 +89,23 @@ Action< CTFBot > *CTFBotScenarioMonitor::InitialContainedAction( CTFBot *me )
 
 //-----------------------------------------------------------------------------------------
 // Returns Action specific to the scenario and my class
-Action< CTFBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( CTFBot *me )
+Action< HeatseakerBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( HeatseakerBot *me )
 {
 	switch( me->GetMission() )
 	{
-	case CTFBot::MISSION_SEEK_AND_DESTROY:
+	case HeatseakerBot::MISSION_SEEK_AND_DESTROY:
 		break;
 
-	case CTFBot::MISSION_DESTROY_SENTRIES:
+	case HeatseakerBot::MISSION_DESTROY_SENTRIES:
 		return new CTFBotMissionSuicideBomber;
 
-	case CTFBot::MISSION_SNIPER:
+	case HeatseakerBot::MISSION_SNIPER:
 		return new CTFBotSniperLurk;
 
 	}
 
 #ifdef TF_RAID_MODE
-	if ( me->HasAttribute( CTFBot::IS_NPC ) )
+	if ( me->HasAttribute( HeatseakerBot::IS_NPC ) )
 	{
 		// map-spawned guardians
 		return new CTFBotGuardian;
@@ -157,7 +157,7 @@ Action< CTFBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( CTFBot *
 			return new CTFBotSquadAttack;
 		}
 
-		if ( me->IsPlayerClass( TF_CLASS_SCOUT ) || me->HasAttribute( CTFBot::AGGRESSIVE ) )
+		if ( me->IsPlayerClass( TF_CLASS_SCOUT ) || me->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 		{
 			return new CTFBotWander;
 		}
@@ -211,7 +211,7 @@ Action< CTFBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( CTFBot *
 
 		// NOTE: Snipers are intentionally left out so they go after the flag. Actual sniping behavior is done as a mission.
 
-		if ( me->HasAttribute( CTFBot::AGGRESSIVE ) )
+		if ( me->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 		{
 			// push for the point first, then attack
 			return new CTFBotPushToCapturePoint( new CTFBotFetchFlag );
@@ -298,7 +298,7 @@ Action< CTFBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( CTFBot *
 
 
 //-----------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotScenarioMonitor::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotScenarioMonitor::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_ignoreLostFlagTimer.Start( 20.0f );
 	m_lostFlagTimer.Invalidate();
@@ -311,7 +311,7 @@ ConVar tf_bot_flag_kill_on_touch( "tf_bot_flag_kill_on_touch", "0", FCVAR_CHEAT,
 
 
 //-----------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotScenarioMonitor::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotScenarioMonitor::Update( HeatseakerBot *me, float interval )
 {
 	// CTF Scenario
 	if ( me->HasTheFlag() )
@@ -326,7 +326,7 @@ ActionResult< CTFBot >	CTFBotScenarioMonitor::Update( CTFBot *me, float interval
 		return SuspendFor( new CTFBotDeliverFlag, "I've picked up the flag! Running it in..." );
 	}
 
-	if ( me->HasMission( CTFBot::NO_MISSION ) && m_ignoreLostFlagTimer.IsElapsed() && me->IsAllowedToPickUpFlag() )
+	if ( me->HasMission( HeatseakerBot::NO_MISSION ) && m_ignoreLostFlagTimer.IsElapsed() && me->IsAllowedToPickUpFlag() )
 	{
 		CCaptureFlag *flag = me->GetFlagToFetch();
 

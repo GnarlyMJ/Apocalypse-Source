@@ -13,7 +13,7 @@
 extern bool IsSpaceToSpawnHere( const Vector &where );
 
 //---------------------------------------------------------------------------------------------
-bool TeleportNearVictim( CTFBot *me, CTFPlayer *victim, int attempt )
+bool TeleportNearVictim( HeatseakerBot *me, CTFPlayer *victim, int attempt )
 {
 	VPROF_BUDGET( "CTFBotSpyLeaveSpawnRoom::TeleportNearVictim", "NextBot" );
 
@@ -84,7 +84,7 @@ bool TeleportNearVictim( CTFBot *me, CTFPlayer *victim, int attempt )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyLeaveSpawnRoom::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpyLeaveSpawnRoom::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	// disguise as enemy team
 	me->DisguiseAsMemberOfEnemyTeam();
@@ -102,7 +102,7 @@ ActionResult< CTFBot >	CTFBotSpyLeaveSpawnRoom::OnStart( CTFBot *me, Action< CTF
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyLeaveSpawnRoom::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpyLeaveSpawnRoom::Update( HeatseakerBot *me, float interval )
 {
 	VPROF_BUDGET( "CTFBotSpyLeaveSpawnRoom::Update", "NextBot" );
 

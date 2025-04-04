@@ -6,14 +6,14 @@
 
 class CTFBotHintSentrygun;
 
-class CTFBotMvMEngineerBuildSentryGun : public Action< CTFBot >
+class CTFBotMvMEngineerBuildSentryGun : public Action< HeatseakerBot >
 {
 public:
 	CTFBotMvMEngineerBuildSentryGun( CTFBotHintSentrygun* pSentryHint );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	virtual void					OnEnd( CTFBot *me, Action< CTFBot > *nextAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	virtual void					OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction );
 
 	virtual const char *GetName( void ) const	{ return "MvMEngineerBuildSentryGun"; };
 

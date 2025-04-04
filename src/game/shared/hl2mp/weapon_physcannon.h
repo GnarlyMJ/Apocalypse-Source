@@ -276,11 +276,14 @@ public:
 	virtual void	OnRestore();
 	virtual void	StopLoopingSounds();
 	virtual void	UpdateOnRemove(void);
+
 	void	PrimaryAttack();
 	void	SecondaryAttack();
 	void	WeaponIdle();
 	void	ItemPreFrame();
 	void	ItemPostFrame();
+
+	void Think(void);
 
 	void	ForceDrop( void );
 	bool	DropIfEntityHeld( CBaseEntity *pTarget );	// Drops its held entity if it matches the entity passed in

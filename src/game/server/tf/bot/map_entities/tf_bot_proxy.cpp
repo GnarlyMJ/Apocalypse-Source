@@ -110,12 +110,12 @@ void CTFBotProxy::InputSetMovementGoal( inputdata_t &inputdata )
 //------------------------------------------------------------------------------
 void CTFBotProxy::InputSpawn( inputdata_t &inputdata )
 {
-	m_bot = NextBotCreatePlayerBot< CTFBot >( m_botName );
+	m_bot = NextBotCreatePlayerBot< HeatseakerBot >( m_botName );
 	if ( m_bot != NULL )
 	{
 		m_bot->SetSpawnPoint( this );
-		m_bot->SetAttribute( CTFBot::REMOVE_ON_DEATH );
-		m_bot->SetAttribute( CTFBot::IS_NPC );
+		m_bot->SetAttribute( HeatseakerBot::REMOVE_ON_DEATH );
+		m_bot->SetAttribute( HeatseakerBot::IS_NPC );
 
 		m_bot->SetActionPoint( (CTFBotActionPoint *)m_moveGoal.Get() );
 

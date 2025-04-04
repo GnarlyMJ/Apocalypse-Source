@@ -2265,17 +2265,17 @@ bool CTraceFilterObject::ShouldHitEntity( IHandleEntity *pHandleEntity, int cont
 		{
 			if ( TFGameRules() && TFGameRules()->IsMannVsMachineMode() )
 			{
-				CTFBot *bot = ToTFBot( pEntity );
+				HeatseakerBot *bot = ToTFBot( pEntity );
 
-				if ( bot && ( bot->HasMission( CTFBot::MISSION_DESTROY_SENTRIES ) || bot->HasMission( CTFBot::MISSION_REPROGRAMMED ) ) )
+				if ( bot && ( bot->HasMission( HeatseakerBot::MISSION_DESTROY_SENTRIES ) || bot->HasMission( HeatseakerBot::MISSION_REPROGRAMMED ) ) )
 				{
 					// Don't collide with sentry busters since they don't collide with us
 					return false;
 				}
 
-				CTFBot *meBot = ToTFBot( pMe );
+				HeatseakerBot *meBot = ToTFBot( pMe );
 
-				if ( meBot && ( meBot->HasMission( CTFBot::MISSION_DESTROY_SENTRIES ) || meBot->HasMission( CTFBot::MISSION_REPROGRAMMED ) ) )
+				if ( meBot && ( meBot->HasMission( HeatseakerBot::MISSION_DESTROY_SENTRIES ) || meBot->HasMission( HeatseakerBot::MISSION_REPROGRAMMED ) ) )
 				{
 					// Sentry Busters don't collide with enemies (so they can't be body-blocked)
 					return false;

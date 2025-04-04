@@ -29,7 +29,7 @@ CTFBotWander::CTFBotWander( void )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotWander::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotWander::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_vocalizeTimer.Start( RandomFloat( tf_raid_wanderer_vocalize_min_interval.GetFloat(), tf_raid_wanderer_vocalize_max_interval.GetFloat() ) );
 
@@ -38,7 +38,7 @@ ActionResult< CTFBot >	CTFBotWander::OnStart( CTFBot *me, Action< CTFBot > *prio
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotWander::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotWander::Update( HeatseakerBot *me, float interval )
 {
 	// mobs use only their melee weapons
 	CBaseCombatWeapon *meleeWeapon = me->Weapon_GetSlot( TF_WPN_TYPE_MELEE );
@@ -50,7 +50,7 @@ ActionResult< CTFBot >	CTFBotWander::Update( CTFBot *me, float interval )
 
 	CTeam *raidingTeam = GetGlobalTeam( TF_TEAM_BLUE );
 
-	if ( me->HasAttribute( CTFBot::AGGRESSIVE ) )
+	if ( me->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 	{
 		// I'm a mob rusher - pick a random raider and attack them!
 		CTFPlayer *victim = TFGameRules()->GetRaidLogic()->SelectRaiderToAttack();
@@ -108,7 +108,7 @@ ActionResult< CTFBot >	CTFBotWander::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotWander::OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result  )
+EventDesiredResult< HeatseakerBot > CTFBotWander::OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result  )
 {
 	if ( other && other->IsPlayer() && me->IsEnemy( other ) )
 	{
@@ -120,7 +120,7 @@ EventDesiredResult< CTFBot > CTFBotWander::OnContact( CTFBot *me, CBaseEntity *o
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotWander::OnInjured( CTFBot *me, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotWander::OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info )
 {
 	if ( info.GetAttacker() && info.GetAttacker()->IsPlayer() && me->IsEnemy( info.GetAttacker() ) )
 	{
@@ -132,7 +132,7 @@ EventDesiredResult< CTFBot > CTFBotWander::OnInjured( CTFBot *me, const CTakeDam
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotWander::OnOtherKilled( CTFBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotWander::OnOtherKilled( HeatseakerBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
 {
 	if ( victim && me->IsFriend( victim ) )
 	{
@@ -166,7 +166,7 @@ EventDesiredResult< CTFBot > CTFBotWander::OnOtherKilled( CTFBot *me, CBaseComba
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotWander::OnCommandAttack( CTFBot *me, CBaseEntity *victim )
+EventDesiredResult< HeatseakerBot > CTFBotWander::OnCommandAttack( HeatseakerBot *me, CBaseEntity *victim )
 {
 	return TryContinue();
 }

@@ -504,8 +504,8 @@ bool CTFProjectile_Arrow::StrikeTarget( mstudiobbox_t *pBox, CBaseEntity *pOther
 			if ( TFGameRules()->IsPVEModeControlled( pAttacker ) )
 			{
 				// scenario bots cant crit (unless they always do)
-				CTFBot *bot = ToTFBot( pAttacker );
-				if ( !bot || !bot->HasAttribute( CTFBot::ALWAYS_CRIT ) )
+				HeatseakerBot *bot = ToTFBot( pAttacker );
+				if ( !bot || !bot->HasAttribute( HeatseakerBot::ALWAYS_CRIT ) )
 				{
 					nDamageType &= ~DMG_CRITICAL;
 				}

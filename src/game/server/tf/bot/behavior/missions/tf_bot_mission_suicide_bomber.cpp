@@ -25,7 +25,7 @@ CTFBotMissionSuicideBomber::CTFBotMissionSuicideBomber( void )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMissionSuicideBomber::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMissionSuicideBomber::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 	m_detonateTimer.Invalidate();
@@ -46,7 +46,7 @@ ActionResult< CTFBot >	CTFBotMissionSuicideBomber::OnStart( CTFBot *me, Action< 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMissionSuicideBomber::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMissionSuicideBomber::Update( HeatseakerBot *me, float interval )
 {
 	// one we start detonating, there's no turning back
 	if ( m_detonateTimer.HasStarted() )
@@ -159,13 +159,13 @@ ActionResult< CTFBot >	CTFBotMissionSuicideBomber::Update( CTFBot *me, float int
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotMissionSuicideBomber::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotMissionSuicideBomber::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMissionSuicideBomber::OnKilled( CTFBot *me, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotMissionSuicideBomber::OnKilled( HeatseakerBot *me, const CTakeDamageInfo &info )
 {
 	if ( !m_bHasDetonated )
 	{
@@ -193,7 +193,7 @@ EventDesiredResult< CTFBot > CTFBotMissionSuicideBomber::OnKilled( CTFBot *me, c
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMissionSuicideBomber::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotMissionSuicideBomber::OnStuck( HeatseakerBot *me )
 {
 	// we're stuck, decide to detonate now!
 	if ( !m_bHasDetonated && !m_detonateTimer.HasStarted() )
@@ -206,7 +206,7 @@ EventDesiredResult< CTFBot > CTFBotMissionSuicideBomber::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotMissionSuicideBomber::StartDetonate( CTFBot *me, bool bWasSuccessful /* = false */, bool bWasKilled /*= false*/ )
+void CTFBotMissionSuicideBomber::StartDetonate( HeatseakerBot *me, bool bWasSuccessful /* = false */, bool bWasKilled /*= false*/ )
 {
 	if ( m_detonateTimer.HasStarted() )
 		return;
@@ -232,7 +232,7 @@ void CTFBotMissionSuicideBomber::StartDetonate( CTFBot *me, bool bWasSuccessful 
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotMissionSuicideBomber::Detonate( CTFBot *me )
+void CTFBotMissionSuicideBomber::Detonate( HeatseakerBot *me )
 {
 	// BLAST!
 	m_bHasDetonated = true;
@@ -335,7 +335,7 @@ void CTFBotMissionSuicideBomber::Detonate( CTFBot *me )
 	}
 
 	// Clear my mission before we have everyone take damage so I will die with the rest
-	me->SetMission( CTFBot::NO_MISSION, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
+	me->SetMission( HeatseakerBot::NO_MISSION, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
 	me->m_takedamage = DAMAGE_YES;
 
 	// kill victims (including me)

@@ -20,7 +20,7 @@ CTFBotFetchFlag::CTFBotFetchFlag( bool isTemporary )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotFetchFlag::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotFetchFlag::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -29,7 +29,7 @@ ActionResult< CTFBot >	CTFBotFetchFlag::OnStart( CTFBot *me, Action< CTFBot > *p
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotFetchFlag::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot > CTFBotFetchFlag::Update( HeatseakerBot *me, float interval )
 {
 	CCaptureFlag *flag = me->GetFlagToFetch();
 

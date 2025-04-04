@@ -213,7 +213,7 @@ public:
 
 	inline bool PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEntity )
 	{
-		CTFBot *pBot = ToTFBot( pEntity );
+		HeatseakerBot *pBot = ToTFBot( pEntity );
 
 		if ( !pBot )
 			return false;

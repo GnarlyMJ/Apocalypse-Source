@@ -19,7 +19,7 @@ CTFBotSpyHide::CTFBotSpyHide( CTFPlayer *victim )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyHide::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpyHide::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_hidingSpot = NULL;
 	m_findTimer.Invalidate();
@@ -42,7 +42,7 @@ ActionResult< CTFBot >	CTFBotSpyHide::OnStart( CTFBot *me, Action< CTFBot > *pri
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyHide::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpyHide::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_initialVictim != NULL && !me->GetVisionInterface()->IsIgnored( m_initialVictim ) )
 	{
@@ -114,7 +114,7 @@ ActionResult< CTFBot >	CTFBotSpyHide::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotSpyHide::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotSpyHide::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	m_hidingSpot = NULL;
 	m_isAtGoal = false;
@@ -125,7 +125,7 @@ ActionResult< CTFBot > CTFBotSpyHide::OnResume( CTFBot *me, Action< CTFBot > *in
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyHide::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotSpyHide::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	m_isAtGoal = true;
 
@@ -134,7 +134,7 @@ EventDesiredResult< CTFBot > CTFBotSpyHide::OnMoveToSuccess( CTFBot *me, const P
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotSpyHide::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotSpyHide::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	m_hidingSpot = NULL;
 	m_isAtGoal = false;
@@ -167,7 +167,7 @@ public:
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotSpyHide::FindHidingSpot( CTFBot *me )
+bool CTFBotSpyHide::FindHidingSpot( HeatseakerBot *me )
 {
 	CTFNavArea *myArea = me->GetLastKnownArea();
 	if ( !myArea )

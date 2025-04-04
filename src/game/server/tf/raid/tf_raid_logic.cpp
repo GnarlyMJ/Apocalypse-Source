@@ -109,8 +109,8 @@ bool IsPlayerVisibleToTeam( CTFPlayer *subject, int teamIndex )
 		if ( !teamMember->IsAlive() )
 			continue;
 
-		CTFBot *bot = ToTFBot( teamMember );
-		if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+		HeatseakerBot *bot = ToTFBot( teamMember );
+		if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 			continue;
 
 		if ( teamMember->IsInFieldOfView( subject->EyePosition() ) )
@@ -284,8 +284,8 @@ void CRaidLogic::OnRoundStart( void )
 	CTeam *raidingTeam = GetGlobalTeam( TF_TEAM_BLUE );
 	for( i=0; i<raidingTeam->GetNumPlayers(); ++i )
 	{
-		CTFBot *bot = ToTFBot( raidingTeam->GetPlayer(i) );
-		if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+		HeatseakerBot *bot = ToTFBot( raidingTeam->GetPlayer(i) );
+		if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 		{
 			engine->ServerCommand( UTIL_VarArgs( "kickid %d\n", raidingTeam->GetPlayer(i)->GetUserID() ) );
 		}
@@ -394,7 +394,7 @@ void CRaidLogic::OnRoundStart( void )
 		{
 			CTFNavArea *homeArea = defenderAreaVector[i];
 
-			CTFBot *bot = SpawnRedTFBot( classRoster[ i % classRosterCount ], homeArea->GetCenter() + Vector( 0, 0, 10.0f ) );
+			HeatseakerBot *bot = SpawnRedTFBot( classRoster[ i % classRosterCount ], homeArea->GetCenter() + Vector( 0, 0, 10.0f ) );
 			if ( bot )
 			{
 				bot->SetHomeArea( homeArea );
@@ -780,7 +780,7 @@ bool CRaidLogic::SpawnSquad( CTFNavArea *spawnArea )
 
 
 	CTFBotSquad *squad = new CTFBotSquad;
-	CTFBot *bot;
+	HeatseakerBot *bot;
 
 	DevMsg( "RAID: %3.2f: <<<< Spawning Squad >>>>\n", gpGlobals->curtime );
 
@@ -1046,7 +1046,7 @@ CTFNavArea *CRaidLogic::SelectRaidSentryArea( void ) const
 			if ( !enemyVector[e]->IsPlayerClass( TF_CLASS_ENGINEER ) )
 				continue;
 
-			CTFBot *engineer = (CTFBot *)enemyVector[e];
+			HeatseakerBot *engineer = (HeatseakerBot *)enemyVector[e];
 			if ( engineer->GetHomeArea() && engineer->GetHomeArea()->GetID() == sentryArea->GetID() )
 			{
 				break;
@@ -1117,7 +1117,7 @@ void CRaidLogic::SpawnEngineers( void )
 		int tryCount;
 		for( tryCount=0; tryCount<maxTries; ++tryCount )
 		{
-			CTFBot *bot = SpawnRedTFBot( TF_CLASS_ENGINEER, sentryArea->GetParent()->GetCenter() + Vector( 0, 0, RandomFloat( 0.0f, 30.0f ) ) );
+			HeatseakerBot *bot = SpawnRedTFBot( TF_CLASS_ENGINEER, sentryArea->GetParent()->GetCenter() + Vector( 0, 0, RandomFloat( 0.0f, 30.0f ) ) );
 			if ( bot )
 			{
 				// engineer bot will move to the sentry area and build
@@ -1201,7 +1201,7 @@ void CRaidLogic::SpawnSpecials( CUtlVector< CTFNavArea * > *spawnAheadVector, CU
 				// actual spawn-in, hidden area is this area's parent
 				for( int tryCount=0; tryCount<10; ++tryCount )
 				{
-					CTFBot *bot = SpawnRedTFBot( whichClass, homeArea->GetParent()->GetCenter() + Vector( 0, 0, RandomFloat( 0.0f, 30.0f ) ) );
+					HeatseakerBot *bot = SpawnRedTFBot( whichClass, homeArea->GetParent()->GetCenter() + Vector( 0, 0, RandomFloat( 0.0f, 30.0f ) ) );
 					if ( bot )
 					{
 						// Bot will move to his home area to do his business
@@ -1215,7 +1215,7 @@ void CRaidLogic::SpawnSpecials( CUtlVector< CTFNavArea * > *spawnAheadVector, CU
 		{
 			CTFNavArea *where = spawnAheadVector->Element( RandomInt( 0, spawnAheadVector->Count()-1 ) );
 
-			CTFBot *bot = SpawnRedTFBot( whichClass, where->GetCenter() + Vector( 0, 0, StepHeight ) );
+			HeatseakerBot *bot = SpawnRedTFBot( whichClass, where->GetCenter() + Vector( 0, 0, StepHeight ) );
 			if ( bot )
 			{
 				bot->SetHomeArea( where );
@@ -1247,7 +1247,7 @@ return;
 		if ( !defenseTeam->GetPlayer(i)->IsBot() )
 			continue;
 
-		CTFBot *defender = (CTFBot *)defenseTeam->GetPlayer(i);
+		HeatseakerBot *defender = (HeatseakerBot *)defenseTeam->GetPlayer(i);
 
 		if ( !defender->IsAlive() )
 			continue;
@@ -1265,7 +1265,7 @@ return;
 			{
 				if ( Unspawn( defender ) )
 				{
-					if ( !defender->HasAttribute( CTFBot::AGGRESSIVE ) )
+					if ( !defender->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 					{
 						defenderArea->AddToWanderCount( 1 );
 					}
@@ -1283,7 +1283,7 @@ return;
 			if ( !defenseTeam->GetPlayer(i)->IsBot() )
 				continue;
 
-			CTFBot *defender = (CTFBot *)defenseTeam->GetPlayer(i);
+			HeatseakerBot *defender = (HeatseakerBot *)defenseTeam->GetPlayer(i);
 
 			if ( !defender->IsAlive() )
 				continue;
@@ -1293,7 +1293,7 @@ return;
 				continue;
 
 			// don't cull mob rushers
-			if ( defender->HasAttribute( CTFBot::AGGRESSIVE ) )
+			if ( defender->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 				continue;
 
 			// try to open up a slot
@@ -1492,8 +1492,8 @@ void CRaidLogic::Update( void )
 		{
 			CTFPlayer *player = ToTFPlayer( raidingTeam->GetPlayer(i) );
 
-			CTFBot *bot = ToTFBot( player );
-			if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+			HeatseakerBot *bot = ToTFBot( player );
+			if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 				continue;
 
 			if ( player->IsAlive() )
@@ -1593,8 +1593,8 @@ void CRaidLogic::Update( void )
 		if ( !player->IsAlive() || !player->GetLastKnownArea() )
 			continue;
 
-		CTFBot *bot = ToTFBot( player );
-		if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+		HeatseakerBot *bot = ToTFBot( player );
+		if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 			continue;
 
 		if ( player->IsCapturingPoint() )
@@ -1686,7 +1686,7 @@ void CRaidLogic::Update( void )
 		if ( !defenseTeam->GetPlayer(i)->IsBot() )
 			continue;
 
-		CTFBot *defender = (CTFBot *)defenseTeam->GetPlayer(i);
+		HeatseakerBot *defender = (HeatseakerBot *)defenseTeam->GetPlayer(i);
 
 		if ( !defender->IsAlive() )
 			continue;
@@ -1731,7 +1731,7 @@ void CRaidLogic::Update( void )
 		}
 		else if ( defender->IsPlayerClass( TF_CLASS_SCOUT ) )
 		{
-			if ( defender->HasAttribute( CTFBot::AGGRESSIVE ) )
+			if ( defender->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 				continue;
 
 			++m_wandererCount;
@@ -2042,8 +2042,8 @@ CTFPlayer *CRaidLogic::SelectRaiderToAttack( void )
 		{
 			CTFPlayer *player = (CTFPlayer *)invaderTeam->GetPlayer(i);
 
-			CTFBot *bot = ToTFBot( player );
-			if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+			HeatseakerBot *bot = ToTFBot( player );
+			if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 				continue;
 
 			if ( player->IsAlive() )

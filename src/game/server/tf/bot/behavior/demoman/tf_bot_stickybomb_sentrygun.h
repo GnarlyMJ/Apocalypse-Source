@@ -9,19 +9,19 @@
 class CObjectSentrygun;
 
 
-class CTFBotStickybombSentrygun : public Action< CTFBot >
+class CTFBotStickybombSentrygun : public Action< HeatseakerBot >
 {
 public:
 	CTFBotStickybombSentrygun( CObjectSentrygun *sentrygun );
 	CTFBotStickybombSentrygun( CObjectSentrygun *sentrygun, float aimYaw, float aimPitch, float aimCharge );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	virtual void					OnEnd( CTFBot *me, Action< CTFBot > *nextAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	virtual void					OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction );
 
-	virtual ActionResult< CTFBot >	OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
-	virtual EventDesiredResult< CTFBot > OnInjured( CTFBot *me, const CTakeDamageInfo &info );
+	virtual EventDesiredResult< HeatseakerBot > OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info );
 
 	virtual QueryResultType ShouldHurry( const INextBot *me ) const;
 	virtual QueryResultType	ShouldAttack( const INextBot *me, const CKnownEntity *them ) const;	// should we attack "them"?
@@ -45,7 +45,7 @@ private:
 	Vector m_launchSpot;
 	float m_chargeToLaunch;
 	float m_searchPitch;
-	bool IsAimOnTarget( CTFBot *me, float pitch, float yaw, float charge );
+	bool IsAimOnTarget( HeatseakerBot *me, float pitch, float yaw, float charge );
 };
 
 #endif // TF_BOT_STICKYBOMB_SENTRY_H

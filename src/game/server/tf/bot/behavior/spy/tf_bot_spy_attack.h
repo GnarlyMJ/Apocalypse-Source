@@ -10,20 +10,20 @@
 
 
 //-------------------------------------------------------------------------------
-class CTFBotSpyAttack : public Action< CTFBot >
+class CTFBotSpyAttack : public Action< HeatseakerBot >
 {
 public:
 	CTFBotSpyAttack( CTFPlayer *victim );
 	virtual ~CTFBotSpyAttack() { }
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
-	virtual ActionResult< CTFBot >	OnResume( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
-	virtual EventDesiredResult< CTFBot > OnStuck( CTFBot *me );
-	virtual EventDesiredResult< CTFBot > OnInjured( CTFBot *me, const CTakeDamageInfo &info );
-	virtual EventDesiredResult< CTFBot > OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result = NULL );
+	virtual EventDesiredResult< HeatseakerBot > OnStuck( HeatseakerBot *me );
+	virtual EventDesiredResult< HeatseakerBot > OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info );
+	virtual EventDesiredResult< HeatseakerBot > OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result = NULL );
 
 	virtual QueryResultType	ShouldRetreat( const INextBot *me ) const;							// is it time to retreat?
 	virtual QueryResultType ShouldHurry( const INextBot *me ) const;							// are we in a hurry?

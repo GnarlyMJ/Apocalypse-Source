@@ -18,7 +18,7 @@ CTFBotSquad::CTFBotSquad( void )
 
 
 //----------------------------------------------------------------------
-void CTFBotSquad::Join( CTFBot *bot )
+void CTFBotSquad::Join( HeatseakerBot *bot )
 {
 	// first member is the leader
 	if ( m_roster.Count() == 0 )
@@ -35,7 +35,7 @@ void CTFBotSquad::Join( CTFBot *bot )
 
 
 //----------------------------------------------------------------------
-void CTFBotSquad::Leave( CTFBot *bot )
+void CTFBotSquad::Leave( HeatseakerBot *bot )
 {
 	m_roster.FindAndRemove( bot );
 
@@ -46,7 +46,7 @@ void CTFBotSquad::Leave( CTFBot *bot )
 		// pick the next living leader that's left in the squad
 		if ( m_bShouldPreserveSquad )
 		{
-			CUtlVector< CTFBot* > members;
+			CUtlVector< HeatseakerBot* > members;
 			CollectMembers( &members );
 			if ( members.Count() )
 			{
@@ -81,7 +81,7 @@ INextBotEventResponder *CTFBotSquad::FirstContainedResponder( void ) const
 //----------------------------------------------------------------------
 INextBotEventResponder *CTFBotSquad::NextContainedResponder( INextBotEventResponder *current ) const
 {
-	CTFBot *currentBot = (CTFBot *)current;
+	HeatseakerBot *currentBot = (HeatseakerBot *)current;
 
 	int i = m_roster.Find( currentBot );
 
@@ -91,19 +91,19 @@ INextBotEventResponder *CTFBotSquad::NextContainedResponder( INextBotEventRespon
 	if ( ++i >= m_roster.Count() )
 		return NULL;
 
-	return (CTFBot *)m_roster[i];
+	return (HeatseakerBot *)m_roster[i];
 }
 
 
 //----------------------------------------------------------------------
-CTFBot *CTFBotSquad::GetLeader( void ) const
+HeatseakerBot *CTFBotSquad::GetLeader( void ) const
 {
 	return m_leader;
 }
 
 
 //----------------------------------------------------------------------
-void CTFBotSquad::CollectMembers( CUtlVector< CTFBot * > *memberVector ) const
+void CTFBotSquad::CollectMembers( CUtlVector< HeatseakerBot * > *memberVector ) const
 {
 	for( int i=0; i<m_roster.Count(); ++i )
 	{

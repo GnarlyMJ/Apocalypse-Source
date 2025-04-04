@@ -54,15 +54,16 @@ static const char *s_pWaitForUpgradeContext = "WaitForUpgrade";
 
 ConVar	g_debug_physcannon( "g_debug_physcannon", "0", FCVAR_REPLICATED | FCVAR_CHEAT );
 
-ConVar physcannon_minforce( "physcannon_minforce", "700", FCVAR_REPLICATED | FCVAR_CHEAT );
-ConVar physcannon_maxforce( "physcannon_maxforce", "1500", FCVAR_REPLICATED | FCVAR_CHEAT );
-ConVar physcannon_maxmass( "physcannon_maxmass", "250", FCVAR_REPLICATED | FCVAR_CHEAT );
+ConVar physcannon_minforce( "physcannon_minforce", "250", FCVAR_REPLICATED | FCVAR_CHEAT );
+ConVar physcannon_maxforce( "physcannon_maxforce", "300", FCVAR_REPLICATED | FCVAR_CHEAT );
+ConVar physcannon_maxmass( "physcannon_maxmass", "690", FCVAR_REPLICATED | FCVAR_CHEAT );
 ConVar physcannon_tracelength( "physcannon_tracelength", "250", FCVAR_REPLICATED | FCVAR_CHEAT );
 ConVar physcannon_chargetime("physcannon_chargetime", "2", FCVAR_REPLICATED | FCVAR_CHEAT );
 ConVar physcannon_pullforce( "physcannon_pullforce", "4000", FCVAR_REPLICATED | FCVAR_CHEAT );
 ConVar physcannon_cone( "physcannon_cone", "0.97", FCVAR_REPLICATED | FCVAR_CHEAT );
 ConVar physcannon_ball_cone( "physcannon_ball_cone", "0.997", FCVAR_REPLICATED | FCVAR_CHEAT );
-ConVar player_throwforce( "player_throwforce", "1000", FCVAR_REPLICATED | FCVAR_CHEAT );
+ConVar player_throwforce( "player_throwforce", "300", FCVAR_REPLICATED | FCVAR_CHEAT );
+int erererAMMO = 10;
 
 #ifndef CLIENT_DLL
 extern ConVar hl2_normspeed;
@@ -1347,8 +1348,8 @@ void CWeaponPhysCannon::PuntVPhysics( CBaseEntity *pEntity, const Vector &vecFor
 					{
 						ratio *= otherObjectFactor;
 					}
-  					pList[i]->ApplyForceCenter( forward * 15000.0f * ratio );
-  					pList[i]->ApplyForceOffset( forward * mass * 600.0f * ratio, tr.endpos );
+  					pList[i]->ApplyForceCenter( forward * 600.0f * ratio );
+  					pList[i]->ApplyForceOffset( forward * mass * 500.0f * ratio, tr.endpos );
 				}
 			}
 			else
@@ -1433,8 +1434,23 @@ float CWeaponPhysCannon::TraceLength()
 // This mode is a toggle. Primary fire one time to pick up a physics object.
 // With an object held, click primary fire again to drop object.
 //-----------------------------------------------------------------------------
+void CWeaponPhysCannon::Think(void)
+{
+
+	// Energy regeneration logic
+	if (erererAMMO < 10)  // Ensure we don’t regenerate beyond max energy
+	{
+		erererAMMO += 1;  // Regeneration rate (you can tweak this value)
+		if (erererAMMO > 10)
+			erererAMMO =10;  // Clamp it to the maximum value
+	}
+
+	// Next think cycle (this makes the weapon keep checking every few milliseconds)
+	SetNextThink(gpGlobals->curtime + 5.0f);  // Adjust frequency as needed
+}
 void CWeaponPhysCannon::PrimaryAttack( void )
 {
+	int ammocount = erererAMMO;
 	if( m_flNextPrimaryAttack > gpGlobals->curtime )
 		return;
 
@@ -1464,16 +1480,25 @@ void CWeaponPhysCannon::PrimaryAttack( void )
 				return;
 			}
 		}
-
-		LaunchObject( forward, physcannon_maxforce.GetFloat() );
-
-		PrimaryFireEffect();
-		SendWeaponAnim( ACT_VM_SECONDARYATTACK );
-		return;
+		if (ammocount > 0) {
+			DevMsg(ammocount + "left");
+			LaunchObject(forward, physcannon_maxforce.GetFloat());
+			erererAMMO -= 1;
+			PrimaryFireEffect();
+			SendWeaponAnim(ACT_VM_SECONDARYATTACK);
+			return;
+		}
+		else {
+			DevMsg("out of ammo");
+			DryFire();
+			return;
+		}
+		
+		
 	}
 
 	// If not active, just issue a physics punch in the world.
-	m_flNextPrimaryAttack = gpGlobals->curtime + 0.5f;
+	m_flNextPrimaryAttack = gpGlobals->curtime + 1.0f;
 
 	Vector forward;
 	pOwner->EyeVectors( &forward );
@@ -1564,7 +1589,7 @@ void CWeaponPhysCannon::SecondaryAttack( void )
 	{
 		// Drop the held object
 		m_flNextPrimaryAttack = gpGlobals->curtime + 0.5;
-		m_flNextSecondaryAttack = gpGlobals->curtime + 0.5;
+		m_flNextSecondaryAttack = gpGlobals->curtime + 1.0;
 
 		DetachObject();
 

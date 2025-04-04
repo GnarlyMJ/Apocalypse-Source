@@ -20,7 +20,7 @@ extern ConVar tf_bot_debug_spy;
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyLurk::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotSpyLurk::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	// cloak 
 	if ( !me->m_Shared.IsStealthed() )
@@ -38,7 +38,7 @@ ActionResult< CTFBot >	CTFBotSpyLurk::OnStart( CTFBot *me, Action< CTFBot > *pri
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotSpyLurk::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotSpyLurk::Update( HeatseakerBot *me, float interval )
 {
 	const CKnownEntity *threat = me->GetVisionInterface()->GetPrimaryKnownThreat();
 	if ( threat && threat->GetEntity() )

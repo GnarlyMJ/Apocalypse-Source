@@ -19,7 +19,7 @@ CTFBotNavEntDestroyEntity::CTFBotNavEntDestroyEntity( const CFuncNavPrerequisite
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotNavEntDestroyEntity::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	if ( m_prereq == NULL )
 	{
@@ -28,7 +28,7 @@ ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::OnStart( CTFBot *me, Action< C
 
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
-	m_wasIgnoringEnemies = me->HasAttribute( CTFBot::IGNORE_ENEMIES );
+	m_wasIgnoringEnemies = me->HasAttribute( HeatseakerBot::IGNORE_ENEMIES );
 
 	m_isReadyToLaunchSticky = true;
 
@@ -37,7 +37,7 @@ ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::OnStart( CTFBot *me, Action< C
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotNavEntDestroyEntity::DetonateStickiesWhenSet( CTFBot *me, CTFPipebombLauncher *stickyLauncher ) const
+void CTFBotNavEntDestroyEntity::DetonateStickiesWhenSet( HeatseakerBot *me, CTFPipebombLauncher *stickyLauncher ) const
 {
 	if ( !stickyLauncher )
 		return;
@@ -66,7 +66,7 @@ void CTFBotNavEntDestroyEntity::DetonateStickiesWhenSet( CTFBot *me, CTFPipebomb
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotNavEntDestroyEntity::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_prereq == NULL )
 	{
@@ -88,7 +88,7 @@ ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::Update( CTFBot *me, float inte
 
 	if ( me->IsDistanceBetweenLessThan( target, attackRange ) && me->GetVisionInterface()->IsLineOfSightClearToEntity( target ) )
 	{
-		me->SetAttribute( CTFBot::IGNORE_ENEMIES );
+		me->SetAttribute( HeatseakerBot::IGNORE_ENEMIES );
 
 		me->GetBodyInterface()->AimHeadTowards( target->WorldSpaceCenter(), IBody::CRITICAL, 0.2f, NULL, "Aiming at target we need to destroy to progress" );
 
@@ -128,7 +128,7 @@ ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::Update( CTFBot *me, float inte
 
 	if ( !m_wasIgnoringEnemies )
 	{
-		me->ClearAttribute( CTFBot::IGNORE_ENEMIES );
+		me->ClearAttribute( HeatseakerBot::IGNORE_ENEMIES );
 	}
 
 	// move into view of our target
@@ -147,10 +147,10 @@ ActionResult< CTFBot >	CTFBotNavEntDestroyEntity::Update( CTFBot *me, float inte
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotNavEntDestroyEntity::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotNavEntDestroyEntity::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	if ( !m_wasIgnoringEnemies )
 	{
-		me->ClearAttribute( CTFBot::IGNORE_ENEMIES );
+		me->ClearAttribute( HeatseakerBot::IGNORE_ENEMIES );
 	}
 }

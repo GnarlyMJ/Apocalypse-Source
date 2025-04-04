@@ -31,7 +31,7 @@ CTFBotMobRush::CTFBotMobRush( CTFPlayer *victim, float reactionTime )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotMobRush::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot > CTFBotMobRush::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_vocalizeTimer.Start( RandomFloat( tf_raid_mob_rush_vocalize_min_interval.GetFloat(), tf_raid_mob_rush_vocalize_max_interval.GetFloat() ) );
 	return Continue();
@@ -39,7 +39,7 @@ ActionResult< CTFBot > CTFBotMobRush::OnStart( CTFBot *me, Action< CTFBot > *pri
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMobRush::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMobRush::Update( HeatseakerBot *me, float interval )
 {
 	// mobs use only their melee weapons
 	CBaseCombatWeapon *meleeWeapon = me->Weapon_GetSlot( TF_WPN_TYPE_MELEE );
@@ -127,28 +127,28 @@ ActionResult< CTFBot >	CTFBotMobRush::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMobRush::OnContact( CTFBot *me, CBaseEntity *other, CGameTrace *result )
+EventDesiredResult< HeatseakerBot > CTFBotMobRush::OnContact( HeatseakerBot *me, CBaseEntity *other, CGameTrace *result )
 {
 	return TryToSustain( RESULT_CRITICAL, "Ignoring contact" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMobRush::OnInjured( CTFBot *me, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotMobRush::OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info )
 {
 	return TryToSustain( RESULT_CRITICAL, "Ignoring injury" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMobRush::OnOtherKilled( CTFBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotMobRush::OnOtherKilled( HeatseakerBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
 {
 	return TryToSustain( RESULT_CRITICAL, "Ignoring friend death" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMobRush::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotMobRush::OnStuck( HeatseakerBot *me )
 {
 	m_path.Invalidate();
 	return TryToSustain( RESULT_CRITICAL );

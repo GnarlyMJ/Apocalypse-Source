@@ -116,14 +116,14 @@ public:
 	int BeginAtWave( void ) { return m_beginAtWaveIndex; }
 	int StopAtWave( void ) { return m_stopAtWaveIndex; }
 
-	CTFBot::MissionType GetMissionType( void ){ return m_mission; }
+	HeatseakerBot::MissionType GetMissionType( void ){ return m_mission; }
 
 private:
-	CTFBot::MissionType m_mission;
+	HeatseakerBot::MissionType m_mission;
 	CSpawnLocation m_where;
 
 	bool UpdateMissionDestroySentries( void );
-	bool UpdateMission( CTFBot::MissionType mission );
+	bool UpdateMission( HeatseakerBot::MissionType mission );
 
 	enum StateType
 	{

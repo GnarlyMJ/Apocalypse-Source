@@ -151,7 +151,7 @@ SpawnLocationResult DoTeleporterOverride( CBaseEntity *spawnEnt, Vector& vSpawnP
 }
 
 //-----------------------------------------------------------------------
-void OnBotTeleported( CTFBot* bot )
+void OnBotTeleported( HeatseakerBot* bot )
 {
 	const Vector& origin = s_lastTeleporter->GetAbsOrigin();
 
@@ -333,8 +333,8 @@ CTFNavArea *CSpawnLocation::SelectSpawnArea( void ) const
 		if ( !teamMember->IsAlive() )
 			continue;
 
-		CTFBot *bot = ToTFBot( teamMember );
-		if ( bot && bot->HasAttribute( CTFBot::IS_NPC ) )
+		HeatseakerBot *bot = ToTFBot( teamMember );
+		if ( bot && bot->HasAttribute( HeatseakerBot::IS_NPC ) )
 			continue;
 
 		if ( teamMember->GetLastKnownArea() == NULL )
@@ -420,7 +420,7 @@ CTFNavArea *CSpawnLocation::SelectSpawnArea( void ) const
 //-----------------------------------------------------------------------
 CMissionPopulator::CMissionPopulator( CPopulationManager *manager ) : IPopulator( manager )
 {
-	m_mission = CTFBot::NO_MISSION;
+	m_mission = HeatseakerBot::NO_MISSION;
 	m_initialCooldown = 0.0f;
 	m_cooldownDuration = 0.0f;
 	m_desiredCount = 0;
@@ -453,23 +453,23 @@ bool CMissionPopulator::Parse( KeyValues *values )
 		{
 			if ( !Q_stricmp( data->GetString(), "DestroySentries" ) )
 			{
-				m_mission = CTFBot::MISSION_DESTROY_SENTRIES;
+				m_mission = HeatseakerBot::MISSION_DESTROY_SENTRIES;
 			}
 			else if ( !Q_stricmp( data->GetString(), "Sniper" ) )
 			{
-				m_mission = CTFBot::MISSION_SNIPER;
+				m_mission = HeatseakerBot::MISSION_SNIPER;
 			}
 			else if ( !Q_stricmp( data->GetString(), "Spy" ) )
 			{
-				m_mission = CTFBot::MISSION_SPY;
+				m_mission = HeatseakerBot::MISSION_SPY;
 			}
 			else if ( !Q_stricmp( data->GetString(), "Engineer" ) )
 			{
-				m_mission = CTFBot::MISSION_ENGINEER;
+				m_mission = HeatseakerBot::MISSION_ENGINEER;
 			}
 			else if ( !Q_stricmp( data->GetString(), "SeekAndDestroy" ) )
 			{
-				m_mission = CTFBot::MISSION_DESTROY_SENTRIES;
+				m_mission = HeatseakerBot::MISSION_DESTROY_SENTRIES;
 			}
 			else
 			{
@@ -584,8 +584,8 @@ bool CMissionPopulator::UpdateMissionDestroySentries( void )
 		int j;
 		for( j=0; j<livePlayerVector.Count(); ++j )
 		{
-			CTFBot *bot = dynamic_cast<CTFBot *>( livePlayerVector[j] );
-			if ( bot && bot->HasMission( CTFBot::MISSION_DESTROY_SENTRIES ) && bot->GetMissionTarget() == targetSentry )
+			HeatseakerBot *bot = dynamic_cast<HeatseakerBot *>( livePlayerVector[j] );
+			if ( bot && bot->HasMission( HeatseakerBot::MISSION_DESTROY_SENTRIES ) && bot->GetMissionTarget() == targetSentry )
 			{
 				// there is already a sentry busting squad active for this sentry
 				break;
@@ -614,11 +614,11 @@ bool CMissionPopulator::UpdateMissionDestroySentries( void )
 
 				for( int k=0; k<spawnVector.Count(); ++k )
 				{
-					CTFBot *bot = ToTFBot( spawnVector[k] );
+					HeatseakerBot *bot = ToTFBot( spawnVector[k] );
 					if ( bot )
 					{
 						bot->SetFlagTarget( NULL );
-						bot->SetMission( CTFBot::MISSION_DESTROY_SENTRIES );
+						bot->SetMission( HeatseakerBot::MISSION_DESTROY_SENTRIES );
 						bot->SetMissionTarget( targetSentry );
 
 						// force an update to start the behavior so we can set the sentry
@@ -639,7 +639,7 @@ bool CMissionPopulator::UpdateMissionDestroySentries( void )
 							{
 								iFlags |= MVM_CLASS_FLAG_MINIBOSS;
 							}
-							if ( bot->HasAttribute( CTFBot::ALWAYS_CRIT ) )
+							if ( bot->HasAttribute( HeatseakerBot::ALWAYS_CRIT ) )
 							{
 								iFlags |= MVM_CLASS_FLAG_ALWAYSCRIT;
 							}
@@ -700,7 +700,7 @@ bool CMissionPopulator::UpdateMissionDestroySentries( void )
 
 
 //-----------------------------------------------------------------------
-bool CMissionPopulator::UpdateMission( CTFBot::MissionType mission )
+bool CMissionPopulator::UpdateMission( HeatseakerBot::MissionType mission )
 {
 	VPROF_BUDGET( "CMissionPopulator::UpdateMission", "NextBot" );
 
@@ -711,7 +711,7 @@ bool CMissionPopulator::UpdateMission( CTFBot::MissionType mission )
 
 	for( int i=0; i<livePlayerVector.Count(); ++i )
 	{
-		CTFBot *pBot = dynamic_cast<CTFBot *>( livePlayerVector[i] );
+		HeatseakerBot *pBot = dynamic_cast<HeatseakerBot *>( livePlayerVector[i] );
 		if ( pBot && pBot ->HasMission( mission ) )
 		{
 			++activeMissionMembers;
@@ -760,7 +760,7 @@ bool CMissionPopulator::UpdateMission( CTFBot::MissionType mission )
 	int nSniperCount = 0;
 	FOR_EACH_VEC( livePlayerVector, iLiveBot )
 	{
-		CTFBot *pBot = dynamic_cast<CTFBot *>( livePlayerVector[iLiveBot] );
+		HeatseakerBot *pBot = dynamic_cast<HeatseakerBot *>( livePlayerVector[iLiveBot] );
 		if ( pBot && pBot->IsPlayerClass( TF_CLASS_SNIPER ) )
 		{
 			nSniperCount++;
@@ -780,7 +780,7 @@ bool CMissionPopulator::UpdateMission( CTFBot::MissionType mission )
 				// success
 				for( int iSpawn=0; iSpawn<spawnedVector.Count(); ++iSpawn )
 				{
-					CTFBot *bot = ToTFBot( spawnedVector[iSpawn] );
+					HeatseakerBot *bot = ToTFBot( spawnedVector[iSpawn] );
 					if ( bot )
 					{
 						bot->SetFlagTarget( NULL );
@@ -795,7 +795,7 @@ bool CMissionPopulator::UpdateMission( CTFBot::MissionType mission )
 							{
 								iFlags |= MVM_CLASS_FLAG_MINIBOSS;
 							}
-							if ( bot->HasAttribute( CTFBot::ALWAYS_CRIT ) )
+							if ( bot->HasAttribute( HeatseakerBot::ALWAYS_CRIT ) )
 							{
 								iFlags |= MVM_CLASS_FLAG_ALWAYSCRIT;
 							}
@@ -806,7 +806,7 @@ bool CMissionPopulator::UpdateMission( CTFBot::MissionType mission )
 						if ( TFGameRules()->IsMannVsMachineMode() )
 						{
 							// Only have defenders announce the arrival of the first enemy Sniper
-							if ( bot->HasMission( CTFBot::MISSION_SNIPER ) )
+							if ( bot->HasMission( HeatseakerBot::MISSION_SNIPER ) )
 							{
 								nSniperCount++;
 
@@ -880,16 +880,16 @@ void CMissionPopulator::Update( void )
 
 	switch( m_mission )
 	{
-	case CTFBot::MISSION_SEEK_AND_DESTROY:
+	case HeatseakerBot::MISSION_SEEK_AND_DESTROY:
 		break;
 
-	case CTFBot::MISSION_DESTROY_SENTRIES:
+	case HeatseakerBot::MISSION_DESTROY_SENTRIES:
 		UpdateMissionDestroySentries();
 		break;
 
-	case CTFBot::MISSION_SNIPER:
-	case CTFBot::MISSION_SPY:
-	case CTFBot::MISSION_ENGINEER:
+	case HeatseakerBot::MISSION_SNIPER:
+	case HeatseakerBot::MISSION_SPY:
+	case HeatseakerBot::MISSION_ENGINEER:
 		UpdateMission( m_mission );
 		break;
 	}
@@ -1089,7 +1089,7 @@ void CPeriodicSpawnPopulator::Update( void )
 				// success
 				for( int i=0; i<spawnedVector.Count(); ++i )
 				{
-					CTFBot *bot = ToTFBot( spawnedVector[i] );
+					HeatseakerBot *bot = ToTFBot( spawnedVector[i] );
 					if ( bot )
 					{
 						// what bot should do after spawning at teleporter exit
@@ -1168,7 +1168,7 @@ void CWaveSpawnPopulator::ForceFinish()
 	FOR_EACH_VEC( m_activeVector, i )
 	{
 		// Move bots over to spectator
-		CTFBot *pBot = ToTFBot( m_activeVector[i] );
+		HeatseakerBot *pBot = ToTFBot( m_activeVector[i] );
 		if ( pBot )
 		{
 			pBot->ChangeTeam( TEAM_SPECTATOR, false, true );
@@ -1625,7 +1625,7 @@ void CWaveSpawnPopulator::Update( void )
 					if ( m_justSpawnedVector[i].Get() == NULL )
 						continue;
 
-					CTFBot *bot = ToTFBot( m_justSpawnedVector[i] );
+					HeatseakerBot *bot = ToTFBot( m_justSpawnedVector[i] );
 					if ( bot )
 					{
 						bot->SetCustomCurrencyWorth( 0 );
@@ -1816,7 +1816,7 @@ bool CWave::Parse( KeyValues *data )
 						{
 							iFlags |= MVM_CLASS_FLAG_MINIBOSS;
 						}
-						if ( wavePopulator->m_spawner->HasAttribute( CTFBot::ALWAYS_CRIT, i ) )
+						if ( wavePopulator->m_spawner->HasAttribute( HeatseakerBot::ALWAYS_CRIT, i ) )
 						{
 							iFlags |= MVM_CLASS_FLAG_ALWAYSCRIT;
 						}
@@ -1834,7 +1834,7 @@ bool CWave::Parse( KeyValues *data )
 					{
 						iFlags |= MVM_CLASS_FLAG_MINIBOSS;
 					}
-					if ( wavePopulator->m_spawner->HasAttribute( CTFBot::ALWAYS_CRIT ) )
+					if ( wavePopulator->m_spawner->HasAttribute( HeatseakerBot::ALWAYS_CRIT ) )
 					{
 						iFlags |= MVM_CLASS_FLAG_ALWAYSCRIT;
 					}

@@ -13,15 +13,15 @@
 
 
 //-----------------------------------------------------------------------------
-class CTFBotSquadAttack : public Action< CTFBot >
+class CTFBotSquadAttack : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
-	virtual ActionResult< CTFBot >	OnResume( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
-	virtual EventDesiredResult< CTFBot > OnStuck( CTFBot *me );
+	virtual EventDesiredResult< HeatseakerBot > OnStuck( HeatseakerBot *me );
 
 	QueryResultType	ShouldRetreat( const INextBot *me ) const;
 
@@ -34,7 +34,7 @@ private:
 	CHandle< CTFPlayer > m_victim;
 	CountdownTimer m_victimConsiderTimer;
 
-	CTFBot *GetSquadLeader( CTFBot *me ) const;
+	HeatseakerBot *GetSquadLeader( HeatseakerBot *me ) const;
 };
 
 inline QueryResultType CTFBotSquadAttack::ShouldRetreat( const INextBot *me ) const

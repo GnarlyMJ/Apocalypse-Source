@@ -11,11 +11,11 @@ class CTFBotHintSentrygun;
 class CTFBotHintTeleporterExit;
 class CTFBotHintEngineerNest;
 
-class CTFBotMvMEngineerIdle : public Action< CTFBot >
+class CTFBotMvMEngineerIdle : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
 	virtual QueryResultType ShouldAttack( const INextBot *me, const CKnownEntity *them ) const;
 	virtual QueryResultType	ShouldRetreat( const INextBot *me ) const;							// is it time to retreat?
@@ -38,8 +38,8 @@ private:
 	CHandle< CTFBotHintSentrygun > m_sentryHint;
 	CHandle< CTFBotHintEngineerNest > m_nestHint;
 
-	void TakeOverStaleNest( CBaseTFBotHintEntity* pHint, CTFBot *me );
-	bool ShouldAdvanceNestSpot( CTFBot *me );
+	void TakeOverStaleNest( CBaseTFBotHintEntity* pHint, HeatseakerBot *me );
+	bool ShouldAdvanceNestSpot( HeatseakerBot *me );
 
 	void TryToDetonateStaleNest();
 	bool m_bTriedToDetonateStaleNest;

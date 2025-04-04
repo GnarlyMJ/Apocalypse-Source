@@ -8,20 +8,20 @@
 
 class CObjectTeleporter;
 
-class CTFBotTacticalMonitor : public Action< CTFBot >
+class CTFBotTacticalMonitor : public Action< HeatseakerBot >
 {
 public:
-	virtual Action< CTFBot > *InitialContainedAction( CTFBot *me );
+	virtual Action< HeatseakerBot > *InitialContainedAction( HeatseakerBot *me );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
-	virtual EventDesiredResult< CTFBot > OnNavAreaChanged( CTFBot *me, CNavArea *newArea, CNavArea *oldArea );
-	virtual EventDesiredResult< CTFBot > OnOtherKilled( CTFBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info );
+	virtual EventDesiredResult< HeatseakerBot > OnNavAreaChanged( HeatseakerBot *me, CNavArea *newArea, CNavArea *oldArea );
+	virtual EventDesiredResult< HeatseakerBot > OnOtherKilled( HeatseakerBot *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info );
 
 	// @note Tom Bui: Currently used for the training stuff, but once we get that interface down, we will turn that
 	// into a proper API
-	virtual EventDesiredResult< CTFBot > OnCommandString( CTFBot *me, const char *command );
+	virtual EventDesiredResult< HeatseakerBot > OnCommandString( HeatseakerBot *me, const char *command );
 
 	virtual const char *GetName( void ) const	{ return "TacticalMonitor"; }
 
@@ -33,13 +33,13 @@ private:
 	CountdownTimer m_attentionTimer;
 
 	CountdownTimer m_stickyBombCheckTimer;
-	void MonitorArmedStickyBombs( CTFBot *me );
+	void MonitorArmedStickyBombs( HeatseakerBot *me );
 
-	bool ShouldOpportunisticallyTeleport( CTFBot *me ) const;
-	CObjectTeleporter *FindNearbyTeleporter( CTFBot *me );
+	bool ShouldOpportunisticallyTeleport( HeatseakerBot *me ) const;
+	CObjectTeleporter *FindNearbyTeleporter( HeatseakerBot *me );
 	CountdownTimer m_findTeleporterTimer;
 
-	void AvoidBumpingEnemies( CTFBot *me );
+	void AvoidBumpingEnemies( HeatseakerBot *me );
 };
 
 

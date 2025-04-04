@@ -21,7 +21,7 @@ CTFBotUseTeleporter::CTFBotUseTeleporter( CObjectTeleporter *teleporter, UseHowT
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotUseTeleporter::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotUseTeleporter::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -61,7 +61,7 @@ bool CTFBotUseTeleporter::IsTeleporterAvailable( void ) const
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotUseTeleporter::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotUseTeleporter::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_teleporter == NULL )
 	{

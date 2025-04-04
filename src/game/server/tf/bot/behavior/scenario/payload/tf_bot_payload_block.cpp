@@ -18,7 +18,7 @@
 extern ConVar tf_bot_path_lookahead_range;
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotPayloadBlock::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotPayloadBlock::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 	m_path.Invalidate();
@@ -30,7 +30,7 @@ ActionResult< CTFBot >	CTFBotPayloadBlock::OnStart( CTFBot *me, Action< CTFBot >
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotPayloadBlock::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotPayloadBlock::Update( HeatseakerBot *me, float interval )
 {
 	const CKnownEntity *threat = me->GetVisionInterface()->GetPrimaryKnownThreat();
 	if ( threat && threat->IsVisibleRecently() )
@@ -74,7 +74,7 @@ ActionResult< CTFBot >	CTFBotPayloadBlock::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotPayloadBlock::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotPayloadBlock::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	VPROF_BUDGET( "CTFBotPayloadBlock::OnResume", "NextBot" );
 
@@ -85,7 +85,7 @@ ActionResult< CTFBot > CTFBotPayloadBlock::OnResume( CTFBot *me, Action< CTFBot 
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadBlock::OnStuck( HeatseakerBot *me )
 {
 	VPROF_BUDGET( "CTFBotPayloadBlock::OnStuck", "NextBot" );
 
@@ -97,14 +97,14 @@ EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadBlock::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadBlock::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	VPROF_BUDGET( "CTFBotPayloadBlock::OnMoveToFailure", "NextBot" );
 
@@ -115,21 +115,21 @@ EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnMoveToFailure( CTFBot *me, co
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnTerritoryContested( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadBlock::OnTerritoryContested( HeatseakerBot *me, int territoryID )
 {
 	return TryToSustain( RESULT_IMPORTANT );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnTerritoryCaptured( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadBlock::OnTerritoryCaptured( HeatseakerBot *me, int territoryID )
 {
 	return TryToSustain( RESULT_IMPORTANT );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotPayloadBlock::OnTerritoryLost( CTFBot *me, int territoryID )
+EventDesiredResult< HeatseakerBot > CTFBotPayloadBlock::OnTerritoryLost( HeatseakerBot *me, int territoryID )
 {
 	return TryToSustain( RESULT_IMPORTANT );
 }

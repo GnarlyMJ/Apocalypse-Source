@@ -117,7 +117,7 @@ public:
 	virtual string_t GetClassIcon( int nSpawnNum = -1 ) { return NULL_STRING; }
 	virtual int GetHealth( int nSpawnNum = -1  ){ return 0; }
 	virtual bool IsMiniBoss( int nSpawnNum = -1 ) { return false; }
-	virtual bool HasAttribute( CTFBot::AttributeType type, int nSpawnNum = -1 ) { return false; }
+	virtual bool HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum = -1 ) { return false; }
 	virtual bool HasEventChangeAttributes( const char* pszEventName ) const = 0;
 
 	static IPopulationSpawner *ParseSpawner( IPopulator *populator, KeyValues *data );
@@ -144,7 +144,7 @@ public:
 	virtual string_t GetClassIcon( int nSpawnNum = -1 );
 	virtual int GetHealth( int nSpawnNum = -1  );
 	virtual bool IsMiniBoss( int nSpawnNum = -1 ) OVERRIDE;
-	virtual bool HasAttribute( CTFBot::AttributeType type, int nSpawnNum = -1 );
+	virtual bool HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum = -1 );
 
 	virtual bool HasEventChangeAttributes( const char* pszEventName ) const OVERRIDE;
 
@@ -170,7 +170,7 @@ public:
 	virtual string_t GetClassIcon( int nSpawnNum = -1 );
 	virtual int GetHealth( int nSpawnNum = -1  );
 	virtual bool IsMiniBoss( int nSpawnNum = -1 ) OVERRIDE;
-	virtual bool HasAttribute( CTFBot::AttributeType type, int nSpawnNum = -1 );
+	virtual bool HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum = -1 );
 
 	virtual bool HasEventChangeAttributes( const char* pszEventName ) const OVERRIDE;
 
@@ -185,8 +185,8 @@ public:
 	CUtlString m_name;
 	CUtlStringList m_teleportWhereName;
 
-	CTFBot::EventChangeAttributes_t m_defaultAttributes;
-	CUtlVector< CTFBot::EventChangeAttributes_t > m_eventChangeAttributes;
+	HeatseakerBot::EventChangeAttributes_t m_defaultAttributes;
+	CUtlVector< HeatseakerBot::EventChangeAttributes_t > m_eventChangeAttributes;
 };
 
 //-----------------------------------------------------------------------
@@ -250,7 +250,7 @@ public:
 	virtual string_t GetClassIcon( int nSpawnNum = -1 );
 	virtual int GetHealth( int nSpawnNum = -1  );
 	virtual bool IsMiniBoss( int nSpawnNum = -1 ) OVERRIDE;
-	virtual bool HasAttribute( CTFBot::AttributeType type, int nSpawnNum = -1 );
+	virtual bool HasAttribute( HeatseakerBot::AttributeType type, int nSpawnNum = -1 );
 
 	virtual bool HasEventChangeAttributes( const char* pszEventName ) const OVERRIDE;
 

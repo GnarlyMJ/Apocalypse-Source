@@ -21,7 +21,7 @@ ConVar tf_bot_health_search_far_range( "tf_bot_health_search_far_range", "2000",
 class CHealthFilter : public INextBotFilter
 {
 public:
-	CHealthFilter( CTFBot *me )
+	CHealthFilter( HeatseakerBot *me )
 	{
 		m_me = me;
 	}
@@ -88,12 +88,12 @@ public:
 		return false;
 	}
 
-	CTFBot *m_me;
+	HeatseakerBot *m_me;
 };
 
 
 //---------------------------------------------------------------------------------------------
-static CTFBot *s_possibleBot = NULL;
+static HeatseakerBot *s_possibleBot = NULL;
 static CHandle< CBaseEntity > s_possibleHealth = NULL;
 static int s_possibleFrame = 0;
 
@@ -102,7 +102,7 @@ static int s_possibleFrame = 0;
 /** 
  * Return true if this Action has what it needs to perform right now
  */
-bool CTFBotGetHealth::IsPossible( CTFBot *me )
+bool CTFBotGetHealth::IsPossible( HeatseakerBot *me )
 {
 	VPROF_BUDGET( "CTFBotGetHealth::IsPossible", "NextBot" );
 
@@ -112,7 +112,7 @@ bool CTFBotGetHealth::IsPossible( CTFBot *me )
 
 #ifdef TF_RAID_MODE
 	// mobs don't heal
-	if ( TFGameRules()->IsRaidMode() && me->HasAttribute( CTFBot::AGGRESSIVE ) )
+	if ( TFGameRules()->IsRaidMode() && me->HasAttribute( HeatseakerBot::AGGRESSIVE ) )
 	{
 		return false;
 	}
@@ -190,7 +190,7 @@ bool CTFBotGetHealth::IsPossible( CTFBot *me )
 }
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotGetHealth::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotGetHealth::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	VPROF_BUDGET( "CTFBotGetHealth::OnStart", "NextBot" );
 
@@ -228,7 +228,7 @@ ActionResult< CTFBot >	CTFBotGetHealth::OnStart( CTFBot *me, Action< CTFBot > *p
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotGetHealth::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotGetHealth::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_healthKit == NULL || ( m_healthKit->IsEffectActive( EF_NODRAW ) && !FClassnameIs( m_healthKit, "func_regenerate" ) ) )
 	{
@@ -296,21 +296,21 @@ ActionResult< CTFBot >	CTFBotGetHealth::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetHealth::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotGetHealth::OnStuck( HeatseakerBot *me )
 {
 	return TryDone( RESULT_CRITICAL, "Stuck trying to reach health kit" );
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetHealth::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotGetHealth::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotGetHealth::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotGetHealth::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	return TryDone( RESULT_CRITICAL, "Failed to reach health kit" );
 }

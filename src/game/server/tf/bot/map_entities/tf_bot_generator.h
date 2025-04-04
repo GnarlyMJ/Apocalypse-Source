@@ -33,7 +33,7 @@ public:
 	void InputRemoveBots( inputdata_t &inputdata );
 
 	// Output
-	void OnBotKilled( CTFBot *pBot );
+	void OnBotKilled( HeatseakerBot *pBot );
 
 private:
 	bool m_bBotChoosesClass;
@@ -60,7 +60,7 @@ private:
 	COutputEvent m_onExpended;
 	COutputEvent m_onBotKilled;
 
-	CUtlVector< CHandle< CTFBot > > m_spawnedBotVector;
+	CUtlVector< CHandle< HeatseakerBot > > m_spawnedBotVector;
 };
 
 //---------------------------------------------------------------
@@ -81,7 +81,7 @@ public:
 	virtual void Activate();
 
 	bool IsWithinRange( CBaseEntity *entity );
-	void ReachedActionPoint( CTFBot* pBot );
+	void ReachedActionPoint( HeatseakerBot* pBot );
 
 	CHandle< CBaseEntity > m_moveGoal;
 

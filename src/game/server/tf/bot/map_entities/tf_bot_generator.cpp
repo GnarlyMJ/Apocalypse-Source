@@ -18,7 +18,7 @@
 extern ConVar tf_bot_prefix_name_with_difficulty;
 extern ConVar tf_bot_difficulty;
 
-extern void CreateBotName( int iTeam, int iClassIndex, CTFBot::DifficultyType skill, char* pBuffer, int iBufferSize );
+extern void CreateBotName( int iTeam, int iClassIndex, HeatseakerBot::DifficultyType skill, char* pBuffer, int iBufferSize );
 
 //------------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ enum
 	kOnDeath_MoveToSpectatorTeam,
 };
 
-void AppyCustomAttribute( CTFBot *me, const char *pszName, float flValue )
+void AppyCustomAttribute( HeatseakerBot *me, const char *pszName, float flValue )
 {
 	const CEconItemAttributeDefinition *pDef = ItemSystem()->GetItemSchema()->GetAttributeDefinitionByName( pszName );
 	if ( pDef )
@@ -89,7 +89,7 @@ CTFBotGenerator::CTFBotGenerator( void )
 	, m_bRetainBuildings(false)
 	, m_bExpended(false)
 	, m_iOnDeathAction(kOnDeath_RemoveSelf)
-	, m_difficulty(CTFBot::UNDEFINED)
+	, m_difficulty(HeatseakerBot::UNDEFINED)
 	, m_spawnCountRemaining(0)
 	, m_bSpawnOnlyWhenTriggered(false)
 	, m_bEnabled(true)
@@ -142,7 +142,7 @@ void CTFBotGenerator::InputSetDisableDodge( inputdata_t &inputdata )
 //------------------------------------------------------------------------------
 void CTFBotGenerator::InputSetDifficulty( inputdata_t &inputdata )
 {
-	m_difficulty = clamp( inputdata.value.Int(), (int) CTFBot::UNDEFINED, (int) CTFBot::EXPERT );
+	m_difficulty = clamp( inputdata.value.Int(), (int) HeatseakerBot::UNDEFINED, (int) HeatseakerBot::EXPERT );
 }
 
 //------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ void CTFBotGenerator::InputCommandGotoActionPoint( inputdata_t &inputdata )
 	}
 	for ( int i = 0; i < m_spawnedBotVector.Count(); )
 	{
-		CHandle< CTFBot > hBot = m_spawnedBotVector[i];
+		CHandle< HeatseakerBot > hBot = m_spawnedBotVector[i];
 		if ( hBot == NULL )
 		{
 			m_spawnedBotVector.FastRemove(i);
@@ -184,7 +184,7 @@ void CTFBotGenerator::InputSetAttentionFocus( inputdata_t &inputdata )
 
 	for( int i = 0; i < m_spawnedBotVector.Count(); )
 	{
-		CTFBot *bot = m_spawnedBotVector[i];
+		HeatseakerBot *bot = m_spawnedBotVector[i];
 
 		if ( !bot || bot->GetTeamNumber() == TEAM_SPECTATOR )
 		{
@@ -203,7 +203,7 @@ void CTFBotGenerator::InputClearAttentionFocus( inputdata_t &inputdata )
 {
 	for( int i = 0; i < m_spawnedBotVector.Count(); )
 	{
-		CTFBot *bot = m_spawnedBotVector[i];
+		HeatseakerBot *bot = m_spawnedBotVector[i];
 
 		if ( !bot || bot->GetTeamNumber() == TEAM_SPECTATOR )
 		{
@@ -231,7 +231,7 @@ void CTFBotGenerator::InputRemoveBots( inputdata_t &inputdata )
 {
 	for( int i = 0; i < m_spawnedBotVector.Count(); i++ )
 	{
-		CTFBot *pBot = m_spawnedBotVector[i];
+		HeatseakerBot *pBot = m_spawnedBotVector[i];
 		if ( pBot )
 		{
 			pBot->Remove();
@@ -243,7 +243,7 @@ void CTFBotGenerator::InputRemoveBots( inputdata_t &inputdata )
 }
 
 //------------------------------------------------------------------------------
-void CTFBotGenerator::OnBotKilled( CTFBot *pBot )
+void CTFBotGenerator::OnBotKilled( HeatseakerBot *pBot )
 {
 	m_onBotKilled.FireOutput( pBot, this );
 }
@@ -281,7 +281,7 @@ void CTFBotGenerator::SpawnBot( void )
 	// did we exceed the max active count?
 	for ( int i = 0; i < m_spawnedBotVector.Count(); )
 	{
-		CHandle< CTFBot > hBot = m_spawnedBotVector[i];
+		CHandle< HeatseakerBot > hBot = m_spawnedBotVector[i];
 		if ( hBot == NULL )
 		{
 			m_spawnedBotVector.FastRemove(i);
@@ -302,11 +302,11 @@ void CTFBotGenerator::SpawnBot( void )
 	}
 
 	char name[256];
-	CTFBot *bot = TheTFBots().GetAvailableBotFromPool();
+	HeatseakerBot *bot = TheTFBots().GetAvailableBotFromPool();
 	if ( bot == NULL )
 	{
-		CreateBotName( TEAM_UNASSIGNED, TF_CLASS_UNDEFINED, (CTFBot::DifficultyType)m_difficulty, name, sizeof(name) );
-		bot = NextBotCreatePlayerBot< CTFBot >( name );
+		CreateBotName( TEAM_UNASSIGNED, TF_CLASS_UNDEFINED, (HeatseakerBot::DifficultyType)m_difficulty, name, sizeof(name) );
+		bot = NextBotCreatePlayerBot< HeatseakerBot >( name );
 	}
 
 	if ( bot ) 
@@ -316,7 +316,7 @@ void CTFBotGenerator::SpawnBot( void )
 #ifdef TF_RAID_MODE
 		if ( TFGameRules()->IsRaidMode() )
 		{
-			bot->SetAttribute( CTFBot::IS_NPC );
+			bot->SetAttribute( HeatseakerBot::IS_NPC );
 		}
 #endif // TF_RAID_MODE
 
@@ -329,22 +329,22 @@ void CTFBotGenerator::SpawnBot( void )
 
 		if ( m_bSuppressFire )
 		{
-			bot->SetAttribute( CTFBot::SUPPRESS_FIRE );
+			bot->SetAttribute( HeatseakerBot::SUPPRESS_FIRE );
 		}
 
 		if ( m_bRetainBuildings )
 		{
-			bot->SetAttribute( CTFBot::RETAIN_BUILDINGS );
+			bot->SetAttribute( HeatseakerBot::RETAIN_BUILDINGS );
 		}
 
 		if ( m_bDisableDodge )
 		{
-			bot->SetAttribute( CTFBot::DISABLE_DODGE );
+			bot->SetAttribute( HeatseakerBot::DISABLE_DODGE );
 		}
 
-		if ( m_difficulty != CTFBot::UNDEFINED )
+		if ( m_difficulty != HeatseakerBot::UNDEFINED )
 		{
-			bot->SetDifficulty( (CTFBot::DifficultyType )m_difficulty );
+			bot->SetDifficulty( (HeatseakerBot::DifficultyType )m_difficulty );
 		}
 
 		// propagate the generator's spawn flags into all bots generated
@@ -354,10 +354,10 @@ void CTFBotGenerator::SpawnBot( void )
 		switch ( m_iOnDeathAction )
 		{
 		case kOnDeath_RemoveSelf:
-			bot->SetAttribute( CTFBot::REMOVE_ON_DEATH );
+			bot->SetAttribute( HeatseakerBot::REMOVE_ON_DEATH );
 			break;
 		case kOnDeath_MoveToSpectatorTeam:
-			bot->SetAttribute( CTFBot::BECOME_SPECTATOR_ON_DEATH );
+			bot->SetAttribute( HeatseakerBot::BECOME_SPECTATOR_ON_DEATH );
 			break;
 		} // switch
 
@@ -398,7 +398,7 @@ void CTFBotGenerator::SpawnBot( void )
 		// in training, reset the after the bot joins the class
 		if ( TFGameRules()->IsInTraining() )
 		{
-			CTFBot::DifficultyType skill = bot->GetDifficulty();
+			HeatseakerBot::DifficultyType skill = bot->GetDifficulty();
 			CreateBotName( iTeam, bot->GetPlayerClass()->GetClassIndex(), skill, name, sizeof(name) );
 			engine->SetFakeClientConVarValue( bot->edict(), "name", name );
 		}
@@ -474,7 +474,7 @@ bool CTFBotActionPoint::IsWithinRange( CBaseEntity *entity )
 
 //------------------------------------------------------------------------------
 
-void CTFBotActionPoint::ReachedActionPoint( CTFBot* pBot )
+void CTFBotActionPoint::ReachedActionPoint( HeatseakerBot* pBot )
 {
 	if ( FStrEq( m_command.ToCStr(), "" ) == false )
 	{

@@ -8,11 +8,11 @@
 
 
 //-----------------------------------------------------------------------------
-class CTFBotTaunt : public Action< CTFBot >
+class CTFBotTaunt : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
 	virtual const char *GetName( void ) const	{ return "Taunt"; };
 

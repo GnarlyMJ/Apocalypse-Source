@@ -24,7 +24,7 @@ CTFBotRetreatToCover::CTFBotRetreatToCover( float hideDuration )
 
 
 //---------------------------------------------------------------------------------------------
-CTFBotRetreatToCover::CTFBotRetreatToCover( Action< CTFBot > *actionToChangeToOnceCoverReached )
+CTFBotRetreatToCover::CTFBotRetreatToCover( Action< HeatseakerBot > *actionToChangeToOnceCoverReached )
 {
 	m_hideDuration = -1.0f;
 	m_actionToChangeToOnceCoverReached = actionToChangeToOnceCoverReached;
@@ -36,7 +36,7 @@ CTFBotRetreatToCover::CTFBotRetreatToCover( Action< CTFBot > *actionToChangeToOn
 class CTestAreaAgainstThreats :  public IVision::IForEachKnownEntity
 {
 public:
-	CTestAreaAgainstThreats( CTFBot *me, CTFNavArea *area )
+	CTestAreaAgainstThreats( HeatseakerBot *me, CTFNavArea *area )
 	{
 		m_me = me;
 		m_area = area;
@@ -62,7 +62,7 @@ public:
 		return true;
 	}
 
-	CTFBot *m_me;
+	HeatseakerBot *m_me;
 	CTFNavArea *m_area;
 	int m_exposedThreatCount;
 };
@@ -72,7 +72,7 @@ public:
 class CSearchForCover : public ISearchSurroundingAreasFunctor
 {
 public:
-	CSearchForCover( CTFBot *me )
+	CSearchForCover( HeatseakerBot *me )
 	{
 		m_me = me;
 		m_minExposureCount = 9999;
@@ -125,14 +125,14 @@ public:
 		}
 	}
 
-	CTFBot *m_me;
+	HeatseakerBot *m_me;
 	CUtlVector< CTFNavArea * > m_coverAreaVector;
 	int m_minExposureCount;
 };
 
 
 //---------------------------------------------------------------------------------------------
-CTFNavArea *CTFBotRetreatToCover::FindCoverArea( CTFBot *me )
+CTFNavArea *CTFBotRetreatToCover::FindCoverArea( HeatseakerBot *me )
 {
 	VPROF_BUDGET( "CTFBotRetreatToCover::FindCoverArea", "NextBot" );
 
@@ -153,7 +153,7 @@ CTFNavArea *CTFBotRetreatToCover::FindCoverArea( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotRetreatToCover::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotRetreatToCover::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -183,7 +183,7 @@ ActionResult< CTFBot >	CTFBotRetreatToCover::OnStart( CTFBot *me, Action< CTFBot
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotRetreatToCover::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotRetreatToCover::Update( HeatseakerBot *me, float interval )
 {
 	const CKnownEntity *threat = me->GetVisionInterface()->GetPrimaryKnownThreat( true );
 
@@ -287,21 +287,21 @@ ActionResult< CTFBot >	CTFBotRetreatToCover::Update( CTFBot *me, float interval 
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotRetreatToCover::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotRetreatToCover::OnStuck( HeatseakerBot *me )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotRetreatToCover::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotRetreatToCover::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotRetreatToCover::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotRetreatToCover::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	return TryContinue();
 }

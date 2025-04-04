@@ -8,13 +8,13 @@
 
 #include "Path/NextBotChasePath.h"
 
-class CTFBotMeleeAttack : public Action< CTFBot >
+class CTFBotMeleeAttack : public Action< HeatseakerBot >
 {
 public:
 	CTFBotMeleeAttack( float giveUpRange = -1.0f );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
 
 	virtual const char *GetName( void ) const	{ return "MeleeAttack"; };
 

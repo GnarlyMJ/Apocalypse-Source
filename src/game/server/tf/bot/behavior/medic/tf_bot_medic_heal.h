@@ -10,17 +10,17 @@
 
 class CWeaponMedigun;
 
-class CTFBotMedicHeal : public Action< CTFBot >
+class CTFBotMedicHeal : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	virtual ActionResult< CTFBot >	OnResume( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	virtual ActionResult< HeatseakerBot >	OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
-	virtual EventDesiredResult< CTFBot > OnStuck( CTFBot *me );
-	virtual EventDesiredResult< CTFBot > OnMoveToSuccess( CTFBot *me, const Path *path );
-	virtual EventDesiredResult< CTFBot > OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason );
-	virtual EventDesiredResult< CTFBot > OnActorEmoted( CTFBot *me, CBaseCombatCharacter *emoter, int emote );
+	virtual EventDesiredResult< HeatseakerBot > OnStuck( HeatseakerBot *me );
+	virtual EventDesiredResult< HeatseakerBot > OnMoveToSuccess( HeatseakerBot *me, const Path *path );
+	virtual EventDesiredResult< HeatseakerBot > OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason );
+	virtual EventDesiredResult< HeatseakerBot > OnActorEmoted( HeatseakerBot *me, CBaseCombatCharacter *emoter, int emote );
 
 	virtual QueryResultType ShouldHurry( const INextBot *me ) const;					// are we in a hurry?
 	virtual QueryResultType ShouldAttack( const INextBot *me, const CKnownEntity *them ) const;	// should we attack "them"?
@@ -31,7 +31,7 @@ public:
 private:
 	ChasePath m_chasePath;
 
-	CTFPlayer *SelectPatient( CTFBot *me, CTFPlayer *current );
+	CTFPlayer *SelectPatient( HeatseakerBot *me, CTFPlayer *current );
 	CountdownTimer m_changePatientTimer;
 
 	CountdownTimer m_delayUberTimer;
@@ -43,21 +43,21 @@ private:
 
 	bool IsStable( CTFPlayer *patient ) const;			// return true if the given patient is healthy and safe for now
 
-	CTFNavArea *FindCoverArea( CTFBot *me );
+	CTFNavArea *FindCoverArea( HeatseakerBot *me );
 	CTFNavArea *m_coverArea;
 	CountdownTimer m_coverTimer;
 	PathFollower m_coverPath;
 
-	void ComputeFollowPosition( CTFBot *me );
+	void ComputeFollowPosition( HeatseakerBot *me );
 	Vector m_followGoal;
 
-	bool IsVisibleToEnemy( CTFBot *me, const Vector &where ) const;
+	bool IsVisibleToEnemy( HeatseakerBot *me, const Vector &where ) const;
 
 	bool IsReadyToDeployUber( const CWeaponMedigun* pMedigun ) const;
 
 	bool IsGoodUberTarget( CTFPlayer *who ) const;
 
-	bool CanDeployUber( CTFBot *me, const CWeaponMedigun* pMedigun ) const;
+	bool CanDeployUber( HeatseakerBot *me, const CWeaponMedigun* pMedigun ) const;
 };
 
 inline bool CTFBotMedicHeal::IsPatientRunning( void ) const

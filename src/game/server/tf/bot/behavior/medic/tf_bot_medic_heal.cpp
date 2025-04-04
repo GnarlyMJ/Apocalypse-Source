@@ -26,7 +26,7 @@ ConVar tf_bot_medic_max_call_response_range( "tf_bot_medic_max_call_response_ran
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMedicHeal::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMedicHeal::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_chasePath.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 	m_patient = NULL;
@@ -46,7 +46,7 @@ ActionResult< CTFBot >	CTFBotMedicHeal::OnStart( CTFBot *me, Action< CTFBot > *p
 class CSelectPrimaryPatient : public IVision::IForEachKnownEntity
 {
 public:
-	CSelectPrimaryPatient( CTFBot *me, CTFPlayer *currentPatient )
+	CSelectPrimaryPatient( HeatseakerBot *me, CTFPlayer *currentPatient )
 	{
 		m_me = me;
 		m_medigun = dynamic_cast< CWeaponMedigun * >( me->m_Shared.GetActiveTFWeapon() );
@@ -239,14 +239,14 @@ public:
 		return true;
 	}
 
-	CTFBot *m_me;
+	HeatseakerBot *m_me;
 	CWeaponMedigun *m_medigun;
 	CTFPlayer *m_selected;
 };
 
 
 //---------------------------------------------------------------------------------------------
-CTFPlayer *CTFBotMedicHeal::SelectPatient( CTFBot *me, CTFPlayer *current )
+CTFPlayer *CTFBotMedicHeal::SelectPatient( HeatseakerBot *me, CTFPlayer *current )
 {
 	CWeaponMedigun *medigun = dynamic_cast< CWeaponMedigun * >( me->m_Shared.GetActiveTFWeapon() );
 
@@ -325,7 +325,7 @@ bool CTFBotMedicHeal::IsStable( CTFPlayer *patient ) const
 class CFindMostInjuredNeighbor : public IVision::IForEachKnownEntity
 {
 public:
-	CFindMostInjuredNeighbor( CTFBot *me, float maxRange, bool isInCombat )
+	CFindMostInjuredNeighbor( HeatseakerBot *me, float maxRange, bool isInCombat )
 	{
 		m_me = me;
 		m_mostInjured = NULL;
@@ -386,7 +386,7 @@ public:
 		return true;
 	}
 
-	CTFBot *m_me;
+	HeatseakerBot *m_me;
 	CTFPlayer *m_mostInjured;
 	float m_injuredHealthRatio;
 	bool m_isOnFire;
@@ -396,7 +396,7 @@ public:
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotMedicHeal::CanDeployUber( CTFBot *me, const CWeaponMedigun* pMedigun ) const
+bool CTFBotMedicHeal::CanDeployUber( HeatseakerBot *me, const CWeaponMedigun* pMedigun ) const
 {
 
 	return true;
@@ -441,7 +441,7 @@ bool CTFBotMedicHeal::IsGoodUberTarget( CTFPlayer *who ) const
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMedicHeal::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMedicHeal::Update( HeatseakerBot *me, float interval )
 {
 	// if we're in a squad, and the only other members are medics, disband the squad
 	if ( me->IsInASquad() )
@@ -454,7 +454,7 @@ ActionResult< CTFBot >	CTFBotMedicHeal::Update( CTFBot *me, float interval )
 
 		if ( !squad->ShouldPreserveSquad() )
 		{
-			CUtlVector< CTFBot * > memberVector;
+			CUtlVector< HeatseakerBot * > memberVector;
 			squad->CollectMembers( &memberVector );
 
 			int i;
@@ -479,7 +479,7 @@ ActionResult< CTFBot >	CTFBotMedicHeal::Update( CTFBot *me, float interval )
 	else
 	{
 		// not in a squad - for now, assume whatever mission I was on is over
-		me->SetMission( CTFBot::NO_MISSION, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
+		me->SetMission( HeatseakerBot::NO_MISSION, MISSION_DOESNT_RESET_BEHAVIOR_SYSTEM );
 	}
 
 	m_patient = SelectPatient( me, m_patient );
@@ -578,9 +578,9 @@ ActionResult< CTFBot >	CTFBotMedicHeal::Update( CTFBot *me, float interval )
 		if( medigun->GetMedigunType() == MEDIGUN_RESIST )
 		{
 			// If I'm a Vaccinnator medic and am told to prefer a certain type of resist, then cycle to that resist
-			while( ( me->HasAttribute( CTFBot::PREFER_VACCINATOR_BULLETS )	&& medigun->GetResistType() != MEDIGUN_BULLET_RESIST )
-				|| ( me->HasAttribute( CTFBot::PREFER_VACCINATOR_BLAST )	&& medigun->GetResistType() != MEDIGUN_BLAST_RESIST )
-				|| ( me->HasAttribute( CTFBot::PREFER_VACCINATOR_FIRE )		&& medigun->GetResistType() != MEDIGUN_FIRE_RESIST ) )
+			while( ( me->HasAttribute( HeatseakerBot::PREFER_VACCINATOR_BULLETS )	&& medigun->GetResistType() != MEDIGUN_BULLET_RESIST )
+				|| ( me->HasAttribute( HeatseakerBot::PREFER_VACCINATOR_BLAST )	&& medigun->GetResistType() != MEDIGUN_BLAST_RESIST )
+				|| ( me->HasAttribute( HeatseakerBot::PREFER_VACCINATOR_FIRE )		&& medigun->GetResistType() != MEDIGUN_FIRE_RESIST ) )
 			{
 				medigun->CycleResistType();
 			}
@@ -701,7 +701,7 @@ ActionResult< CTFBot >	CTFBotMedicHeal::Update( CTFBot *me, float interval )
 		}
 		
 		// try to activate shield when I'm not using uber so I don't waste it
-		if ( TFGameRules()->IsMannVsMachineMode() && me->HasAttribute( CTFBot::PROJECTILE_SHIELD ) )
+		if ( TFGameRules()->IsMannVsMachineMode() && me->HasAttribute( HeatseakerBot::PROJECTILE_SHIELD ) )
 		{
 			isUsingProjectileShield = me->m_Shared.IsRageDraining();
 			// when the rage is ready to deploy and we're not using uber
@@ -786,7 +786,7 @@ ActionResult< CTFBot >	CTFBotMedicHeal::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMedicHeal::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotMedicHeal::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	m_chasePath.Invalidate();
 
@@ -795,28 +795,28 @@ ActionResult< CTFBot >	CTFBotMedicHeal::OnResume( CTFBot *me, Action< CTFBot > *
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMedicHeal::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotMedicHeal::OnStuck( HeatseakerBot *me )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMedicHeal::OnMoveToSuccess( CTFBot *me, const Path *path )
+EventDesiredResult< HeatseakerBot > CTFBotMedicHeal::OnMoveToSuccess( HeatseakerBot *me, const Path *path )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMedicHeal::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotMedicHeal::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	return TryContinue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMedicHeal::OnActorEmoted( CTFBot *me, CBaseCombatCharacter *emoter, int emote )
+EventDesiredResult< HeatseakerBot > CTFBotMedicHeal::OnActorEmoted( HeatseakerBot *me, CBaseCombatCharacter *emoter, int emote )
 {
 	if ( !emoter->IsPlayer() )
 		return TryContinue();
@@ -861,7 +861,7 @@ QueryResultType CTFBotMedicHeal::ShouldHurry( const INextBot *me ) const
 //---------------------------------------------------------------------------------------------
 QueryResultType CTFBotMedicHeal::ShouldAttack( const INextBot *bot, const CKnownEntity *them ) const
 {
-	CTFBot *me = (CTFBot *)bot->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)bot->GetEntity();
 
 	// only attack if we're not wielding the medigun
 	return me->IsCombatWeapon( MY_CURRENT_GUN ) ? ANSWER_YES : ANSWER_NO;
@@ -871,7 +871,7 @@ QueryResultType CTFBotMedicHeal::ShouldAttack( const INextBot *bot, const CKnown
 //---------------------------------------------------------------------------------------------
 QueryResultType CTFBotMedicHeal::ShouldRetreat( const INextBot *bot ) const
 {
-	CTFBot *me = (CTFBot *)bot->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)bot->GetEntity();
 
 	// retreat if stunned
 	if ( me->m_Shared.IsControlStunned() || me->m_Shared.IsLoserStateStunned() )
@@ -899,7 +899,7 @@ public:
 //---------------------------------------------------------------------------------------------
 ConVar tf_bot_medic_cover_test_resolution( "tf_bot_medic_cover_test_resolution", "8", FCVAR_CHEAT );
 
-void CTFBotMedicHeal::ComputeFollowPosition( CTFBot *me )
+void CTFBotMedicHeal::ComputeFollowPosition( HeatseakerBot *me )
 {
 	VPROF_BUDGET( "CTFBotMedicHeal::ComputeFollowPosition", "NextBot" );
 
@@ -1049,7 +1049,7 @@ void CTFBotMedicHeal::ComputeFollowPosition( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotMedicHeal::IsVisibleToEnemy( CTFBot *me, const Vector &where ) const
+bool CTFBotMedicHeal::IsVisibleToEnemy( HeatseakerBot *me, const Vector &where ) const
 {
 	CKnownCollector known;
 	me->GetVisionInterface()->ForEachKnownEntity( known );

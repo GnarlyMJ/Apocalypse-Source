@@ -17,7 +17,7 @@ extern ConVar tf_bot_medic_follow_range;
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMedicRetreat::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMedicRetreat::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	CTFNavArea *homeArea = me->GetSpawnArea();
 
@@ -58,7 +58,7 @@ public:
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMedicRetreat::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMedicRetreat::Update( HeatseakerBot *me, float interval )
 {
 	// equip the syringegun and defend ourselves!
 	CTFWeaponBase *myWeapon = me->m_Shared.GetActiveTFWeapon();
@@ -106,7 +106,7 @@ ActionResult< CTFBot >	CTFBotMedicRetreat::Update( CTFBot *me, float interval )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMedicRetreat::OnResume( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot >	CTFBotMedicRetreat::OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	CTFBotPathCost cost( me, FASTEST_ROUTE );
 	m_path.Compute( me, me->GetSpawnArea()->GetCenter(), cost );
@@ -116,7 +116,7 @@ ActionResult< CTFBot >	CTFBotMedicRetreat::OnResume( CTFBot *me, Action< CTFBot 
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMedicRetreat::OnStuck( CTFBot *me )
+EventDesiredResult< HeatseakerBot > CTFBotMedicRetreat::OnStuck( HeatseakerBot *me )
 {
 	CTFBotPathCost cost( me, FASTEST_ROUTE );
 	m_path.Compute( me, me->GetSpawnArea()->GetCenter(), cost );
@@ -126,7 +126,7 @@ EventDesiredResult< CTFBot > CTFBotMedicRetreat::OnStuck( CTFBot *me )
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotMedicRetreat::OnMoveToFailure( CTFBot *me, const Path *path, MoveToFailureType reason )
+EventDesiredResult< HeatseakerBot > CTFBotMedicRetreat::OnMoveToFailure( HeatseakerBot *me, const Path *path, MoveToFailureType reason )
 {
 	CTFBotPathCost cost( me, FASTEST_ROUTE );
 	m_path.Compute( me, me->GetSpawnArea()->GetCenter(), cost );

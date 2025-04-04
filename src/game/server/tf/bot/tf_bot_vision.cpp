@@ -33,7 +33,7 @@ void CTFBotVision::Update( void )
 
 	IVision::Update();
 
-	CTFBot *me = (CTFBot *)GetBot()->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)GetBot()->GetEntity();
 	if ( !me )
 		return;
 
@@ -150,7 +150,7 @@ void CTFBotVision::UpdatePotentiallyVisibleNPCVector( void )
  */
 bool CTFBotVision::IsIgnored( CBaseEntity *subject ) const
 {
-	CTFBot *me = (CTFBot *)GetBot()->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)GetBot()->GetEntity();
 
 #ifdef TF_RAID_MODE
 	if ( TFGameRules()->IsRaidMode() )
@@ -344,7 +344,7 @@ bool CTFBotVision::IsIgnored( CBaseEntity *subject ) const
 // Return true if we 'notice' the subject, even though we have LOS to it
 bool CTFBotVision::IsVisibleEntityNoticed( CBaseEntity *subject ) const
 {
-	CTFBot *me = (CTFBot *)GetBot()->GetEntity();
+	HeatseakerBot *me = (HeatseakerBot *)GetBot()->GetEntity();
 
 	if ( subject->IsPlayer() && me->IsEnemy( subject ) )
 	{
@@ -388,7 +388,7 @@ bool CTFBotVision::IsVisibleEntityNoticed( CBaseEntity *subject ) const
 
 		if ( TFGameRules()->IsMannVsMachineMode() )	// in MvM mode, forget spies as soon as they are fully disguised
 		{
-			CTFBot::SuspectedSpyInfo_t* pSuspectInfo = me->IsSuspectedSpy( player );
+			HeatseakerBot::SuspectedSpyInfo_t* pSuspectInfo = me->IsSuspectedSpy( player );
 			// But only if we aren't suspecting them currently.  This happens when we bump into them.
 			if( !pSuspectInfo || !pSuspectInfo->IsCurrentlySuspected() )
 			{
@@ -438,14 +438,14 @@ bool CTFBotVision::IsVisibleEntityNoticed( CBaseEntity *subject ) const
 // Return VISUAL reaction time
 float CTFBotVision::GetMinRecognizeTime( void ) const
 {
-	CTFBot *me = (CTFBot *)GetBot();
+	HeatseakerBot *me = (HeatseakerBot *)GetBot();
 
 	switch ( me->GetDifficulty() )
 	{
-	case CTFBot::EASY:		return 1.0f;
-	case CTFBot::NORMAL:	return 0.5f;
-	case CTFBot::HARD:		return 0.3f;
-	case CTFBot::EXPERT:	return 0.2f;
+	case HeatseakerBot::EASY:		return 1.0f;
+	case HeatseakerBot::NORMAL:	return 0.5f;
+	case HeatseakerBot::HARD:		return 0.3f;
+	case HeatseakerBot::EXPERT:	return 0.2f;
 	}
 
 	return 1.0f;
@@ -456,7 +456,7 @@ float CTFBotVision::GetMinRecognizeTime( void ) const
 //------------------------------------------------------------------------------------------
 float CTFBotVision::GetMaxVisionRange( void ) const
 {
-	CTFBot *me = (CTFBot *)GetBot();
+	HeatseakerBot *me = (HeatseakerBot *)GetBot();
 
 	if ( me->GetMaxVisionRangeOverride() > 0.0f )
 	{

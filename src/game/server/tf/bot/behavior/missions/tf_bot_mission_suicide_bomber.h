@@ -8,17 +8,17 @@
 
 #include "Path/NextBotPathFollow.h"
 
-class CTFBotMissionSuicideBomber : public Action< CTFBot >
+class CTFBotMissionSuicideBomber : public Action< HeatseakerBot >
 {
 public:
 	CTFBotMissionSuicideBomber( void );
 
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	virtual void					OnEnd( CTFBot *me, Action< CTFBot > *nextAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	virtual void					OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction );
 
-	virtual EventDesiredResult< CTFBot > OnStuck( CTFBot *me );
-	virtual EventDesiredResult< CTFBot > OnKilled( CTFBot *me, const CTakeDamageInfo &info );
+	virtual EventDesiredResult< HeatseakerBot > OnStuck( HeatseakerBot *me );
+	virtual EventDesiredResult< HeatseakerBot > OnKilled( HeatseakerBot *me, const CTakeDamageInfo &info );
 
 	virtual QueryResultType ShouldAttack( const INextBot *me, const CKnownEntity *them ) const;	// should we attack "them"?
 
@@ -34,8 +34,8 @@ private:
 	CountdownTimer m_talkTimer;
 	CountdownTimer m_detonateTimer;
 
-	void StartDetonate( CTFBot *me, bool bWasSuccessful = false, bool bWasKilled = false );
-	void Detonate( CTFBot *me );
+	void StartDetonate( HeatseakerBot *me, bool bWasSuccessful = false, bool bWasKilled = false );
+	void Detonate( HeatseakerBot *me );
 	bool m_bHasDetonated;
 	bool m_bWasSuccessful;
 	bool m_bWasKilled;

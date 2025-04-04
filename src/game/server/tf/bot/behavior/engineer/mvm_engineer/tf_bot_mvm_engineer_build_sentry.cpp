@@ -26,7 +26,7 @@ CTFBotMvMEngineerBuildSentryGun::CTFBotMvMEngineerBuildSentryGun( CTFBotHintSent
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerBuildSentryGun::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerBuildSentryGun::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	me->StartBuildingObjectOfType( OBJ_SENTRYGUN );
 
@@ -35,7 +35,7 @@ ActionResult< CTFBot >	CTFBotMvMEngineerBuildSentryGun::OnStart( CTFBot *me, Act
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerBuildSentryGun::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerBuildSentryGun::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_sentryBuildHint == NULL )
 		return Done( "No hint entity" );
@@ -112,7 +112,7 @@ ActionResult< CTFBot >	CTFBotMvMEngineerBuildSentryGun::Update( CTFBot *me, floa
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotMvMEngineerBuildSentryGun::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotMvMEngineerBuildSentryGun::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	if ( m_sentry.Get() )
 	{

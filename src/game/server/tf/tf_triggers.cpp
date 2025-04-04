@@ -390,7 +390,7 @@ void CTriggerBotTag::Touch( CBaseEntity *pOther )
 		return;
 	}
 
-	CTFBot *pBot = ToTFBot( pOther );
+	HeatseakerBot *pBot = ToTFBot( pOther );
 	if ( !pBot )
 	{
 		return;
@@ -855,7 +855,7 @@ void CTriggerRemoveTFPlayerCondition::StartTouch( CBaseEntity *pOther )
 		pPlayer->m_Shared.RemoveCond( m_nCondition );
 
 		// Hack for Bank until we re-address this for parachuting MvM bots
-		CTFBot *pTFBot = dynamic_cast< CTFBot* >( pPlayer );
+		HeatseakerBot *pTFBot = dynamic_cast< HeatseakerBot* >( pPlayer );
 		if ( pTFBot )
 		{
 			pTFBot->ClearLastKnownArea();

@@ -22,7 +22,7 @@ CTFBotMeleeAttack::CTFBotMeleeAttack( float giveUpRange )
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMeleeAttack::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMeleeAttack::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	m_path.SetMinLookAheadDistance( me->GetDesiredPathLookAheadRange() );
 
@@ -31,7 +31,7 @@ ActionResult< CTFBot >	CTFBotMeleeAttack::OnStart( CTFBot *me, Action< CTFBot > 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMeleeAttack::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMeleeAttack::Update( HeatseakerBot *me, float interval )
 {
 	// bash the bad guys
 	const CKnownEntity *threat = me->GetVisionInterface()->GetPrimaryKnownThreat();

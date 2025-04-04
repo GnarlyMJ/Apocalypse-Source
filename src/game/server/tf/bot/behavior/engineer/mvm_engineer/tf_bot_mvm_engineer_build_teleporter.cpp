@@ -27,14 +27,14 @@ CTFBotMvMEngineerBuildTeleportExit::CTFBotMvMEngineerBuildTeleportExit( CTFBotHi
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerBuildTeleportExit::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerBuildTeleportExit::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	return Continue();
 }
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotMvMEngineerBuildTeleportExit::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotMvMEngineerBuildTeleportExit::Update( HeatseakerBot *me, float interval )
 {
 	if ( m_teleporterBuildHint == NULL )
 		return Done( "No hint entity" );

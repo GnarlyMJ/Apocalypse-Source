@@ -35,7 +35,7 @@ CTFBotStickybombSentrygun::CTFBotStickybombSentrygun( CObjectSentrygun *sentrygu
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotStickybombSentrygun::OnStart( CTFBot *me, Action< CTFBot > *priorAction )
+ActionResult< HeatseakerBot >	CTFBotStickybombSentrygun::OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction )
 {
 	// detonate old set of stickies
 	me->PressAltFireButton();
@@ -82,7 +82,7 @@ ActionResult< CTFBot >	CTFBotStickybombSentrygun::OnStart( CTFBot *me, Action< C
 
 
 //---------------------------------------------------------------------------------------------
-bool CTFBotStickybombSentrygun::IsAimOnTarget( CTFBot *me, float pitch, float yaw, float charge )
+bool CTFBotStickybombSentrygun::IsAimOnTarget( HeatseakerBot *me, float pitch, float yaw, float charge )
 {
 	// estimate impact spot
 	Vector impactSpot = me->EstimateStickybombProjectileImpactPosition( pitch, yaw, charge );
@@ -107,7 +107,7 @@ bool CTFBotStickybombSentrygun::IsAimOnTarget( CTFBot *me, float pitch, float ya
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot >	CTFBotStickybombSentrygun::Update( CTFBot *me, float interval )
+ActionResult< HeatseakerBot >	CTFBotStickybombSentrygun::Update( HeatseakerBot *me, float interval )
 {
 	CTFWeaponBase *myCurrentWeapon = me->m_Shared.GetActiveTFWeapon();
 	CTFPipebombLauncher *stickyLauncher = dynamic_cast< CTFPipebombLauncher * >( me->Weapon_GetSlot( TF_WPN_TYPE_SECONDARY ) );
@@ -292,7 +292,7 @@ ActionResult< CTFBot >	CTFBotStickybombSentrygun::Update( CTFBot *me, float inte
 
 
 //---------------------------------------------------------------------------------------------
-void CTFBotStickybombSentrygun::OnEnd( CTFBot *me, Action< CTFBot > *nextAction )
+void CTFBotStickybombSentrygun::OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction )
 {
 	// detonate any stickes left out there
 	me->PressAltFireButton();
@@ -302,7 +302,7 @@ void CTFBotStickybombSentrygun::OnEnd( CTFBot *me, Action< CTFBot > *nextAction 
 
 
 //---------------------------------------------------------------------------------------------
-ActionResult< CTFBot > CTFBotStickybombSentrygun::OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction )
+ActionResult< HeatseakerBot > CTFBotStickybombSentrygun::OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction )
 {
 	// detonate any stickes left out there
 	me->PressAltFireButton();
@@ -313,7 +313,7 @@ ActionResult< CTFBot > CTFBotStickybombSentrygun::OnSuspend( CTFBot *me, Action<
 
 
 //---------------------------------------------------------------------------------------------
-EventDesiredResult< CTFBot > CTFBotStickybombSentrygun::OnInjured( CTFBot *me, const CTakeDamageInfo &info )
+EventDesiredResult< HeatseakerBot > CTFBotStickybombSentrygun::OnInjured( HeatseakerBot *me, const CTakeDamageInfo &info )
 {
 	return TryDone( RESULT_IMPORTANT, "Ouch!" );
 }

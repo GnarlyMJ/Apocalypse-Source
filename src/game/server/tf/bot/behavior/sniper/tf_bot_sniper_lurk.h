@@ -10,14 +10,14 @@
 
 class CTFBotHint;
 
-class CTFBotSniperLurk : public Action< CTFBot >
+class CTFBotSniperLurk : public Action< HeatseakerBot >
 {
 public:
-	virtual ActionResult< CTFBot >	OnStart( CTFBot *me, Action< CTFBot > *priorAction );
-	virtual ActionResult< CTFBot >	Update( CTFBot *me, float interval );
-	virtual void					OnEnd( CTFBot *me, Action< CTFBot > *nextAction );
-	virtual ActionResult< CTFBot >	OnSuspend( CTFBot *me, Action< CTFBot > *interruptingAction );
-	virtual ActionResult< CTFBot >	OnResume( CTFBot *me, Action< CTFBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnStart( HeatseakerBot *me, Action< HeatseakerBot > *priorAction );
+	virtual ActionResult< HeatseakerBot >	Update( HeatseakerBot *me, float interval );
+	virtual void					OnEnd( HeatseakerBot *me, Action< HeatseakerBot > *nextAction );
+	virtual ActionResult< HeatseakerBot >	OnSuspend( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
+	virtual ActionResult< HeatseakerBot >	OnResume( HeatseakerBot *me, Action< HeatseakerBot > *interruptingAction );
 
 	// Snipers choose their targets a bit differently
 	virtual const CKnownEntity *	SelectMoreDangerousThreat( const INextBot *me, 
@@ -39,13 +39,13 @@ private:
 	Vector m_homePosition;			// where we want to snipe from
 	bool m_isHomePositionValid;
 	bool m_isAtHome;
-	bool FindNewHome( CTFBot *me );
+	bool FindNewHome( HeatseakerBot *me );
 	CountdownTimer m_findHomeTimer;
 	bool m_isOpportunistic;
 
 	CUtlVector< CHandle< CTFBotHint > > m_hintVector;
 	CHandle< CTFBotHint > m_priorHint;
-	bool FindHint( CTFBot *me );
+	bool FindHint( HeatseakerBot *me );
 };
 
 #endif // TF_BOT_SNIPER_LURK_H
